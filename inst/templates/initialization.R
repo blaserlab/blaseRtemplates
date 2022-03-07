@@ -19,3 +19,5 @@ usethis::use_github(private = TRUE)
 
 # modify git ignore file
 usethis::use_git_ignore(c("*.rda", "local_configs.R"))
+
+### Delete this file after initializing the project! ###
