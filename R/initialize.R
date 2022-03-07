@@ -23,49 +23,42 @@
 #'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
-#' @import usethis
+#' @import usethis fs withr
 #' @export
 initialize_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = rlang::is_interactive()) {
-  path <- user_path_prep(path)
+  path <- usethis:::user_path_prep(path)
   name <- path_file(path_abs(path))
-  challenge_nested_project(path_dir(path), name)
-  challenge_home_directory(path)
+  usethis:::challenge_nested_project(path_dir(path), name)
+  usethis:::challenge_home_directory(path)
 
-  create_directory(path)
-  local_project(path, force = TRUE)
+  usethis:::create_directory(path)
+  usethis::local_project(path, force = TRUE)
 
-  use_directory("R")
-  use_template(template = "dependencies.R",
+  usethis::use_directory("R")
+  usethis::use_template(template = "dependencies.R",
                save_as = "R/dependencies.R",
                package = "blaseRtemplates")
-  use_template(template = "configs.R",
+  usethis::use_template(template = "configs.R",
                save_as = "R/configs.R",
                package = "blaseRtemplates")
-  use_template(template = "configs.local.R",
+  usethis::use_template(template = "configs.local.R",
                save_as = "R/configs.local.R",
                package = "blaseRtemplates")
-  use_template(template = "initialization.R",
+  usethis::use_template(template = "initialization.R",
                save_as = "R/initialization.R",
                package = "blaseRtemplates")
 
-  if (rstudio) {
-    use_rstudio()
-  } else {
-    ui_done("Writing a sentinel file {ui_path('.here')}")
-    ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
-    ui_todo("Learn more at <https://here.r-lib.org>")
-    file_create(proj_path(".here"))
-  }
+  usethis::use_rstudio()
 
   if (open) {
-    if (proj_activate(proj_get())) {
+    if (usethis::proj_activate(proj_get())) {
       # working directory/active project already set; clear the scheduled
       # restoration of the original project
       withr::deferred_clear()
     }
   }
 
-  invisible(proj_get())
+  invisible(usethis:::proj_get())
 }
