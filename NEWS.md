@@ -2,6 +2,6 @@
 
 * Added a `NEWS.md` file to track changes to the package.
 
-# blaseRtemplates 0.0.0.9001-3
+# blaseRtemplates 0.0.0.9001-4
 
 * Initial version with code.

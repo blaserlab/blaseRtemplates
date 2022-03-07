@@ -8,13 +8,14 @@
 # use_github(private = TRUE)
 # use_git_ignore(c("*.rda", "configs.local.R"))
 # use_package("usethis")
+# usethis::use_package("fs")
 
 # document
 devtools::document()
 
 # add, commit, push
 gert::git_add("*")
-gert::git_commit("version 0.0.0.9003")
+gert::git_commit("version 0.0.0.9004")
 gert::git_push()
 
 # install
