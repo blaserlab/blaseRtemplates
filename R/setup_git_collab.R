@@ -13,7 +13,7 @@ setup_git_collab <- function() {
             new_path = "~/.local/bin/gitupdate",
             overwrite = FALSE)
   # edit the global git config
-  system("git config --global alias.update ~/.local/bin/gitupdate")
-  system("git config --global alias.safemerge ~/.local/bin/gitsafemerge")
+  system('git config --global alias.update !"~/.local/bin/gitupdate"')
+  system('git config --global alias.safemerge !"~/.local/bin/gitsafemerge"')
 
 }
