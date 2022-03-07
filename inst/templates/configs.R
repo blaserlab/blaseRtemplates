@@ -17,7 +17,7 @@ conflict_prefer("count", "dplyr")
 
 # source local configs ----------------------------------------------------
 # these are sourced after main configs and will overwrite duplicate entries if
-# present. The file configs.local.R is ignored by git and so is useful for user-
+# present. The file local_configs.R is ignored by git and so is useful for user-
 # specific configurations such as output directories or formatting.
 
-source("R/configs.local.R")
+source("R/local_configs.R")
