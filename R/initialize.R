@@ -10,7 +10,6 @@
 #'
 #' This function is a modification of usethis::create_project
 #'
-#' @inheritParams use_description
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
 #' @param roxygen Do you plan to use roxygen2 to document your package?
