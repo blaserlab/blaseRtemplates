@@ -43,8 +43,8 @@ initialize_project <- function(path,
   usethis::use_template(template = "configs.R",
                save_as = "R/configs.R",
                package = "blaseRtemplates")
-  usethis::use_template(template = "configs.local.R",
-               save_as = "R/configs.local.R",
+  usethis::use_template(template = "local_configs.R",
+               save_as = "R/local_configs.R",
                package = "blaseRtemplates")
   usethis::use_template(template = "initialization.R",
                save_as = "R/initialization.R",

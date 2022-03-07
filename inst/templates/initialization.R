@@ -18,4 +18,4 @@ usethis::use_git()
 usethis::use_github(private = TRUE)
 
 # modify git ignore file
-usethis::use_git_ignore(c("*.rda", "configs.local.R"))
+usethis::use_git_ignore(c("*.rda", "local_configs.R"))
