@@ -8,10 +8,10 @@ setup_git_collab <- function() {
   fs::dir_create("~/.local/bin")
   fs::file_copy(path = system.file("bash/gitsafemerge", package = "blaseRtemplates"),
             new_path = "~/.local/bin/gitsafemerge",
-            overwrite = FALSE)
+            overwrite = TRUE)
   fs::file_copy(path = system.file("bash/gitupdate", package = "blaseRtemplates"),
             new_path = "~/.local/bin/gitupdate",
-            overwrite = FALSE)
+            overwrite = TRUE)
   # edit the global git config
   system('git config --global alias.update !"~/.local/bin/gitupdate"')
   system('git config --global alias.safemerge !"~/.local/bin/gitsafemerge"')
