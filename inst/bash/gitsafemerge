@@ -1,0 +1,86 @@
+#!/bin/bash
+################################################################################
+#                              gitsafemerge                                    #
+#                                                                              #
+# Use this script to safely pull changes and merge in one step                 #                                 
+#                                                                              #
+# Change History                                                               #
+# 20220302	Brad Blaser	Original version
+#                                                                              #
+#                                                                              #
+################################################################################
+################################################################################
+################################################################################
+#                                                                              #
+#  Copyright (C) 2022 Brad Blaser                                              #
+#  bradley.blaser@osumc.edu                                                    #
+#                                                                              #
+#  This program is free software; you can redistribute it and/or modify        #
+#  it under the terms of the GNU General Public License as published by        #
+#  the Free Software Foundation; either version 2 of the License, or           #
+#  (at your option) any later version.                                         #
+#                                                                              #
+#  This program is distributed in the hope that it will be useful,             #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+#  GNU General Public License for more details.                                #
+#                                                                              #
+#  You should have received a copy of the GNU General Public License           #
+#  along with this program; if not, write to the Free Software                 #
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA   #
+#                                                                              #
+################################################################################
+################################################################################
+################################################################################
+
+################################################################################
+# Help                                                                         #
+################################################################################
+Help()
+{
+  # Display Help
+  echo "Use this script to safely merge your feature branch back into main."
+  echo
+  echo "This script switches to main or master, pulls from remote"
+  echo "and then merges your feature branch into main or master"
+  echo
+  echo "You will have to fix any conflicts that are generated using git."
+  echo
+  echo "Syntax: gitsafemerge <feature branch name> <main or master branch name>"
+  echo "options:"
+  echo "h     Print this Help."
+  echo
+}
+
+################################################################################
+################################################################################
+# Main program                                                                 #
+################################################################################
+################################################################################
+################################################################################
+# Process the input options. Add options as needed.                            #
+################################################################################
+
+# check to be sure args are passed.  If not, display help
+if [[ $1 == "" ]];
+then
+	Help
+	exit;
+fi
+
+
+# Get the options
+while getopts ":h" option; do
+	case $option in
+        h) # display Help
+        	Help
+         	exit;;
+      	\?) # incorrect option
+       		echo "Error: Invalid option"
+                exit;;
+   	esac
+done
+
+git switch $2
+git pull 
+git merge $1
