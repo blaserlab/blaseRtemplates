@@ -13,4 +13,5 @@ URL: https://github.com/blaserlab/blaseRtemplates
 BugReports: https://github.com/blaserlab/blaseRtemplates/issues
 Imports: 
     fs,
+    gert,
     usethis

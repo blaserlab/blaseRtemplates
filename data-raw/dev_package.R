@@ -9,6 +9,7 @@
 # use_git_ignore(c("*.rda", "configs.local.R"))
 # use_package("usethis")
 # usethis::use_package("fs")
+# usethis::use_package("gert")
 
 # document
 devtools::document()

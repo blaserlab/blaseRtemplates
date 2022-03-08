@@ -28,3 +28,38 @@ setup_git_collab <- function() {
 
 
 }
+
+#' @title Easily Create or Switch Git Branches
+#' @description Supply this function with a branch name.  If the branch exists it will switch to the branch.  If not, it will create the branch.  Any uncommitted work will be carried over to the new branch in the same state.  Avoid repeatedly switching branches with work in different states of completion since this may cause conflicts
+#' @param branch A character string wtih the branch name to create or switch to.
+#' @return nothing
+#'  \code{\link[gert]{git_branch}}
+#' @rdname git_easy_branch
+#' @export
+#' @importFrom gert git_branch_exists git_branch_checkout git_branch_create
+git_easy_branch <- function(branch) {
+  if (gert::git_branch_exists(branch)) {
+    gert::git_branch_checkout(branch)
+  } else {
+    gert::git_branch_create(branch)
+  }
+}
+git_easy_branch("new")
+
+git_update_branch <- function(branch = NULL, upstream = NULL) {
+  # identify the default branch if not provided
+  if (is.null(upstream)) {
+    upstream <- usethis::git_default_branch()
+  }
+  # identify the current branch if not provided
+  if (is.null(branch)) {
+    branch <- gert::git_branch()
+  }
+  cmd <- paste0("git updatebranch ", branch, " ", upstream)
+  message(cmd, "\n")
+  system(cmd)
+}
+gert::git_branch()
+
+git_update_branch()
+
