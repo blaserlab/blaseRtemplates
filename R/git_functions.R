@@ -70,8 +70,11 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
 
   if (nrow(gert::git_status()) != 0) {
     dirty <- TRUE
-    gert::git_stash_save(include_untracked = TRUE)
+  } else {
+    dirty <- FALSE
   }
+
+  if (dirty) gert::git_stash_save(include_untracked = TRUE)
 
   # send the command
   cmd <- paste0("$HOME/.local/bin/gitupdatebranch ", branch, " ", upstream)
