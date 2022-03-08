@@ -5,3 +5,7 @@
 # blaseRtemplates 0.0.0.9001-5
 
 * Initial version with code.
+
+# blaseRtemplates 0.0.0.9006
+
+* Added git_commands.R and supporting functions.

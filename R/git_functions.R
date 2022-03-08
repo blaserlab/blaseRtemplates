@@ -115,4 +115,19 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
 
 }
 
-# git_update_continue()
+#' @title Continue Updating Branch after Resolving Conflict
+#' @description This function adds files after conflict resolution and continues the rebase.
+
+#' @return nothing
+#' @seealso
+#'  \code{\link[gert]{git_commit}}
+#' @rdname git_update_continue
+#' @export
+#' @importFrom gert git_add
+git_update_continue <- function() {
+  gert::git_add("*")
+  message("Adding files after conflict resolution\n")
+  message("Continuing update")
+  cmd <- "git rebase --continue"
+  system(cmd)
+}
