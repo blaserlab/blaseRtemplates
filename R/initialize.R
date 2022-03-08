@@ -49,6 +49,9 @@ initialize_project <- function(path,
   usethis::use_template(template = "initialization.R",
                save_as = "R/initialization.R",
                package = "blaseRtemplates")
+  usethis::use_template(template = "git_commands.R",
+               save_as = "R/git_commands.R",
+               package = "blaseRtemplates")
 
   usethis::use_rstudio()
 

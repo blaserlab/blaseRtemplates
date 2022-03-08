@@ -8,8 +8,9 @@ usethis::use_mit_license("<your name here>")
 # generate a readme file to explain your work
 usethis::use_readme_md()
 
-# generate a news file to document updates to your package
-usethis::use_news_md()
+# *** Only if developing a package,
+# uncomment and run to generate a news file to document updates.
+# usethis::use_news_md()
 
 # initialize git
 usethis::use_git()
