@@ -115,4 +115,4 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
 
 }
 
-git_update_continue()
+# git_update_continue()
