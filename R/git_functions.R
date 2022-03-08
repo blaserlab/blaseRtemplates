@@ -11,14 +11,14 @@ setup_git_collab <- function() {
   cat("these exectuables.\n")
   answer <- menu(c("Yes", "No"), title="Do you wish to proceed?")
   if (answer == 1) {
-  fs::dir_create("~/.local/bin")
+  fs::dir_create("$HOME/.local/bin")
   fs::file_copy(path = system.file("bash/gitsafemerge",
                                    package = "blaseRtemplates"),
-            new_path = "~/.local/bin/gitsafemerge",
+            new_path = "$HOME/.local/bin/gitsafemerge",
             overwrite = TRUE)
   fs::file_copy(path = system.file("bash/gitupdatebranch",
                                    package = "blaseRtemplates"),
-            new_path = "~/.local/bin/gitupdatebranch",
+            new_path = "$HOME/.local/bin/gitupdatebranch",
             overwrite = TRUE)
 
   # edit the global git config
@@ -70,9 +70,9 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   gert::git_stash_save(include_untracked = TRUE)
 
   # send the command
-  cmd <- paste0("git updatebranch ", branch, " ", upstream)
+  cmd <- paste0("$HOME/.local/bin/gitupdatebranch ", branch, " ", upstream)
   message("Sending this command to the terminal:\n\n", cmd, "\n")
-  message("This will tell git to update", branch, " from ", upstream, " via rebase.\n")
+  message("This will tell git to update ", branch, " from ", upstream, " via rebase.\n")
   system(cmd)
 
   invisible(gert::git_stash_pop())
@@ -103,7 +103,7 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
     message("You must commit all of your work before merging.")
 
   } else {
-    cmd <- paste0("git safemerge ", branch, " ", upstream)
+    cmd <- paste0("$HOME/.local/bin/gitsafemerge ", branch, " ", upstream)
     message("Sending this command to the terminal:\n\n", cmd, "\n")
     message("This will tell git to merge ", branch, " into ", upstream, ". \n")
     system(cmd)

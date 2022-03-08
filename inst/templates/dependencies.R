@@ -20,6 +20,9 @@
 # renv::install("conflicted")
 # renv::install("tidyverse")
 # renv::install("gert")
+# renv::install("gitcreds")
+# renv::install("usethis")
+# renv::install("blaserlab/blaseRtemplates")
 
 # load and attach packages ------------------------------------------------
 
