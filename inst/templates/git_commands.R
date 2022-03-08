@@ -35,6 +35,9 @@ blaseRtemplates::git_update_branch()
 # once you are done with your day's work, merge back into main
 blaseRtemplates::git_safe_merge()
 
+# remember to delete your branch when you are done merging:
+gert::git_branch_delete(branch = "user_working")
+
 
 # commands to configure git -----------------------------------------------
 
