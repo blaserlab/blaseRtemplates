@@ -88,6 +88,18 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
   if (is.null(branch)) {
     branch <- gert::git_branch()
   }
+  if (nrow(gert::git_status()) != 0) {
+    message("You must commit all of your work before merging.")
+
+  } else {
+    cmd <- paste0("git safemerge ", branch, " ", upstream)
+    message("Sending this command to the terminal:\n\n", cmd, "\n")
+    message("This will tell git to merge", branch, " into ", upstream, ". \n")
+    system(cmd)
+
+  }
+
+
 
 }
-
+git_safe_merge()
