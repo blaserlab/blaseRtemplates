@@ -9,3 +9,8 @@
 # blaseRtemplates 0.0.0.9006-8
 
 * Added git_commands.R and supporting functions.
+
+# blaseRtemplates 0.0.0.9009
+
+* many bug fixes
+

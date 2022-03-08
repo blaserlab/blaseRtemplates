@@ -67,15 +67,19 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
     branch <- gert::git_branch()
   }
 
-  gert::git_stash_save(include_untracked = TRUE)
+
+  if (nrow(gert::git_status()) != 0) {
+    dirty <- TRUE
+    gert::git_stash_save(include_untracked = TRUE)
+  }
 
   # send the command
   cmd <- paste0("$HOME/.local/bin/gitupdatebranch ", branch, " ", upstream)
   message("Sending this command to the terminal:\n\n", cmd, "\n")
   message("This will tell git to update ", branch, " from ", upstream, " via rebase.\n")
-  system(cmd)
+  suppressWarnings(system(cmd, show.output.on.console = TRUE))
 
-  invisible(gert::git_stash_pop())
+  if (dirty) invisible(gert::git_stash_pop())
 }
 
 #' @title Safely Merge your Working Branch
@@ -106,7 +110,7 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
     cmd <- paste0("$HOME/.local/bin/gitsafemerge ", branch, " ", upstream)
     message("Sending this command to the terminal:\n\n", cmd, "\n")
     message("This will tell git to merge ", branch, " into ", upstream, ". \n")
-    system(cmd)
+    suppressWarnings(system(cmd, show.output.on.console = TRUE))
 
   }
 
@@ -128,5 +132,5 @@ git_update_continue <- function() {
   message("Adding files after conflict resolution\n")
   message("Continuing update")
   cmd <- "git rebase --continue"
-  system(cmd)
+  suppressWarnings(system(cmd, show.output.on.console = TRUE))
 }

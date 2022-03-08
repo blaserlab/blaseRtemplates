@@ -12,7 +12,6 @@ break
 # basic everyday commands for all git users -------------------------------
 
 gert::git_add("*")
-gert::git_status()
 gert::git_commit("<commit message>")
 gert::git_push()
 
@@ -22,7 +21,7 @@ gert::git_push()
 # consider using the terminal or a gui program.
 
 # create a working branch for your day's work
-gert::git_branch_create(branch = "user_working")
+blaseRtemplates::git_easy_branch(branch = "user_working")
 
 # update your working branch from main or master branch
 # this will first update main or master from remote
