@@ -17,18 +17,27 @@ gert::git_commit("<commit message>")
 gert::git_push()
 
 # commands for collaborating via git --------------------------------------
-# create a branch for your day's work
+# this is a minimal list of commands you will need to use for branching,
+# updating and merging.  For more complicated situations, you should
+# consider using the terminal or a gui program.
+
+# create a working branch for your day's work
 gert::git_branch_create(branch = "user_working")
 
+# update your working branch from main or master branch
+# this will first update main or master from remote
+blaseRtemplates::git_update_branch()
 
-gert::git_branch_checkout("user_working")
+# any conflicting updates will be marked and the files will need to be edited
+# to resolve the conflicts.  Then uncomment and run:
+# blaseRtemplates::git_update_continue()
 
-usethis::git_default_branch()
-
-system("git updatebranch test_branch main")
+# once you are done with your day's work, merge back into main
+blaseRtemplates::git_safe_merge()
 
 
 # commands to configure git -----------------------------------------------
+
 # make sure you have a github account
 # https://github.com/join
 
