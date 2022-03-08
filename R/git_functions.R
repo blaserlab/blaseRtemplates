@@ -77,10 +77,10 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   if (dirty) gert::git_stash_save(include_untracked = TRUE)
 
   # send the command
-  cmd <- paste0("$HOME/.local/bin/gitupdatebranch ", branch, " ", upstream)
+  cmd <- paste0("git updatebranch ", branch, " ", upstream)
   message("Sending this command to the terminal:\n\n", cmd, "\n")
   message("This will tell git to update ", branch, " from ", upstream, " via rebase.\n")
-  system(cmd, invisible = FALSE)
+  system(cmd, )
 
   if (dirty) invisible(gert::git_stash_pop())
 }
@@ -110,7 +110,7 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
     message("You must commit all of your work before merging.")
 
   } else {
-    cmd <- paste0("$HOME/.local/bin/gitsafemerge ", branch, " ", upstream)
+    cmd <- paste0("git safemerge ", branch, " ", upstream)
     message("Sending this command to the terminal:\n\n", cmd, "\n")
     message("This will tell git to merge ", branch, " into ", upstream, ". \n")
     system(cmd, invisible = FALSE)
