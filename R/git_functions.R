@@ -46,6 +46,18 @@ git_easy_branch <- function(branch) {
 }
 git_easy_branch("new")
 
+#' @title Update a Working Git Branch
+#' @description This function updates a git branch via rebase from a default upstream branch (usually "main").  You can explicitly provide the names of your working branch and the default upstream branch.  If not provided, the function will use the current branch as your working branch and will automatically identify the default upstream branch.  Internally this calls a system file that must be installed using blaseRtemplates::setup_git_collab().  The upstream branch also needs to be connected to a remote (e.g. github).
+#' @param branch The working branch you wish to update, Default: NULL
+#' @param upstream The default upstream branch you wish to update from, Default: NULL
+#' @return nothing
+#' @seealso
+#'  \code{\link[usethis]{git-default-branch}}
+#'  \code{\link[gert]{git_branch}},\code{\link[gert]{git_stash}}
+#' @rdname git_update_branch
+#' @export
+#' @importFrom usethis git_default_branch
+#' @importFrom gert git_branch git_stash_save git_stash_pop
 git_update_branch <- function(branch = NULL, upstream = NULL) {
   # identify the default branch if not provided
   if (is.null(upstream)) {
@@ -55,11 +67,27 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   if (is.null(branch)) {
     branch <- gert::git_branch()
   }
-  cmd <- paste0("git updatebranch ", branch, " ", upstream)
-  message(cmd, "\n")
-  system(cmd)
-}
-gert::git_branch()
 
-git_update_branch()
+  gert::git_stash_save(include_untracked = TRUE)
+
+  # send the command
+  cmd <- paste0("git updatebranch ", branch, " ", upstream)
+  message("Sending this command to the terminal:\n\n", cmd, "\n")
+  message("This will tell git to update", branch, " from ", upstream, " via rebase.\n")
+  system(cmd)
+
+  invisible(gert::git_stash_pop())
+}
+
+git_safe_merge <- function(branch = NULL, upstream = NULL){
+  # identify the default branch if not provided
+  if (is.null(upstream)) {
+    upstream <- usethis::git_default_branch()
+  }
+  # identify the current branch if not provided
+  if (is.null(branch)) {
+    branch <- gert::git_branch()
+  }
+
+}
 
