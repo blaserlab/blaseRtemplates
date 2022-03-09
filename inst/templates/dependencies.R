@@ -7,7 +7,7 @@
 
 # restore the renv from the lockfile
 
-# renv::restore
+# renv::restore()
 
 # save the current renv to the lockfile
 
