@@ -26,3 +26,8 @@
 # blaseRtemplates 0.0.0.9019
 
 * edited dependencies.R template to change renv snapshot behavior
+
+# blaseRtemplates 0.0.0.9019
+
+* reversed changes to dependencies.R and put them in a new .Rprofile template
+* changed initialization function to put in the .Rprofile template
