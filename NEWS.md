@@ -22,3 +22,7 @@
 * edited git commands to include git_push in collab section
 * added git_push_all function
 * added regenerate_git_commands function
+
+# blaseRtemplates 0.0.0.9019
+
+* edited dependencies.R template to change renv snapshot behavior

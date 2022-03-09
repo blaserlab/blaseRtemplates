@@ -4,10 +4,12 @@
 # set up the renv from scratch
 
 # renv::init()
+# renv::settings$snapshot.type("all")
 
 # restore the renv from the lockfile
 
 # renv::restore()
+# renv::settings$snapshot.type("all")
 
 # save the current renv to the lockfile
 
@@ -34,5 +36,5 @@ library("tidyverse")
 # requires installation of blaseRtools
 
 # bb_renv_datapkg(path = "<path to data package directory>")
-# lazyData::requireData("baiocchi.long.datapkg")
+# lazyData::requireData("data package name")
 
