@@ -32,7 +32,12 @@ gert::git_push()
 # # create a working branch for your day's work
 # blaseRtemplates::git_easy_branch(branch = "user_working")
 #
-# # update your working branch from main or master branch
+# # save, add and commit your work but don't push
+#
+# gert::git_add("*")
+# gert::git_commit("<commit message>")
+#
+# # frequently update your working branch from main or master branch
 # # this will first update main or master from remote
 # blaseRtemplates::git_update_branch()
 #
@@ -45,7 +50,9 @@ gert::git_push()
 #
 # # remember to delete your branch when you are done merging:
 # gert::git_branch_delete(branch = "user_working")
-
+#
+# # remember to push your changes to github so we can all get them:
+# gert::git_push()
 
 
 

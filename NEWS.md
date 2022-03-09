@@ -15,7 +15,8 @@
 * many bug fixes
 
 
-# blaseRtemplates 0.0.0.9009-14
+# blaseRtemplates 0.0.0.9014-15 
 
 * added git_attributes
 * edited git_easy_branch() to pull changes before branching
+* edited git commands to include git_push in collab section
