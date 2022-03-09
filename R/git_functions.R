@@ -122,3 +122,28 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
 
 }
 
+#' @title Push to All Remotes
+#' @description This uses gert to look up all active remotes and then runs gert::git_push() to each.
+
+#' @return nothing
+#' @rdname git_push_all
+#' @export
+#' @importFrom gert git_remote_list git_push
+git_push_all <- function() {
+ invisible(sapply(X = gert::git_remote_list()[["name"]],
+        FUN = function(x) gert::git_push(remote = x)))
+}
+
+#' @title Regenerate a Git Commands File
+#' @description Since this file is ignored by git, you will have to regenerate it when forking a repository.  This function writes the template file to your R directory as "regenerated_git_commands.R".
+
+#' @return nothing
+#'
+#' @rdname regenerate_git_commands
+#' @export
+#' @importFrom usethis use_template
+regenerate_git_commands <- function() {
+ usethis::use_template(template = "git_commands.R",
+                       save_as = "R/regenerated_git_commands.R",
+                       package = "blaseRtemplates")
+}

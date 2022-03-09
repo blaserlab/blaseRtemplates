@@ -16,25 +16,48 @@ break
 gert::git_status()
 gert::git_add("*")
 gert::git_commit("<commit message>")
-gert::git_push()
-
-
-
+blaseRtemplates::git_push_all()
 
 
 
 
 # # commands for collaborating via git --------------------------------------
+
+# # Run once per user to collaborate smoothly -------------------------------
+# blaseRtemplates::setup_git_collab()
+
+
+
+# # Run these commands to set remote repositories as necessary --------------
+# # Case 1:  You forked the originator's repository.
+# #          You should have cloned the repository from
+# #          https://github.com/<orignator>/<repo>.git
+# gert::git_remote_add("https://github.com/<your username>/<repo>.git", name = "forked")
 # #
-# # This is a minimal list of commands you will need to use for branching,
-# # updating and merging.  For more complicated situations, you should
+# # Case 2:  You are the originator.
+# #          You want to push to a collaborator's site to keep them in sync
+# gert::git_remote_add("https://github.com/<collaborators username>/<repo>.git, name = "forked")
+# #
+# # In both cases these commands will err if the github sites do not exist or
+# # if you do not have access as a collaborator.
+# #
+# # You should run gert::git_remote_list() and check to be sure "origin" and
+# # "forked" are set correctly.  If not, run gert::git_remote_remove(<remote name>)
+# # and re-add the correct site.
+# #
+# # The command sequences scripted below will only pull from origin to reduce
+# # the possibility of complicated three-way merges.
+
+
+
+# # Run these commands regularly for branching, updating and merging --------
+# # For more complicated situations, you should
 # # consider using the terminal or a gui program.
 #
 # # create a working branch for your day's work
 # blaseRtemplates::git_easy_branch(branch = "user_working")
 #
 # # save, add and commit your work but don't push
-#
 # gert::git_add("*")
 # gert::git_commit("<commit message>")
 #
@@ -46,7 +69,7 @@ gert::git_push()
 # # to resolve the conflicts.  Then go to the terminal (not R!) and run
 # # git add .
 # # git rebase --continue
-#
+# #
 # # once you are done with your day's work, merge back into main
 # blaseRtemplates::git_safe_merge()
 #
@@ -54,9 +77,7 @@ gert::git_push()
 # gert::git_branch_delete(branch = "user_working")
 #
 # # remember to push your changes to github so we can all get them:
-# gert::git_push()
-
-
+# blaseRtemplates::git_push_all()
 
 
 
@@ -96,7 +117,4 @@ gert::git_push()
 # # press enter to generate a new line and then save
 # # restart R
 #
-# # If you wish to collaborate via git run this command
-# # to encourage a smooth workflow:
-# blaseRtemplates::setup_git_collab()
 
