@@ -7,23 +7,23 @@
 setup_git_collab <- function() {
   cat("This function will write two executable files to your ~/.local/bin directory\n")
   cat("This will not overwrite any pre-existing file on your system.\n")
-  cat("It will also edit your global .gitconfig file to include alieases for\n")
+  cat("It will also edit your global .gitconfig file to include aliases for\n")
   cat("these exectuables.\n")
   answer <- menu(c("Yes", "No"), title="Do you wish to proceed?")
   if (answer == 1) {
-  fs::dir_create("$HOME/.local/bin")
+  fs::dir_create(Sys.getenv()[["HOME"]], ".local/bin")
   fs::file_copy(path = system.file("bash/gitsafemerge",
                                    package = "blaseRtemplates"),
-            new_path = "$HOME/.local/bin/gitsafemerge",
+            new_path = file.path(Sys.getenv()[["HOME"]], ".local/bin/gitsafemerge"),
             overwrite = TRUE)
   fs::file_copy(path = system.file("bash/gitupdatebranch",
                                    package = "blaseRtemplates"),
-            new_path = "$HOME/.local/bin/gitupdatebranch",
+            new_path = file.path(Sys.getenv()[["HOME"]], ".local/bin/gitupdatebranch"),
             overwrite = TRUE)
 
   # edit the global git config
-  system('git config --global alias.updatebranch !"$HOME/.local/bin/gitupdatebranch"')
-  system('git config --global alias.safemerge !"$HOME/.local/bin/gitsafemerge"')
+  system(paste0("git config --global alias.safemerge !",file.path(Sys.getenv()[["HOME"]], ".local/bin/gitsafemerge")))
+  system(paste0("git config --global alias.updatebranch !",file.path(Sys.getenv()[["HOME"]], ".local/bin/gitupdatebranch")))
   }
 
 
