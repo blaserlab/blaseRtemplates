@@ -1,7 +1,8 @@
 # introduction ------------------------------------------------------------
+#
 # Do not source this file!
 break
-
+#
 # These are common git commands which are scripted here for convenience.
 # If you have not set up git, see the last section of the script to do so.
 # If you use initialization.R to set up this project, the git_commands.R file
@@ -16,7 +17,14 @@ gert::git_add("*")
 gert::git_commit("<commit message>")
 gert::git_push()
 
+
+
+
+
+
+
 # # commands for collaborating via git --------------------------------------
+# #
 # # This is a minimal list of commands you will need to use for branching,
 # # updating and merging.  For more complicated situations, you should
 # # consider using the terminal or a gui program.
@@ -39,7 +47,16 @@ gert::git_push()
 # gert::git_branch_delete(branch = "user_working")
 
 
+
+
+
+
+
+
+
+
 # # commands to configure git -----------------------------------------------
+# #
 # # You should only need to run these commands once.
 # #
 # # make sure you have a github account

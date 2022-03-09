@@ -14,3 +14,8 @@
 
 * many bug fixes
 
+
+# blaseRtemplates 0.0.0.9009-14
+
+* added git_attributes
+* edited git_easy_branch() to pull changes before branching
