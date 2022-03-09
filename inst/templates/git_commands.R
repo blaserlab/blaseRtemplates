@@ -13,6 +13,7 @@ break
 
 # basic everyday commands for all git users -------------------------------
 
+gert::git_status()
 gert::git_add("*")
 gert::git_commit("<commit message>")
 gert::git_push()
@@ -42,8 +43,9 @@ gert::git_push()
 # blaseRtemplates::git_update_branch()
 #
 # # any conflicting updates will be marked and the files will need to be edited
-# # to resolve the conflicts.  Then uncomment and run:
-# # blaseRtemplates::git_update_continue()
+# # to resolve the conflicts.  Then go to the terminal (not R!) and run
+# # git add .
+# # git rebase --continue
 #
 # # once you are done with your day's work, merge back into main
 # blaseRtemplates::git_safe_merge()
