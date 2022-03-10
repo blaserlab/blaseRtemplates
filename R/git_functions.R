@@ -188,3 +188,23 @@ git_rewind_to <- function(commit) {
   # return the new git log
   gert::git_log()
 }
+
+
+
+
+#' @title Interactively Set Github PAT
+#' @description This wraps gitcreds::gitcreds_set() and adds a system call to edit the user global git config to set the cache timeout to 1 billion seconds if running a Linux system.
+#' @return nothing
+#' @seealso
+#'  \code{\link[gitcreds]{gitcreds_get}}
+#' @rdname gitcreds_set
+#' @export
+#' @importFrom gitcreds gitcreds_set
+gitcreds_set <- function() {
+  os <- Sys.info()[["sysname"]]
+  if (os == "Linux") {
+    cmd <- "git config --global credential.helper 'cache --timeout=1000000000'"
+    system(cmd)
+  }
+  gitcreds::gitcreds_set()
+}

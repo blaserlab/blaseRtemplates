@@ -20,4 +20,6 @@ conflict_prefer("count", "dplyr")
 # present. The file local_configs.R is ignored by git and so is useful for user-
 # specific configurations such as output directories or formatting.
 
+fs::file_create("R/local_configs.R") # will not overwrite
+
 source("R/local_configs.R")
