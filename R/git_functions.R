@@ -165,7 +165,7 @@ git_rewind_to <- function(commit) {
 
   # make sure there are no merge commits in there
   log <- gert::git_log()
-  commits_to_check <- log$commits[1:which(stringr::str_detect(string = log$commits, pattern = commit))]
+  commits_to_check <- log$commit[1:which(stringr::str_detect(string = log$commit, pattern = commit))]
   log_to_check <- dplyr::filter(.data = log, commit %in% commits_to_check)
   stopifnot("You have merge commits and must rewind manually using git revert -m." = all(log_to_check$merge == FALSE))
 
