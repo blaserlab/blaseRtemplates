@@ -27,7 +27,11 @@
 
 * edited dependencies.R template to change renv snapshot behavior
 
-# blaseRtemplates 0.0.0.9019
+# blaseRtemplates 0.0.0.9020
 
 * reversed changes to dependencies.R and put them in a new .Rprofile template
 * changed initialization function to put in the .Rprofile template
+
+# blaseRtemplates 0.0.0.9021
+
+* made git_rewind_to functions

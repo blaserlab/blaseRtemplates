@@ -18,6 +18,10 @@ gert::git_add("*")
 gert::git_commit("<commit message>")
 blaseRtemplates::git_push_all()
 
+# run these commands to rewind to a prior "good" commit.
+# make sure git status is "clean" (all changes committed) before rewinding
+# gert::git_log() #find the id of the good commit
+# blaseRtemplates::git_rewind_to(commit = <good commit id>)
 
 
 

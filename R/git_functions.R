@@ -147,3 +147,40 @@ regenerate_git_commands <- function() {
                        save_as = "R/regenerated_git_commands.R",
                        package = "blaseRtemplates")
 }
+
+#' @title Rewind Git History
+#' @description This function uses git revert to rewind history to a prior commit.  First make sure all of your changes have been committed.  Then run gert::git_log() to identify the "good" commit you want to rewind to.  Supply this as the argument to this function.  A new commit will be made with a helpful message.  Commit history is not changed so you can always rewind the rewind etc....
+#' @param commit Hash of the commit you want to rewind the state of your repository to.  Requires a minimum of 7 characters.
+#' @return a tibble with the new git commit log after rewinding
+#' @seealso
+#'  \code{\link[gert]{git_commit}}
+#' @rdname git_rewind_to
+#' @export
+#' @importFrom gert git_status git_commit git_log
+#' @importFrom dplyr filter
+git_rewind_to <- function(commit) {
+  # make sure working tree is clean
+  status <- gert::git_status()
+  stopifnot("You must commit your changes before rewinding." = nrow(status) == 0)
+
+  # make sure there are no merge commits in there
+  log <- gert::git_log()
+  commits_to_check <- log$commits[1:which(stringr::str_detect(string = log$commits, pattern = commit))]
+  log_to_check <- dplyr::filter(.data = log, commit %in% commits_to_check)
+  stopifnot("You have merge commits and must rewind manually using git revert -m." = all(log_to_check$merge == FALSE))
+
+  # run git revert
+  cmd <- paste0("git revert ", commit, ".. --no-commit")
+  system(cmd)
+
+  # check to be sure the revert worked correctly
+  status <- gert::git_status()
+  stopifnot("No changes to revert.  Aborting." = nrow(status) > 0)
+  stopifnot("The revert failed.  Correct manually." = all(status$staged == TRUE))
+
+  # commit the revert
+  gert::git_commit(message = paste0("this commit rewinds history to ", commit, " using git revert"))
+
+  # return the new git log
+  gert::git_log()
+}
