@@ -36,6 +36,10 @@
 
 * made git_rewind_to function
 
-# blaseRtemplates 0.0.0.9021-24
+# blaseRtemplates 0.0.0.9024
 
 * added gitcreds_set function
+
+# blaseRtemplates 0.0.0.9026
+
+* edited templates

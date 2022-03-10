@@ -4,12 +4,10 @@
 # set up the renv from scratch
 
 # renv::init()
-# renv::settings$snapshot.type("all")
 
 # restore the renv from the lockfile
 
 # renv::restore()
-# renv::settings$snapshot.type("all")
 
 # save the current renv to the lockfile
 

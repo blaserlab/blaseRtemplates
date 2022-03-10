@@ -18,7 +18,8 @@ gert::git_add("*")
 gert::git_commit("<commit message>")
 blaseRtemplates::git_push_all()
 
-# run these commands to rewind to a prior "good" commit.
+# run these commands to rewind to a prior "good" commit ----------------------
+
 # make sure git status is "clean" (all changes committed) before rewinding
 # gert::git_log() #find the id of the good commit
 # blaseRtemplates::git_rewind_to(commit = "<good commit id>")
@@ -28,11 +29,13 @@ blaseRtemplates::git_push_all()
 # # commands for collaborating via git --------------------------------------
 
 # # Run once per user to collaborate smoothly -------------------------------
+
 # blaseRtemplates::setup_git_collab()
 
 
 
 # # Run these commands to set remote repositories as necessary --------------
+
 # # Case 1:  You forked the originator's repository.
 # #          You should have cloned the repository from
 # #          https://github.com/<orignator>/<repo>.git
@@ -55,6 +58,7 @@ blaseRtemplates::git_push_all()
 
 
 # # Run these commands regularly for branching, updating and merging --------
+
 # # For more complicated situations, you should
 # # consider using the terminal or a gui program.
 #
@@ -69,11 +73,7 @@ blaseRtemplates::git_push_all()
 # # this will first update main or master from remote
 # blaseRtemplates::git_update_branch()
 #
-# # any conflicting updates will be marked and the files will need to be edited
-# # to resolve the conflicts.  Then go to the terminal (not R!) and run
-# # git add .
-# # git rebase --continue
-# #
+
 # # once you are done with your day's work, merge back into main
 # blaseRtemplates::git_safe_merge()
 #
@@ -84,6 +84,24 @@ blaseRtemplates::git_push_all()
 # blaseRtemplates::git_push_all()
 
 
+
+# conflict resolution -----------------------------------------------------
+
+# # any conflicting updates will be marked and the files will need to be edited
+# # to resolve the conflicts.
+#
+# # in extreme circumstances you may need to accept all changes in one file from one source
+# # to accept all changes from the main or master branch (pulled from remote) run in the terminal:
+# # git checkout --ours
+#
+# # to accept all changes from working branch
+# # git checkout --theirs
+# #
+# # then run in the terminal
+# # git add .
+# # git rebase --continue
+#
+# # you will be presented with a commit message. Enter :wq in the terminal to save if using Vim.
 
 
 
