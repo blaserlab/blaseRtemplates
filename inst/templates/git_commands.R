@@ -110,7 +110,7 @@ blaseRtemplates::git_push_all()
 # usethis::create_github_token()
 #
 # # run this and enter your token at the prompt
-# gitcreds::gitcreds_set()
+# blaseRtemplates::gitcreds_set()
 #
 # # if you have trouble accessing github, you may need to edit the .Renviron file
 # # this is the third usage of the term environment (sorry)
