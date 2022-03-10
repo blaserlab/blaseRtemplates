@@ -181,6 +181,10 @@ git_rewind_to <- function(commit) {
   # commit the revert
   gert::git_commit(message = paste0("this commit rewinds history to ", commit, " using git revert"))
 
+  # quit git revert
+  cmd <- paste0("git revert --quit")
+  system(cmd)
+
   # return the new git log
   gert::git_log()
 }

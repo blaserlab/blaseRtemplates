@@ -32,6 +32,6 @@
 * reversed changes to dependencies.R and put them in a new .Rprofile template
 * changed initialization function to put in the .Rprofile template
 
-# blaseRtemplates 0.0.0.9021-22
+# blaseRtemplates 0.0.0.9021-23
 
-* made git_rewind_to functions
+* made git_rewind_to function
