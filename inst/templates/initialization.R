@@ -6,7 +6,7 @@
 usethis::use_mit_license("<your name here>")
 
 # generate a readme file to explain your work
-usethis::use_readme_md()
+usethis::use_readme_md(open = FALSE)
 
 # *** Only if developing a package ***
 # uncomment and run to generate a news file to document updates.

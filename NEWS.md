@@ -43,3 +43,7 @@
 # blaseRtemplates 0.0.0.9026
 
 * edited templates
+
+# blaseRtemplates 0.0.0.9027
+
+* added renv hydrate to template

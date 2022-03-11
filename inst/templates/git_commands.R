@@ -29,13 +29,13 @@ blaseRtemplates::git_push_all()
 # # commands for collaborating via git --------------------------------------
 
 # # Run once per user to collaborate smoothly -------------------------------
-
+#
 # blaseRtemplates::setup_git_collab()
 
 
 
 # # Run these commands to set remote repositories as necessary --------------
-
+#
 # # Case 1:  You forked the originator's repository.
 # #          You should have cloned the repository from
 # #          https://github.com/<orignator>/<repo>.git
@@ -58,7 +58,7 @@ blaseRtemplates::git_push_all()
 
 
 # # Run these commands regularly for branching, updating and merging --------
-
+#
 # # For more complicated situations, you should
 # # consider using the terminal or a gui program.
 #
@@ -73,7 +73,7 @@ blaseRtemplates::git_push_all()
 # # this will first update main or master from remote
 # blaseRtemplates::git_update_branch()
 #
-
+#
 # # once you are done with your day's work, merge back into main
 # blaseRtemplates::git_safe_merge()
 #
@@ -86,7 +86,7 @@ blaseRtemplates::git_push_all()
 
 
 # conflict resolution -----------------------------------------------------
-
+#
 # # any conflicting updates will be marked and the files will need to be edited
 # # to resolve the conflicts.
 #
@@ -138,5 +138,4 @@ blaseRtemplates::git_push_all()
 # # it may be interfering with your credentials.  Delete it.
 # # press enter to generate a new line and then save
 # # restart R
-#
 
