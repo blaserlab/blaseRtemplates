@@ -46,11 +46,12 @@ easy_install <-
     }
   }
 
-#' @importFrom renv renv_paths_cellar install
+
 #' @importFrom fs file_copy path_file
 #' @importFrom stringr str_replace
+#' @importFrom renv install
 install_targz <- function(tarball) {
-  cellar <- renv:::renv_paths_cellar()
+  cellar <- getormake_renv_cellar()
   fs::file_copy(path = tarball,
                 new_path = cellar,
                 overwrite = TRUE)
@@ -61,14 +62,32 @@ install_targz <- function(tarball) {
 
 }
 
-#' @import renv
+
+#' @importFrom renv paths hydrate install
 #' @importFrom fs dir_exists
 safely_hydrate <- function(package) {
-  cache_path <- renv:::renv_paths_cache()
+  cache_path <- renv::paths$cache()
   if (fs::dir_exists(file.path(cache_path, package))) {
     renv::hydrate(package)
   } else {
     message("The package is not in your cache.\n Attempting to use renv::install")
     renv::install(package)
   }
+}
+
+
+#' @importFrom renv paths
+#' @importFrom fs dir_create
+getormake_renv_cellar <- function() {
+  # check if cellar is set in environment variable
+  env <- Sys.getenv()
+  if ("RENV_PATHS_CELLAR" %in% names(env)) {
+    cellar <- env[["RENV_PATHS_CELLAR"]]
+  } else {
+    cellar <- paste0(renv::paths$root(), "/cellar")
+    fs::dir_create(cellar)
+  }
+
+  return(cellar)
+
 }
