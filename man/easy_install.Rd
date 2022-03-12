@@ -15,13 +15,10 @@ easy_install(
 \item{how}{installation method.  If nothing is chosen the default is to "ask", Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
 }
 \value{
-will install packages a
+will install packages and return nothing
 }
 \description{
 This provides some logic to renv install methods.  Typically when starting a project from scratch we would like to use exisitng copies of packages in our renv cache, rather than taking time to re-download them all.  Renv::hydrate provides this internal function.  You cen specify this option with how = "link_from_cache".  Alternatively we may want to install a new package or update a package.  Renv::install handles this; specify with "new_or_update".  When installing local packages from tarball files, renv can get confused.  This function detects that you are trying to do that, copies the tarball to the renv cellar and allows it to install from there.  In this case "how" is ignored, but an option for "tarball" is there for completeness.  If "tarball" is selected but the package is not a tarball, a message to that effect is returned.
-}
-\details{
-DETAILS
 }
 \examples{
 \dontrun{

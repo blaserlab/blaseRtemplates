@@ -16,16 +16,16 @@
 
 # package installation ----------------------------------------------------
 
-# use renv::hydrate() to link packages already in your cache into this project
-# use renv::install() to update or install new packages and then link them
+# blaseRtemplates::easy_install("<package name>", how = "new_or_update")
+# blaseRtemplates::easy_install("<package name>", how = "link_from_cache") # faster
+# blaseRtemplates::easy_install("/path/to/tarball.tar.gz")
 
-# renv::hydrate("<package name>")
-# renv::install("<package name>") # CRAN packages
-# renv::install("bioc::<package name>") # bioconductor packages
-# renv::install("<repo/package name>") # github source packages
+# # use "bioc::<package name>" for bioconductor packages
+# # use "<repo/package name>" for github source packages
 
 # load and attach packages ------------------------------------------------
 
+library("blaseRtemplates")
 library("conflicted")
 library("tidyverse")
 library("gert")
