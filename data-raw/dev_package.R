@@ -10,13 +10,14 @@
 # use_package("usethis")
 # usethis::use_package("fs")
 # usethis::use_package("gert")
+# usethis::use_package("stringr")
 
 # document
 devtools::document()
 
 # add, commit, push
 gert::git_add("*")
-gert::git_commit("version 0.0.0.9027")
+gert::git_commit("version 0.0.0.9028")
 gert::git_push()
 
 # install
