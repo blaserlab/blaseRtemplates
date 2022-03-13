@@ -48,6 +48,6 @@
 
 * added renv hydrate to template
 
-# blaseRtemplates 0.0.0.9028 - 30 
+# blaseRtemplates 0.0.0.9028 - 31 
 
 * added easy install function

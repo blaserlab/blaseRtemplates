@@ -3,21 +3,23 @@
 
 # set up the renv from scratch
 
-# renv::init()
+# renv::init(bioconductor = TRUE)
 
 # restore the renv from the lockfile
 
 # renv::restore()
 
-# save the current renv to the lockfile
-
-# renv::snapshot()
 
 
 # package installation ----------------------------------------------------
 
+# # Try this first...it's faster:
+# blaseRtemplates::easy_install("<package name>", how = "link_from_cache")
+
+# # If you need a new package or an update, try this:
 # blaseRtemplates::easy_install("<package name>", how = "new_or_update")
-# blaseRtemplates::easy_install("<package name>", how = "link_from_cache") # faster
+
+# # If you are installing from a "tarball", use this:
 # blaseRtemplates::easy_install("/path/to/tarball.tar.gz")
 
 # # use "bioc::<package name>" for bioconductor packages

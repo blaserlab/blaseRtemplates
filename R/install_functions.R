@@ -25,26 +25,34 @@ easy_install <-
       cat("Coercing installation method to 'tarball'\n")
       install_targz(tarball = package)
     } else {
+      package_name <- str_replace(package, "bioc::|.*/", "")
+
       if (how == "ask") {
         cat("Do you want to update a package or install a new package?\n")
         cat("Or do you want to link to the existing version in your renv cache?\n")
         cat("Linking is faster but will fail if the package is unavailable\n")
         answer <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
-        install_function <-
-          ifelse(answer == 1, renv::install, renv::hydrate)
+
+        if (answer == 1) {
+          message("Installing ", package_name, "...")
+          renv::install(packages = package)
+        } else {
+          message("Attempting to link to ", package_name, " in cache...")
+          renv::hydrate(packages = package_name)
+        }
       } else if (how == "new_or_update") {
-        install_function <- renv::install
+        message("Installing ", package_name, "...")
+        renv::install(packages = package)
       } else if (how == "link_from_cache") {
-        install_function <- renv::hydrate
+        message("Attempting to link to ", package_name, " in cache...")
+        renv::hydrate(packages = package_name)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
       }
-      install_function(package)
     }
   }
-
 
 #' @importFrom fs file_copy path_file
 #' @importFrom stringr str_replace
