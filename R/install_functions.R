@@ -37,16 +37,20 @@ easy_install <-
         if (answer == 1) {
           message("Installing ", package_name, "...")
           renv::install(packages = package)
+          message("Done.")
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           renv::hydrate(packages = package_name)
+          message("Done.")
         }
       } else if (how == "new_or_update") {
         message("Installing ", package_name, "...")
         renv::install(packages = package)
+        message("Done.")
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         renv::hydrate(packages = package_name)
+        message("Done.")
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
