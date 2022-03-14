@@ -51,3 +51,7 @@
 # blaseRtemplates 0.0.0.9028 - 32 
 
 * added easy install function
+
+# blaseRtemplates 0.0.0.9033
+
+* edited r_profile
