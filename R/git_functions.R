@@ -41,11 +41,11 @@ setup_git_collab <- function() {
 git_easy_branch <- function(branch) {
   if (gert::git_branch_exists(branch)) {
     gert::git_branch_checkout(branch)
-    prompt::set_prompt(paste0("[ ", prompt::git_branch(), " ] > "))
+    prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
   } else {
     gert::git_pull()
     gert::git_branch_create(branch)
-    prompt::set_prompt(paste0("[ ", prompt::git_branch(), " ] > "))
+    prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
   }
 }
 
@@ -122,7 +122,7 @@ git_safe_merge <- function(branch = NULL, upstream = NULL){
 
   }
 
-  prompt::set_prompt(paste0("[ ", prompt::git_branch(), " ] > "))
+  prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
 
 }
 
@@ -225,7 +225,7 @@ gitcreds_set <- function() {
 #' @export
 #' @importFrom prompt set_prompt git_branch
 reset_prompt <- function() {
-  prompt::set_prompt(paste0("[ ", prompt::git_branch(), " ] > "))
+  prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
 }
 
 
