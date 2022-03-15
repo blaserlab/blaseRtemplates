@@ -212,3 +212,21 @@ gitcreds_set <- function() {
   }
   gitcreds::gitcreds_set()
 }
+
+
+
+#' @title Reset Your Console Prompt
+#' @description The prompt package adds a nice feature but has some limitations, namely, that it does not respect changing git branches and has to be manually re-called.  This defeats the purpose.  Blasertemplates git functions automoatically call prompt to change the prompt label when switching branches, but this will not happen if you change branches using the terminal, the git panel or other git branching functions.  Therefore this function is provided to manually reset your prompt to the current branch.
+
+#' @return nothing
+#' @seealso
+#'  \code{\link[prompt]{set_prompt}},\code{\link[prompt]{prompt_git}}
+#' @rdname reset_prompt
+#' @export
+#' @importFrom prompt set_prompt git_branch
+reset_prompt <- function() {
+  prompt::set_prompt(paste0("[ ", prompt::git_branch(), " ] > "))
+}
+
+
+
