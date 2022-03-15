@@ -28,33 +28,6 @@ blaseRtemplates::git_push_all()
 
 # # commands for collaborating via git --------------------------------------
 
-# # Run once per user to collaborate smoothly -------------------------------
-#
-# blaseRtemplates::setup_git_collab()
-
-
-
-# # Run these commands to set remote repositories as necessary --------------
-#
-# # Case 1:  You forked the originator's repository.
-# #          You should have cloned the repository from
-# #          https://github.com/<orignator>/<repo>.git
-# gert::git_remote_add("https://github.com/<your username>/<repo>.git", name = "forked_<your username>")
-# #
-# # Case 2:  You are the originator.
-# #          You want to push to a collaborator's site to keep them in sync
-# gert::git_remote_add("https://github.com/<collaborators username>/<repo>.git, name = "forked_<collaborators username>")
-# #
-# # In both cases these commands will err if the github sites do not exist or
-# # if you do not have access as a collaborator.
-# #
-# # You should run gert::git_remote_list() and check to be sure "origin" and
-# # "forked_<name>" are set correctly.  If not, run gert::git_remote_remove(<remote name>)
-# # and re-add the correct site.
-# #
-# # The command sequences scripted below will only pull from origin to reduce
-# # the possibility of complicated three (or more)-way merges.
-
 
 
 # # Run these commands regularly for branching, updating and merging --------
@@ -104,6 +77,12 @@ blaseRtemplates::git_push_all()
 # # you will be presented with a commit message. Enter :wq in the terminal to save if using Vim.
 
 
+# run these commands to rewind to a prior "good" commit ----------------------
+# same as above
+#
+# make sure git status is "clean" (all changes committed) before rewinding
+# gert::git_log() #find the id of the good commit
+# blaseRtemplates::git_rewind_to(commit = "<good commit id>")
 
 
 
@@ -138,4 +117,9 @@ blaseRtemplates::git_push_all()
 # # it may be interfering with your credentials.  Delete it.
 # # press enter to generate a new line and then save
 # # restart R
+
+
+# # Run once per user to collaborate smoothly -------------------------------
+#
+# blaseRtemplates::setup_git_collab()
 
