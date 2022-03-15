@@ -56,6 +56,6 @@
 
 * edited r_profile
 
-# blaseRtemplates 0.0.0.9034-7
+# blaseRtemplates 0.0.0.9034-8
 
 * added git prompt

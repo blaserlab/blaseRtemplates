@@ -223,7 +223,7 @@ gitcreds_set <- function() {
 #'  \code{\link[prompt]{set_prompt}},\code{\link[prompt]{prompt_git}}
 #' @rdname reset_prompt
 #' @export
-#' @importFrom prompt set_prompt git_branch
+#' @importFrom prompt set_prompt
 reset_prompt <- function() {
   prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
 }
