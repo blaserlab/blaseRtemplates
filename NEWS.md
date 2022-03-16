@@ -59,3 +59,7 @@
 # blaseRtemplates 0.0.0.9034-8
 
 * added git prompt
+
+# blaseRtemplates 0.0.0.9039
+
+* edited .Rprofile template

@@ -20,4 +20,3 @@ if (prompt::is_git_dir()) prompt::set_prompt(paste0("[ ", gert::git_branch(), " 
 Sys.setenv(GITHUB_PAT = gitcreds::gitcreds_get(use_cache = FALSE)$password)
 
 if (file.exists("~/.Rprofile")) source("~/.Rprofile")
-
