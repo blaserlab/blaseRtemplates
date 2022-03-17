@@ -63,3 +63,8 @@
 # blaseRtemplates 0.0.0.9039
 
 * edited .Rprofile template
+
+# blaseRtemplates 0.0.0.9040
+
+* changed git template
+* added fork_github_project function

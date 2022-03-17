@@ -37,20 +37,16 @@ easy_install <-
         if (answer == 1) {
           message("Installing ", package_name, "...")
           renv::install(packages = package)
-          message("Done.")
         } else {
           message("Attempting to link to ", package_name, " in cache...")
-          renv::hydrate(packages = package_name)
-          message("Done.")
+          safely_hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
         message("Installing ", package_name, "...")
         renv::install(packages = package)
-        message("Done.")
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
-        renv::hydrate(packages = package_name)
-        message("Done.")
+        safely_hydrate(packages = package_name)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
@@ -66,9 +62,10 @@ install_targz <- function(tarball) {
   fs::file_copy(path = tarball,
                 new_path = cellar,
                 overwrite = TRUE)
-  install_string <- fs::path_file(tarball) |>
-    stringr::str_replace("_", "@") |>
-    stringr::str_replace(".tar.gz", "")
+  # install_string <- fs::path_file(tarball) |>
+  #   stringr::str_replace("_", "@") |>
+  #   stringr::str_replace(".tar.gz", "")
+  intall_string <- file.path(cellar, fs::path_file(tarball))
   renv::install(install_string)
 
 }
