@@ -68,3 +68,7 @@
 
 * changed git template
 * added fork_github_project function
+
+# blaseRtemplates 0.0.0.9042
+
+* edited easy install 

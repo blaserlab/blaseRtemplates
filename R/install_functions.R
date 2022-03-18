@@ -15,7 +15,7 @@
 #'  \code{\link[renv]{install}},\code{\link[renv]{hydrate}}
 #' @rdname easy_install
 #' @export
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_detect str_replace
 #' @importFrom renv install hydrate
 easy_install <-
   function(package,
@@ -25,7 +25,7 @@ easy_install <-
       cat("Coercing installation method to 'tarball'\n")
       install_targz(tarball = package)
     } else {
-      package_name <- str_replace(package, "bioc::|.*/", "")
+      package_name <- stringr::str_replace(package, "bioc::|.*/", "")
 
       if (how == "ask") {
         cat("Do you want to update a package or install a new package?\n")
@@ -35,7 +35,11 @@ easy_install <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          message("Installing ", package_name, "...")
+          message("Installing ", package_name, "...\n")
+          if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
+            package <- paste0("blaserlab/", package)
+          }
+          message("After adding github repo path to package name...\n")
           renv::install(packages = package)
         } else {
           message("Attempting to link to ", package_name, " in cache...")
@@ -43,6 +47,10 @@ easy_install <-
         }
       } else if (how == "new_or_update") {
         message("Installing ", package_name, "...")
+        if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
+          package <- paste0("blaserlab/", package)
+        }
+        message("After adding github repo path to package name...\n")
         renv::install(packages = package)
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
@@ -78,7 +86,11 @@ safely_hydrate <- function(packages) {
   if (fs::dir_exists(file.path(cache_path, packages))) {
     renv::hydrate(packages)
   } else {
-    message("The package is not in your cache.\n Attempting to use renv::install")
+    message("The package is not in your cache.\n Attempting a new installation ")
+    if (packages %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
+      packages <- paste0("blaserlab/", packages)
+    }
+
     renv::install(packages)
   }
 }
