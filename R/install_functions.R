@@ -73,13 +73,13 @@ install_targz <- function(tarball) {
 
 #' @importFrom renv paths hydrate install
 #' @importFrom fs dir_exists
-safely_hydrate <- function(package) {
+safely_hydrate <- function(packages) {
   cache_path <- renv::paths$cache()
-  if (fs::dir_exists(file.path(cache_path, package))) {
-    renv::hydrate(package)
+  if (fs::dir_exists(file.path(cache_path, packages))) {
+    renv::hydrate(packages)
   } else {
     message("The package is not in your cache.\n Attempting to use renv::install")
-    renv::install(package)
+    renv::install(packages)
   }
 }
 
