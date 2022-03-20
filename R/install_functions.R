@@ -38,8 +38,8 @@ easy_install <-
           message("Installing ", package_name, "...\n")
           if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
             package <- paste0("blaserlab/", package)
+            message("After adding github repo path to package name...\n")
           }
-          message("After adding github repo path to package name...\n")
           renv::install(packages = package)
         } else {
           message("Attempting to link to ", package_name, " in cache...")
@@ -49,8 +49,8 @@ easy_install <-
         message("Installing ", package_name, "...")
         if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
           package <- paste0("blaserlab/", package)
+          message("After adding github repo path to package name...\n")
         }
-        message("After adding github repo path to package name...\n")
         renv::install(packages = package)
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
