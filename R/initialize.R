@@ -108,6 +108,6 @@ fork_github_project <- function(repo, dest = NULL) {
   fs::file_copy(path = system.file("templates/local_configs.R", package = "blaseRtemplates"),
                 new_path = file.path(newproj, "R"))
 
-  usethis::proj_activate(newproj)
+  # usethis::proj_activate(newproj)
 
 }
