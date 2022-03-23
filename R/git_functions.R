@@ -40,6 +40,7 @@ setup_git_collab <- function() {
 #' @importFrom prompt set_prompt
 #' @importFrom renv status
 #' @importFrom stringr str_remove
+#' @importFrom dplyr pull filter
 git_easy_branch <- function(branch) {
   if (gert::git_branch_exists(branch)) {
     gert::git_branch_checkout(branch)
@@ -52,8 +53,8 @@ git_easy_branch <- function(branch) {
     gl <- gert::git_log()
     ga <- stringr::str_remove(string = gl$author[1], pattern = " .*")
     un <- gert::git_config() |>
-      filter(name == user.name) |>
-      pull(value)
+      dplyr::filter(name == user.name) |>
+      dplyr::pull(value)
     if ("renv.lock" %in% gd$old && ga != un)
          {
       cat("\nYour renv.lock file was changed by the most recent commit.\n\n")
@@ -80,6 +81,7 @@ git_easy_branch <- function(branch) {
 #' @importFrom gert git_branch git_stash_save git_stash_pop git_diff git_log git_config
 #' @importFrom renv restore
 #' @importFrom stringr str_remove
+#' @importFrom dplyr pull filter
 git_update_branch <- function(branch = NULL, upstream = NULL) {
   # identify the default branch if not provided
   if (is.null(upstream)) {
@@ -117,8 +119,8 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   ga <-
     stringr::str_remove(string = gl$author[1], pattern = " .*")
   un <- gert::git_config() |>
-    filter(name == user.name) |>
-    pull(value)
+    dplyr::filter(name == user.name) |>
+    dplyr::pull(value)
   if ("renv.lock" %in% gd$old && ga != un)
   {
     cat("\nYour renv.lock file was changed by the most recent commit.\n\n")
