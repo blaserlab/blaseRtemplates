@@ -22,7 +22,7 @@ devtools::document()
 
 # add, commit, push
 gert::git_add("*")
-gert::git_commit("version 0.0.0.9045")
+gert::git_commit("version 0.0.0.9046")
 gert::git_push()
 
 # install

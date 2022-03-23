@@ -54,7 +54,7 @@ git_easy_branch <- function(branch) {
       cat("sync your packages with the new lock file.\n")
       answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
       if (answer == 1) {
-        renv::restore()
+        renv::restore(clean = TRUE)
       }
 
     }
@@ -107,7 +107,7 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
     cat("sync your packages with the new lock file.\n")
     answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
     if (answer == 1) {
-      renv::restore()
+      renv::restore(clean = TRUE)
     }
 
     }
