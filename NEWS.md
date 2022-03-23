@@ -77,6 +77,6 @@
 
 * added prompt after git changes lock file
 
-# blaseRtemplates 0.0.0.9044- 52 
+# blaseRtemplates 0.0.0.9052 -3 
 
 * fixed bug in fork function
