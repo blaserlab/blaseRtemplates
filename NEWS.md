@@ -80,3 +80,7 @@
 # blaseRtemplates 0.0.0.9052 - 4 
 
 * fixed bug in fork function
+
+# blaseRtemplates 0.0.0.9055
+
+* removed fork function

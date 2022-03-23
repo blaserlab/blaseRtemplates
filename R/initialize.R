@@ -26,8 +26,8 @@
 #' @import usethis fs withr
 #' @export
 initialize_project <- function(path,
-                           rstudio = rstudioapi::isAvailable(),
-                           open = rlang::is_interactive()) {
+                               rstudio = rstudioapi::isAvailable(),
+                               open = rlang::is_interactive()) {
   path <- usethis:::user_path_prep(path)
   name <- path_file(path_abs(path))
   usethis:::challenge_nested_project(path_dir(path), name)
@@ -38,26 +38,26 @@ initialize_project <- function(path,
 
   usethis::use_directory("R")
   usethis::use_template(template = "dependencies.R",
-               save_as = "R/dependencies.R",
-               package = "blaseRtemplates")
+                        save_as = "R/dependencies.R",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "configs.R",
-               save_as = "R/configs.R",
-               package = "blaseRtemplates")
+                        save_as = "R/configs.R",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "local_configs.R",
-               save_as = "R/local_configs.R",
-               package = "blaseRtemplates")
+                        save_as = "R/local_configs.R",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "initialization.R",
-               save_as = "R/initialization.R",
-               package = "blaseRtemplates")
+                        save_as = "R/initialization.R",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "git_commands.R",
-               save_as = "R/git_commands.R",
-               package = "blaseRtemplates")
+                        save_as = "R/git_commands.R",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "git_ignore",
-               save_as = ".gitignore",
-               package = "blaseRtemplates")
+                        save_as = ".gitignore",
+                        package = "blaseRtemplates")
   usethis::use_template(template = "R_profile",
-               save_as = ".Rprofile",
-               package = "blaseRtemplates")
+                        save_as = ".Rprofile",
+                        package = "blaseRtemplates")
 
   usethis::use_rstudio()
 
@@ -72,42 +72,3 @@ initialize_project <- function(path,
   invisible(usethis:::proj_get())
 }
 
-
-
-
-#' @title Fork A Project From Github
-#' @description This wraps usethis::create_from_github and adds 2 templates which are not tracked by git and are missed by the base function:  git_commands.R, local_configs.R.  This also enforces fork = TRUE and opens the project in a new session. You will need to have write access to the originator's repo for this to work correctly and you should provide write access for the originator to your repo for them to be able to update your shared work directly.
-#' @param repo Repository name in the form of <owner>/<repo> or a url
-#' @param dest Parent directory in which to create the forked project, Default: NULL
-#' @seealso
-#'  \code{\link[usethis]{create_from_github}},\code{\link[usethis]{use_template}},\code{\link[usethis]{proj_activate}}
-#'  \code{\link[stringr]{str_replace}},\code{\link[stringr]{str_extract}}
-#' @rdname fork_github_project
-#' @export
-#' @importFrom usethis create_from_github proj_activate
-#' @importFrom stringr str_replace str_extract str_replace_all
-#' @importFrom fs dir_create file_copy
-fork_github_project <- function(repo, dest = NULL) {
-  # fork the project
-  usethis::create_from_github(repo_spec = repo,
-                     destdir = dest,
-                     fork = TRUE,
-                     open = FALSE)
-
-  # get the repo core name
-  repo_name <- stringr::str_replace(repo,  "\\.git", "") |>
-    stringr::str_extract("/.*$") |>
-    stringr::str_replace_all("/", "//") |>
-    stringr::str_replace_all("/.*/", "")
-
-  newproj <- file.path(dest, repo_name)
-
-  fs::dir_create(file.path(newproj, "R"),)
-  fs::file_copy(path = system.file("templates/git_commands.R", package = "blaseRtemplates"),
-                new_path = file.path(newproj, "R"))
-  fs::file_copy(path = system.file("templates/local_configs.R", package = "blaseRtemplates"),
-                new_path = file.path(newproj, "R"))
-
-  # usethis::proj_activate(newproj)
-
-}
