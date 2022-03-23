@@ -84,8 +84,9 @@ initialize_project <- function(path,
 #'  \code{\link[stringr]{str_replace}},\code{\link[stringr]{str_extract}}
 #' @rdname fork_github_project
 #' @export
-#' @importFrom usethis create_from_github use_template proj_activate
+#' @importFrom usethis create_from_github proj_activate
 #' @importFrom stringr str_replace str_extract str_replace_all
+#' @importFrom fs dir_create file_copy
 fork_github_project <- function(repo, dest = NULL) {
   # fork the project
   usethis::create_from_github(repo_spec = repo,
@@ -93,22 +94,20 @@ fork_github_project <- function(repo, dest = NULL) {
                      fork = TRUE,
                      open = FALSE)
 
-  # write some useful templates
-  usethis::use_template(template = "git_commands.R",
-                        package = "blaseRtemplates",
-                        save_as = "R/git_commands.R")
-
-  usethis::use_template(template = "local_configs.R",
-                        package = "blaseRtemplates",
-                        save_as = "R/local_configs.R")
-
   # get the repo core name
   repo_name <- stringr::str_replace(repo,  "\\.git", "") |>
     stringr::str_extract("/.*$") |>
     stringr::str_replace_all("/", "//") |>
     stringr::str_replace_all("/.*/", "")
 
+  newproj <- file.path(dest, repo_name)
 
-  usethis::proj_activate(file.path(dest, repo_name))
+  fs::dir_create(file.path(newproj, "R"),)
+  fs::file_copy(path = system.file("templates/git_commands.R", package = "blaseRtemplates"),
+                new_path = file.path(newproj, "R"))
+  fs::file_copy(path = system.file("templates/local_configs.R", package = "blaseRtemplates"),
+                new_path = file.path(newproj, "R"))
+
+  usethis::proj_activate(newproj)
 
 }
