@@ -38,6 +38,7 @@ setup_git_collab <- function() {
 #' @export
 #' @importFrom gert git_branch_exists git_branch_checkout git_branch_create git_pull git_diff
 #' @importFrom prompt set_prompt
+#' @importFrom renv restore
 git_easy_branch <- function(branch) {
   if (gert::git_branch_exists(branch)) {
     gert::git_branch_checkout(branch)
@@ -72,7 +73,8 @@ git_easy_branch <- function(branch) {
 #' @rdname git_update_branch
 #' @export
 #' @importFrom usethis git_default_branch
-#' @importFrom gert git_branch git_stash_save git_stash_pop
+#' @importFrom gert git_branch git_stash_save git_stash_pop git_diff
+#' @importFrom renv restore
 git_update_branch <- function(branch = NULL, upstream = NULL) {
   # identify the default branch if not provided
   if (is.null(upstream)) {
