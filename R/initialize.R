@@ -78,14 +78,14 @@ initialize_project <- function(path,
 #' @title Fork A Project From Github
 #' @description This wraps usethis::create_from_github and adds 2 templates which are not tracked by git and are missed by the base function:  git_commands.R, local_configs.R.  This also enforces fork = TRUE and opens the project in a new session. You will need to have write access to the originator's repo for this to work correctly and you should provide write access for the originator to your repo for them to be able to update your shared work directly.
 #' @param repo Repository name in the form of <owner>/<repo> or a url
-#' @param dest Destination to create the forked project, Default: NULL
+#' @param dest Parent directory in which to create the forked project, Default: NULL
 #' @seealso
 #'  \code{\link[usethis]{create_from_github}},\code{\link[usethis]{use_template}},\code{\link[usethis]{proj_activate}}
 #'  \code{\link[stringr]{str_replace}},\code{\link[stringr]{str_extract}}
 #' @rdname fork_github_project
 #' @export
 #' @importFrom usethis create_from_github use_template proj_activate
-#' @importFrom stringr str_replace str_extract
+#' @importFrom stringr str_replace str_extract str_replace_all
 fork_github_project <- function(repo, dest = NULL) {
   # fork the project
   usethis::create_from_github(repo_spec = repo,
@@ -103,12 +103,12 @@ fork_github_project <- function(repo, dest = NULL) {
                         save_as = "R/local_configs.R")
 
   # get the repo core name
-  repo_name <- stringr::str_replace(repo, ".git", "") |>
-    stringr::str_extract("/[:alnum:]*$") |>
-    stringr::str_replace("/", "")
+  repo_name <- stringr::str_replace(repo,  "\\.git", "") |>
+    stringr::str_extract("/.*$") |>
+    stringr::str_replace_all("/", "//") |>
+    stringr::str_replace_all("/.*/", "")
 
 
   usethis::proj_activate(file.path(dest, repo_name))
 
 }
-

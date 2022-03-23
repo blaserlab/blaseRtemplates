@@ -73,6 +73,10 @@
 
 * edited easy install 
 
-# blaseRtemplates 0.0.0.9044- 50 
+# blaseRtemplates 0.0.0.9044- 51 
 
 * added prompt after git changes lock file
+
+# blaseRtemplates 0.0.0.9044- 52 
+
+* fixed bug in fork function
