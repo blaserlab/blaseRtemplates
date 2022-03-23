@@ -53,7 +53,7 @@ git_easy_branch <- function(branch) {
     gl <- gert::git_log()
     ga <- stringr::str_remove(string = gl$author[1], pattern = " .*")
     un <- gert::git_config() |>
-      dplyr::filter(name == user.name) |>
+      dplyr::filter(name == "user.name") |>
       dplyr::pull(value)
     if ("renv.lock" %in% gd$old && ga != un)
          {
@@ -119,7 +119,7 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   ga <-
     stringr::str_remove(string = gl$author[1], pattern = " .*")
   un <- gert::git_config() |>
-    dplyr::filter(name == user.name) |>
+    dplyr::filter(name == "user.name") |>
     dplyr::pull(value)
   if ("renv.lock" %in% gd$old && ga != un)
   {
