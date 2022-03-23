@@ -50,7 +50,7 @@ git_easy_branch <- function(branch) {
     if ("renv.lock" %in% gs$old) {
       cat("This operation has updated your renv.lock file\n")
       cat("after pulling change from remote.\n")
-      cat("You should consider running renv::restore() to\n")
+      cat("You should consider running renv::restore(clean = TRUE) to\n")
       cat("sync your packages with the new lock file.\n")
       answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
       if (answer == 1) {
@@ -103,7 +103,7 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   if ("renv.lock" %in% gs$old) {
     cat("This operation has updated your renv.lock file\n")
     cat("after pulling change from remote.\n")
-    cat("You should consider running renv::restore() to\n")
+    cat("You should consider running renv::restore(clean = TRUE) to\n")
     cat("sync your packages with the new lock file.\n")
     answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
     if (answer == 1) {

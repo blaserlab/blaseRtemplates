@@ -73,6 +73,6 @@
 
 * edited easy install 
 
-# blaseRtemplates 0.0.0.9044
+# blaseRtemplates 0.0.0.9044-5
 
 * added prompt to run renv::restore() after git changes lock file
