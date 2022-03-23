@@ -73,6 +73,6 @@
 
 * edited easy install 
 
-# blaseRtemplates 0.0.0.9044- 8
+# blaseRtemplates 0.0.0.9044- 9 
 
 * added prompt after git changes lock file
