@@ -38,7 +38,7 @@ setup_git_collab <- function() {
 #' @export
 #' @importFrom gert git_branch_exists git_branch_checkout git_branch_create git_pull git_diff
 #' @importFrom prompt set_prompt
-#' @importFrom renv restore
+#' @importFrom renv status
 git_easy_branch <- function(branch) {
   if (gert::git_branch_exists(branch)) {
     gert::git_branch_checkout(branch)
@@ -49,15 +49,9 @@ git_easy_branch <- function(branch) {
     prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
     gs <- gert::git_diff("HEAD")
     if ("renv.lock" %in% gs$old) {
-      cat("This operation has updated your renv.lock file\n")
-      cat("after pulling change from remote.\n")
-      cat("You should consider running renv::restore(clean = TRUE) to\n")
-      cat("sync your packages with the new lock file.\n")
-      answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
-      if (answer == 1) {
-        renv::restore(clean = TRUE)
-      }
-
+      cat("\nThis operation has changed your renv.lock file:\n\n")
+      renv::status()
+      cat("Use `renv::restore(clean = TRUE) to restore from lockfile and clean unused packages (recommended)\n.")
     }
   }
 }
@@ -103,15 +97,9 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
   if (dirty) invisible(gert::git_stash_pop())
   gs <- gert::git_diff("HEAD")
   if ("renv.lock" %in% gs$old) {
-    cat("This operation has updated your renv.lock file\n")
-    cat("after pulling change from remote.\n")
-    cat("You should consider running renv::restore(clean = TRUE) to\n")
-    cat("sync your packages with the new lock file.\n")
-    answer <- menu(c("Run restore now", "I will run it later"), title="How do you wish to proceed?")
-    if (answer == 1) {
-      renv::restore(clean = TRUE)
-    }
-
+    cat("\nThis operation has changed your renv.lock file:\n\n")
+    renv::status()
+    cat("Use `renv::restore(clean = TRUE) to restore from lockfile and clean unused packages (recommended)\n.")
     }
 
 }
