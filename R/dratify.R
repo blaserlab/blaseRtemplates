@@ -28,7 +28,7 @@ dratify <- function(pkg = ".", repo_name, repo_dir, cleanup = TRUE) {
                                  package = "blaseRtemplates"), to = repo_dir)
   }
 
-  fs::dir_create(file.path(repo_name, "src/contrib"))
+  fs::dir_create(file.path(repo_dir, "src/contrib"))
 
   # copy to drat repo
   drat::insertPackage(file = pkg_build,
