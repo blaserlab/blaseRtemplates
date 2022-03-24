@@ -4,18 +4,22 @@
 \alias{dratify}
 \title{Build a Package and Send to Local CRAN-like Repository}
 \usage{
-dratify(repo_name, repo_dir)
+dratify(pkg = ".", repo_name, repo_dir, cleanup = TRUE)
 }
 \arguments{
-\item{repo_name}{Name for the repository.  Check to see if it has been added using options("repos")}
+\item{pkg}{The package to install into the local repository.  If "." (default), the current working directory will be built, assuming you are running from inside a package.  Otherwise select a .tar.gz source file to add to the local repository.}
 
-\item{repo_dir}{Directory to send the package source file to.  On linux at least, this can start with "~".}
+\item{repo_name}{Name for the local repository.  Check to see if it has been added using options("repos")}
+
+\item{repo_dir}{Directory to send the package source file to.  Must be of the form "~/<path>/<to>/<repo>/R/drat".  If it does not exist it will be created.}
+
+\item{cleanup}{Whether or not to delete the original .tar.gz file.  Defaults to TRUE.}
 }
 \value{
 nothing
 }
 \description{
-Use this to build a package that can be installed like a CRAN package.  This wraps around function from the drat package.  A source package is built, inserted into the local drat repository, and the user session is checked to be sure the designated repository is available.  If not, it modifies the main .Rprofile file to make it accessible.  In order for this to work, the file path must be accessible on the local network.
+Use this to build a package that can be installed like a CRAN package.  This wraps around function from the drat package.  A source package file is built from the current package, or explicitly chosen, inserted into the local drat repository, and the user session is checked to be sure the designated repository is available.  If not, it modifies the main .Rprofile file to make it accessible.  In order for this to work, the file path must be accessible on the local network.
 }
 \seealso{
 \code{\link[devtools]{build}}

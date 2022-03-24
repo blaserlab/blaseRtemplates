@@ -92,3 +92,8 @@
 # blaseRtemplates 0.0.0.9057
 
 * added dratify for writing to local repository 
+
+# blaseRtemplates 0.0.0.9058
+
+* modified dratify
+* modified get_renv_committer to return "nobody" instead of NA if no renv.lock file exists

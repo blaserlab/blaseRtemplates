@@ -274,6 +274,9 @@ reset_prompt <- function() {
 #' @importFrom stringr str_remove
 get_renv_committer <- function() {
   stat_head <- gert::git_stat_files("renv.lock")$head
+  if (is.na(stat_head)) {
+    stat_head <- "nobody"
+  }
   gert::git_log() |>
     dplyr::filter(commit == stat_head) |>
     dplyr::pull(author) |>
