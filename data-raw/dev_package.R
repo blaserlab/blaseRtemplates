@@ -7,4 +7,4 @@ gert::git_commit("version 0.0.0.9057")
 gert::git_push()
 
 # build and insert into repo
-"/home/OSUMC.EDU/blas02/network/X/Labs/Blaser/share/data/R/drat/"
+blaseRtemplates::dratify(repo_name = "blaserX", repo_dir = "~/network/X/Labs/Blaser/share/data/R/drat/")
