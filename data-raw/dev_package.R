@@ -25,5 +25,9 @@ gert::git_add("*")
 gert::git_commit("version 0.0.0.9056")
 gert::git_push()
 
-# install
-blaseRtemplates::easy_install("blaserlab/blaseRtemplates", how = "new_or_update")
+# build and insert into repo
+pkg_build <- devtools::build()
+
+drat::insertPackage(file = pkg_build,
+                    repodir = "/home/OSUMC.EDU/blas02/network/X/Labs/Blaser/share/data/R/drat/",
+                    action = "archive")
