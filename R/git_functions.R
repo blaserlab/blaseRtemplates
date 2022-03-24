@@ -49,16 +49,14 @@ git_easy_branch <- function(branch) {
     gert::git_pull()
     gert::git_branch_create(branch)
     prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
-    gd <- gert::git_diff("HEAD")
-    gl <- gert::git_log()
-    ga <- stringr::str_remove(string = gl$author[1], pattern = " .*")
+    rc <- get_renv_committer()
     un <- gert::git_config() |>
       dplyr::filter(name == "user.name") |>
       dplyr::pull(value)
-    if ("renv.lock" %in% gd$old && ga != un)
+    if (rc != un)
          {
-      cat("\nYour renv.lock file was changed by the most recent commit.\n\n")
-      cat("If that change was from a collaborator, you may need to update your package library.\n\n")
+      cat("\nYour renv.lock file was previously changed by a commit from", rc, ".\n\n", sep = "")
+      cat("You may need to update your package library.\n\n")
       cat("Running `renv::status()` to check the state of your library and lock file.\n\n")
       cat("If necessary, use `renv::restore(clean = TRUE) to restore from lockfile\n")
       cat("and clean unused packages from your library (recommended)\n.")
@@ -112,26 +110,22 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
           " via rebase.\n")
   system(cmd,)
 
-  if (dirty)
-    invisible(gert::git_stash_pop())
-  gd <- gert::git_diff("HEAD")
-  gl <- gert::git_log()
-  ga <-
-    stringr::str_remove(string = gl$author[1], pattern = " .*")
+  if (dirty) invisible(gert::git_stash_pop())
+
+  rc <- get_renv_committer()
   un <- gert::git_config() |>
     dplyr::filter(name == "user.name") |>
     dplyr::pull(value)
-  if ("renv.lock" %in% gd$old && ga != un)
-  {
-    cat("\nYour renv.lock file was changed by the most recent commit.\n\n")
-    cat(
-      "If that change was from a collaborator, you may need to update your package library.\n\n"
-    )
+  if (rc != un)
+       {
+    cat("\nYour renv.lock file was previously changed by a commit from", rc, ".\n\n", sep = "")
+    cat("You may need to update your package library.\n\n")
     cat("Running `renv::status()` to check the state of your library and lock file.\n\n")
     cat("If necessary, use `renv::restore(clean = TRUE) to restore from lockfile\n")
     cat("and clean unused packages from your library (recommended)\n.")
     renv::status()
   }
+
 
 }
 
@@ -275,4 +269,14 @@ reset_prompt <- function() {
 }
 
 
+#' @importFrom gert git_stat_files git_log
+#' @importFrom dplyr filter pull
+#' @importFrom stringr str_remove
+get_renv_committer <- function() {
+  stat_head <- gert::git_stat_files("renv.lock")$head
+  gert::git_log() |>
+    dplyr::filter(commit == stat_head) |>
+    dplyr::pull(author) |>
+    stringr::str_remove(" .*")
 
+}

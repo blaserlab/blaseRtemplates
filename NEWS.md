@@ -84,3 +84,7 @@
 # blaseRtemplates 0.0.0.9055
 
 * removed fork function
+
+# blaseRtemplates 0.0.0.9056
+
+* changed text after changes to renv.lock
