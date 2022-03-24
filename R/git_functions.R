@@ -297,4 +297,3 @@ get_renv_committer <- function() {
     stringr::str_remove(" .*")
 
 }
-get_renv_committer()
