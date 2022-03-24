@@ -98,6 +98,6 @@
 * modified dratify
 * modified get_renv_committer to return "nobody" instead of NA if no renv.lock file exists
 
-# blaseRtemplates 0.0.0.9062
+# blaseRtemplates 0.0.0.9062-3
 
 * edited easy install

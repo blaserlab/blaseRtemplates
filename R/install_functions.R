@@ -24,38 +24,39 @@ easy_install <-
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cat("Installing tarball\n")
       install_targz(tarball = package)
-    }
-
-    if (stringr::str_detect(package, "@")) {
+    } else if (stringr::str_detect(package, "@")) {
       cat("Installing", package, "...")
       renv::install(package)
-    }
+    } else {
+      package_name <-
+        stringr::str_replace(package, "bioc::|.*/", "")
 
-    package_name <-
-      stringr::str_replace(package, "bioc::|.*/", "")
+      if (how == "ask") {
+        cat("Do you want to update a package or install a new package?\n")
+        cat("Or do you want to link to the existing version in your renv cache?\n")
+        cat("Linking is faster but will fail if the package is unavailable\n")
+        answer <-
+          menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
-    if (how == "ask") {
-      cat("Do you want to update a package or install a new package?\n")
-      cat("Or do you want to link to the existing version in your renv cache?\n")
-      cat("Linking is faster but will fail if the package is unavailable\n")
-      answer <-
-        menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
-
-      if (answer == 1) {
+        if (answer == 1) {
+          renv::update(packages = package)
+        } else {
+          message("Attempting to link to ", package_name, " in cache...")
+          safely_hydrate(packages = package_name)
+        }
+      } else if (how == "new_or_update") {
         renv::update(packages = package)
-      } else {
+      } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)
+      } else if (how == "tarball") {
+        stop("You must supply a valid path to the tarball file.")
+
       }
-    } else if (how == "new_or_update") {
-      renv::update(packages = package)
-    } else if (how == "link_from_cache") {
-      message("Attempting to link to ", package_name, " in cache...")
-      safely_hydrate(packages = package_name)
-    } else if (how == "tarball") {
-      stop("You must supply a valid path to the tarball file.")
 
     }
+
+
   }
 
 #' @importFrom fs file_copy path_file
