@@ -31,7 +31,7 @@ dratify <- function(pkg = ".", repo_name, repo_dir, cleanup = TRUE) {
   fs::dir_create(file.path(repo_name, "src/contrib"))
 
   # copy to drat repo
-  suppressdrat::insertPackage(file = pkg_build,
+  drat::insertPackage(file = pkg_build,
                       repodir = repo_dir,
                       action = "archive")
 
