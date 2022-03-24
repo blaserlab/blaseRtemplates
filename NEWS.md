@@ -88,3 +88,7 @@
 # blaseRtemplates 0.0.0.9056
 
 * changed text after changes to renv.lock
+
+# blaseRtemplates 0.0.0.9057
+
+* added dratify for writing to local repository 
