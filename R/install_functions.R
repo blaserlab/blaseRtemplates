@@ -22,43 +22,39 @@ easy_install <-
            how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
     how <- match.arg(how)
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
-      cat("Coercing installation method to 'tarball'\n")
+      cat("Installing tarball\n")
       install_targz(tarball = package)
-    } else {
-      package_name <- stringr::str_replace(package, "bioc::|.*/", "")
+    }
 
-      if (how == "ask") {
-        cat("Do you want to update a package or install a new package?\n")
-        cat("Or do you want to link to the existing version in your renv cache?\n")
-        cat("Linking is faster but will fail if the package is unavailable\n")
-        answer <-
-          menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
+    if (stringr::str_detect(package, "@")) {
+      cat("Installing", package, "...")
+      renv::install(package)
+    }
 
-        if (answer == 1) {
-          message("Installing ", package_name, "...\n")
-          # if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
-          #   package <- paste0("blaserlab/", package)
-          #   message("After adding github repo path to package name...\n")
-          # }
-          renv::install(packages = package)
-        } else {
-          message("Attempting to link to ", package_name, " in cache...")
-          safely_hydrate(packages = package_name)
-        }
-      } else if (how == "new_or_update") {
-        message("Installing ", package_name, "...")
-        # if (package %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
-        #   package <- paste0("blaserlab/", package)
-        #   message("After adding github repo path to package name...\n")
-        # }
-        renv::install(packages = package)
-      } else if (how == "link_from_cache") {
+    package_name <-
+      stringr::str_replace(package, "bioc::|.*/", "")
+
+    if (how == "ask") {
+      cat("Do you want to update a package or install a new package?\n")
+      cat("Or do you want to link to the existing version in your renv cache?\n")
+      cat("Linking is faster but will fail if the package is unavailable\n")
+      answer <-
+        menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
+
+      if (answer == 1) {
+        renv::update(packages = package)
+      } else {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)
-      } else if (how == "tarball") {
-        stop("You must supply a valid path to the tarball file.")
-
       }
+    } else if (how == "new_or_update") {
+      renv::update(packages = package)
+    } else if (how == "link_from_cache") {
+      message("Attempting to link to ", package_name, " in cache...")
+      safely_hydrate(packages = package_name)
+    } else if (how == "tarball") {
+      stop("You must supply a valid path to the tarball file.")
+
     }
   }
 
@@ -73,7 +69,7 @@ install_targz <- function(tarball) {
   # install_string <- fs::path_file(tarball) |>
   #   stringr::str_replace("_", "@") |>
   #   stringr::str_replace(".tar.gz", "")
-  intall_string <- file.path(cellar, fs::path_file(tarball))
+  install_string <- file.path(cellar, fs::path_file(tarball))
   renv::install(install_string)
 
 }
