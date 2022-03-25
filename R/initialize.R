@@ -89,9 +89,7 @@ initialize_project <- function(path,
 #' @export
 #' @importFrom rstudioapi isAvailable
 #' @importFrom rlang is_interactive
-#' @importFrom usethis user_path_prep check_path_is_directory check_package_name challenge_nested_project challenge_home_directory create_directory local_project use_directory use_description use_namespace use_template use_rstudio proj_activate proj_get
-#' @importFrom fs path_dir path_file path_abs dir_create file_create
-#' @importFrom withr deferred_clear
+#' @import usethis fs withr
 initialize_package <- function(path,
                                fields = list(),
                                rstudio = rstudioapi::isAvailable(),
