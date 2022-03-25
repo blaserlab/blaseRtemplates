@@ -7,7 +7,7 @@
 
 # restore the renv from the lockfile
 
-# renv::restore()
+# renv::restore(clean = TRUE)
 
 
 
@@ -35,7 +35,8 @@ library("gert")
 # install and load data package if using ----------------------------------------------
 
 # Method 1:  install from any source
-# bb_renv_datapkg(path = "<path to data package directory>")
+#
+# blaseRtemplates::bb_renv_datapkg(path = "<path to data package directory>")
 # lazyData::requireData("<data package name>")
 #
 
