@@ -126,7 +126,7 @@ initialize_package <- function(path,
                         package = "blaseRtemplates")
 
   fs::dir_create("data/")
-  fs::file_create("data/data.R")
+  fs::file_create("R/data.R")
 
 
   if (rstudio) {
