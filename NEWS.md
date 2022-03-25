@@ -102,6 +102,6 @@
 
 * edited easy install
 
-# blaseRtemplates 0.0.0.9067 - 9
+# blaseRtemplates 0.0.0.9067 - 71 
 
 * made initialize package

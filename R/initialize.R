@@ -110,11 +110,13 @@ initialize_package <- function(path,
   usethis::use_description(fields, check_name = FALSE, roxygen = roxygen)
   usethis::use_namespace(roxygen = roxygen)
 
+  fs::dir_create("inst/data-raw")
+
   usethis::use_template(template = "initialization.R",
-                        save_as = "R/initialization.R",
+                        save_as = "inst/data-raw/initialization.R",
                         package = "blaseRtemplates")
   usethis::use_template(template = "git_commands.R",
-                        save_as = "R/git_commands.R",
+                        save_as = "inst/data-raw/git_commands.R",
                         package = "blaseRtemplates")
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
@@ -123,7 +125,6 @@ initialize_package <- function(path,
                         save_as = ".Rprofile",
                         package = "blaseRtemplates")
 
-  fs::dir_create("inst/data-raw")
   fs::dir_create("data/")
   fs::file_create("data/data.R")
 
