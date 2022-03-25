@@ -72,3 +72,71 @@ initialize_project <- function(path,
   invisible(usethis:::proj_get())
 }
 
+#' @title Initialize a Package Using a Standard
+#' @description This wraps usethis::create_package() and adds a few additional templates.
+#' @param path path/name for the new package.  It should include letters and "." only to be CRAN-compliant.
+#' @param fields named list of fields in addition to/overriding defaults for the DESCRIPTION file, Default: list()
+#' @param rstudio makes an Rstudio project, default is true
+#' @param roxygen do you plan to use roxygen2 to document package?, Default: TRUE
+#' @param check_name check if name is CRAN-compliant, Default: TRUE
+#' @param open to open or not, Default: rlang::is_interactive()
+#' @seealso
+#'  \code{\link[rstudioapi]{isAvailable}}
+#'  \code{\link[rlang]{is_interactive}}
+#'  \code{\link[usethis]{use_template}}
+#'  \code{\link[withr]{defer}}
+#' @rdname initialize_package
+#' @export
+#' @importFrom rstudioapi isAvailable
+#' @importFrom rlang is_interactive
+#' @importFrom usethis use_template
+#' @importFrom withr deferred_clear
+#' @importFrom fs dir_create file_create
+initialize_package <- function(path,
+                               fields = list(),
+                               rstudio = rstudioapi::isAvailable(),
+                               roxygen = TRUE,
+                               check_name = TRUE,
+                               open = rlang::is_interactive()) {
+  path <- user_path_prep(path)
+  check_path_is_directory(path_dir(path))
+  name <- path_file(path_abs(path))
+  if (check_name) {
+    check_package_name(name)
+  }
+  challenge_nested_project(path_dir(path), name)
+  challenge_home_directory(path)
+  create_directory(path)
+  local_project(path, force = TRUE)
+  use_directory("R")
+  use_description(fields, check_name = FALSE, roxygen = roxygen)
+  use_namespace(roxygen = roxygen)
+
+  usethis::use_template(template = "initialization.R",
+                        save_as = "R/initialization.R",
+                        package = "blaseRtemplates")
+  usethis::use_template(template = "git_commands.R",
+                        save_as = "R/git_commands.R",
+                        package = "blaseRtemplates")
+  usethis::use_template(template = "git_ignore",
+                        save_as = ".gitignore",
+                        package = "blaseRtemplates")
+  usethis::use_template(template = "R_profile",
+                        save_as = ".Rprofile",
+                        package = "blaseRtemplates")
+
+  fs::dir_create("inst/data-raw")
+  fs::dir_create("data/")
+  fs::file_create("data/data.R")
+
+
+  if (rstudio) {
+    use_rstudio()
+  }
+  if (open) {
+    if (proj_activate(proj_get())) {
+      withr::deferred_clear()
+    }
+  }
+  invisible(proj_get())
+}
