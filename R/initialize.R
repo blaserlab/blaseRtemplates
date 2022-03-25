@@ -89,28 +89,28 @@ initialize_project <- function(path,
 #' @export
 #' @importFrom rstudioapi isAvailable
 #' @importFrom rlang is_interactive
-#' @importFrom usethis use_template
+#' @importFrom usethis user_path_prep check_path_is_directory check_package_name challenge_nested_project challenge_home_directory create_directory local_project use_directory use_description use_namespace use_template use_rstudio proj_activate proj_get
+#' @importFrom fs path_dir path_file path_abs dir_create file_create
 #' @importFrom withr deferred_clear
-#' @importFrom fs dir_create file_create
 initialize_package <- function(path,
                                fields = list(),
                                rstudio = rstudioapi::isAvailable(),
                                roxygen = TRUE,
                                check_name = TRUE,
                                open = rlang::is_interactive()) {
-  path <- user_path_prep(path)
-  check_path_is_directory(path_dir(path))
-  name <- path_file(path_abs(path))
+  path <- usethis:::user_path_prep(path)
+  usethis:::check_path_is_directory(fs::path_dir(path))
+  name <- fs::path_file(fs::path_abs(path))
   if (check_name) {
-    check_package_name(name)
+    usethis:::check_package_name(name)
   }
-  challenge_nested_project(path_dir(path), name)
-  challenge_home_directory(path)
-  create_directory(path)
-  local_project(path, force = TRUE)
-  use_directory("R")
-  use_description(fields, check_name = FALSE, roxygen = roxygen)
-  use_namespace(roxygen = roxygen)
+  usethis:::challenge_nested_project(path_dir(path), name)
+  usethis::: challenge_home_directory(path)
+  usethis:::create_directory(path)
+  usethis::local_project(path, force = TRUE)
+  usethis::use_directory("R")
+  usethis::use_description(fields, check_name = FALSE, roxygen = roxygen)
+  usethis::use_namespace(roxygen = roxygen)
 
   usethis::use_template(template = "initialization.R",
                         save_as = "R/initialization.R",
@@ -131,12 +131,12 @@ initialize_package <- function(path,
 
 
   if (rstudio) {
-    use_rstudio()
+    usethis::use_rstudio()
   }
   if (open) {
-    if (proj_activate(proj_get())) {
+    if (usethis::proj_activate(usethis::proj_get())) {
       withr::deferred_clear()
     }
   }
-  invisible(proj_get())
+  invisible(usethis::proj_get())
 }
