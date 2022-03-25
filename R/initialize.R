@@ -105,7 +105,7 @@ initialize_package <- function(path,
     usethis:::check_package_name(name)
   }
   usethis:::challenge_nested_project(path_dir(path), name)
-  usethis::: challenge_home_directory(path)
+  usethis:::challenge_home_directory(path)
   usethis:::create_directory(path)
   usethis::local_project(path, force = TRUE)
   usethis::use_directory("R")
