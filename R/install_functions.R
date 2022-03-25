@@ -39,13 +39,13 @@ easy_install <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          renv::update(packages = package)
+          renv::install(packages = package)
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           safely_hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
-        renv::update(packages = package)
+        renv::install(packages = package)
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)
