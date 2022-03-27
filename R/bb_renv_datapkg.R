@@ -24,14 +24,14 @@ bb_renv_datapkg <- function(path) {
         message(stringr::str_glue("Installing {path}.  There may be newer versions available."))
         renv::install(path)
       } else {
-        latest_version <- file.info(list.files(path, full.names = T)) %>%
-          tibble::as_tibble(rownames = "file") %>%
-          dplyr::filter(str_detect(file, pattern = ".tar.gz")) %>%
-          dplyr::arrange(desc(mtime)) %>%
-          dplyr::slice(1) %>%
-          dplyr::pull(file) %>%
-          stringr::str_split(pattern = "/") %>%
-          purrr::map(tail, n = 1) %>%
+        latest_version <- file.info(list.files(path, full.names = T)) |>
+          tibble::as_tibble(rownames = "file")|>
+          dplyr::filter(str_detect(file, pattern = ".tar.gz")) |>
+          dplyr::arrange(desc(mtime)) |>
+          dplyr::slice(1) |>
+          dplyr::pull(file) |>
+          stringr::str_split(pattern = "/") |>
+          purrr::map(tail, n = 1) |>
           unlist()
         datapackage_stem <- stringr::str_replace(latest_version, "_.*", "")
         latest_version_number <- stringr::str_replace(latest_version, "^.*_", "")

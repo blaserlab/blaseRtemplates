@@ -34,8 +34,8 @@ break                                                                     #
 #                                                                         #
 # # make sure all changes are committed before rewinding                  #
 #                                                                         #
-gert::git_log() #find the id of the good commit                         #
-blaseRtemplates::git_rewind_to(commit = "aa84c4c6bcb166835e687f49972681c82441f21a")             #
+# gert::git_log() #find the id of the good commit                         #
+# blaseRtemplates::git_rewind_to(commit = "aa84c4c6bcb166835e687f49972681c82441f21a")             #
 #                                                                         #
 ###########################################################################
 

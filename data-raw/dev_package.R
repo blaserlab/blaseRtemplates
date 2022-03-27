@@ -3,5 +3,5 @@ devtools::document()
 
 # add, commit, push
 gert::git_add("*")
-gert::git_commit("version 0.0.0.9077")
+gert::git_commit("version 0.0.0.9078")
 gert::git_push()
