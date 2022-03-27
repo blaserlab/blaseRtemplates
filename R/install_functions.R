@@ -33,7 +33,7 @@ easy_install <-
       pak::pkg_install(package, lib = pak_lib)
       package_name <- basename(package)
       package_name <- gsub(pattern = "_.*", replacement = "", x = package_name)
-      renv::hydrate(packages = package)
+      renv::hydrate(packages = package, update = TRUE)
     } else {
       package_name <- gsub(pattern = "bioc::|.*/", replacement = "", x = package)
 
@@ -47,18 +47,18 @@ easy_install <-
         if (answer == 1) {
           pak_package <- maybe_get_local_for_pak(package)
           pak::pkg_install(pak_package, lib = pak_lib)
-          renv::hydrate(packages = package_name)
+          renv::hydrate(packages = package_name, update = TRUE)
         } else {
           message("Attempting to link to ", package_name, " in cache...")
-          renv::hydrate(packages = package_name)
+          renv::hydrate(packages = package_name, update = FALSE)
         }
       } else if (how == "new_or_update") {
           pak_package <- maybe_get_local_for_pak(package)
           pak::pkg_install(pak_package, lib = pak_lib)
-          renv::hydrate(packages = package_name)
+          renv::hydrate(packages = package_name, update = TRUE)
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
-          renv::hydrate(packages = package_name)
+          renv::hydrate(packages = package_name, update = FALSE)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 

@@ -110,6 +110,6 @@
 
 * edited dratify to handle github repos
 
-# blaseRtemplates 0.0.0.9074-5
+# blaseRtemplates 0.0.0.9074-6
 
 * edited install func to use pak
