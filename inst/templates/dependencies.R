@@ -34,14 +34,8 @@ library("gert")
 
 # install and load data package if using ----------------------------------------------
 
-# Method 1:  install from any source
 #
 # blaseRtemplates::bb_renv_datapkg(path = "<path to data package directory>")
 # lazyData::requireData("<data package name>")
 #
-
-# Method 2:  install from local drat repository
-#
-# blaseRtemplates::easy_install("<data package name>")
-# lazyData::requireData("<data package name>")
 
