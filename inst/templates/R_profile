@@ -1,3 +1,4 @@
+Sys.setenv("PAK_LIB_USER" = Sys.getenv()[["R_LIBS_USER"]])
 # source("renv/activate.R")
 renv::settings$snapshot.type("all")
 options(renv.config.auto.snapshot = TRUE)
