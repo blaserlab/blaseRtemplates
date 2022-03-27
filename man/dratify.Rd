@@ -4,24 +4,33 @@
 \alias{dratify}
 \title{Build a Package and Send to Local CRAN-like Repository}
 \usage{
-dratify(pkg = ".", repo_name, repo_dir, cleanup = TRUE)
+dratify(
+  pkg = ".",
+  repo_name,
+  repo_dir,
+  cleanup = TRUE,
+  drat_action = c("archive", "prune"),
+  github = FALSE
+)
 }
 \arguments{
 \item{pkg}{The package to install into the local repository.  If "." (default), the current working directory will be built, assuming you are running from inside a package.  Otherwise select a .tar.gz source file to add to the local repository.}
 
-\item{repo_name}{Name for the local repository.  Check to see if it has been added using options("repos")}
+\item{repo_name}{Name for the local repository.  Checks to see if it has been added using options("repos"); if not it will add it to your ~/.Rprofile}
 
-\item{repo_dir}{Directory to send the package source file to.  Must be of the form "~/<path>/<to>/<repo>/R/drat".  If it does not exist it will be created.}
+\item{repo_dir}{Directory to send the package source file to.  Must be of the form "~/<path>/<to>/<repo>/R/drat" for local sources or if using github:  "~/<path>/<to>/<drat repo>/docs".  If it does not exist it will be created.}
 
 \item{cleanup}{Whether or not to delete the original .tar.gz file.  Defaults to TRUE.}
-}
-\value{
-nothing
+
+\item{drat_action}{How to handle old versions. For github, prune is recommended.  For local, "archive" is recommended, Default: c("archive", "prune")}
+
+\item{github}{Do you want to automatically commit and push to your github repo?  Will fail if TRUE and it is a local directory and not a git repo, Default: FALSE}
 }
 \description{
 Use this to build a package that can be installed like a CRAN package.  This wraps around function from the drat package.  A source package file is built from the current package, or explicitly chosen, inserted into the local drat repository, and the user session is checked to be sure the designated repository is available.  If not, it modifies the main .Rprofile file to make it accessible.  In order for this to work, the file path must be accessible on the local network.
 }
 \seealso{
 \code{\link[devtools]{build}}
-\code{\link[drat]{insertPackage}}
+\code{\link[stringr]{str_detect}}
+\code{\link[fs]{create}}
 }
