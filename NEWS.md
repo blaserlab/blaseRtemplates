@@ -109,3 +109,7 @@
 # blaseRtemplates 0.0.0.9073
 
 * edited dratify to handle github repos
+
+# blaseRtemplates 0.0.0.9077
+
+* reverts back to 73 and removes dratify
