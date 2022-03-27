@@ -15,9 +15,8 @@
 #'  \code{\link[renv]{install}},\code{\link[renv]{hydrate}}
 #' @rdname easy_install
 #' @export
-#' @importFrom stringr str_detect str_replace
 #' @importFrom pak pkg_install
-#' @importFrom renv hydrate install
+#' @importFrom renv hydrate
 easy_install <-
   function(package,
            how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
@@ -28,19 +27,15 @@ easy_install <-
       pak_lib <- Sys.getenv("PAK_LIB_USER")
     }
 
-    if (stringr::str_detect(package, "\\.tar\\.gz")) {
+    if (grepl(x = package, pattern = "\\.tar\\.gz")) {
       cat("Installing tarball\n")
       # install_targz(tarball = package)
       pak::pkg_install(package, lib = pak_lib)
       package_name <- basename(package)
       package_name <- gsub(pattern = "_.*", replacement = "", x = package_name)
       renv::hydrate(packages = package)
-    } else if (stringr::str_detect(package, "@")) {
-      cat("Installing", package, "...")
-      renv::install(package)
     } else {
-      package_name <-
-        stringr::str_replace(package, "bioc::|.*/", "")
+      package_name <- gsub(pattern = "bioc::|.*/", replacement = "", x = package)
 
       if (how == "ask") {
         cat("Do you want to update a package or install a new package?\n")
@@ -50,14 +45,16 @@ easy_install <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          pak::pkg_install(package, lib = pak_lib)
+          pak_package <- maybe_get_local_for_pak(package)
+          pak::pkg_install(pak_package, lib = pak_lib)
           renv::hydrate(packages = package_name)
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           renv::hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
-          pak::pkg_install(package, lib = pak_lib)
+          pak_package <- maybe_get_local_for_pak(package)
+          pak::pkg_install(pak_package, lib = pak_lib)
           renv::hydrate(packages = package_name)
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
@@ -72,3 +69,32 @@ easy_install <-
 
   }
 
+
+maybe_get_local_for_pak <- function(package) {
+  local_rep <-
+    getOption("repos")[grepl(x = getOption("repos"), pattern = "file:")]
+  local_rep <-
+    gsub(pattern = "file:",
+         replacement = "",
+         x = local_rep)
+  local_source <-
+    list.files(
+      file.path(local_rep, "src", "contrib"),
+      recursive = F,
+      full.names = T,
+      pattern = package
+    )
+  if (length(local_source) == 0) {
+    return(package)
+  }
+
+  strictly_matched <-
+    grepl(pattern = paste0("/", package, "_"), x = local_source)
+
+  if (strictly_matched) {
+    return(local_source)
+  } else {
+    return(package)
+  }
+
+}
