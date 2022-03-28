@@ -114,6 +114,7 @@
 
 * reverts back to 73 and removes dratify
 
-# blaseRtemplates 0.0.0.9079
+# blaseRtemplates 0.0.0.9079 - 80
 
 * added back dratify
+* modified .Rprofile template
