@@ -113,3 +113,7 @@
 # blaseRtemplates 0.0.0.9077-8
 
 * reverts back to 73 and removes dratify
+
+# blaseRtemplates 0.0.0.9079
+
+* added back dratify
