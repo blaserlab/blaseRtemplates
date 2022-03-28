@@ -118,3 +118,7 @@
 
 * added back dratify
 * modified .Rprofile template
+
+# blaseRtemplates 0.0.0.9081
+
+* modified .Rprofile template
