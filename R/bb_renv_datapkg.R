@@ -23,6 +23,7 @@ bb_renv_datapkg <- function(path) {
       if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
         message(stringr::str_glue("Installing {path}.  There may be newer versions available."))
         renv::install(path)
+        sync_cache()
       } else {
         latest_version <- file.info(list.files(path, full.names = T)) |>
           tibble::as_tibble(rownames = "file")|>
@@ -41,8 +42,10 @@ bb_renv_datapkg <- function(path) {
           message(stringr::str_glue("Installing {datapackage_stem} for the first time."))
           if (stringr::str_sub(path,-1) == "/") {
             renv::install(paste0(path, latest_version))
+            sync_cache()
           } else {
             renv::install(paste0(path, "/", latest_version))
+            sync_cache()
           }
         } else {
           if (packageVersion(datapackage_stem) < latest_version_number) {
@@ -53,8 +56,10 @@ bb_renv_datapkg <- function(path) {
             )
             if (stringr::str_sub(path,-1) == "/") {
               renv::install(paste0(path, latest_version))
+              sync_cache()
             } else {
               renv::install(paste0(path, "/", latest_version))
+              sync_cache()
             }
 
           } else {
@@ -74,7 +79,7 @@ bb_renv_datapkg <- function(path) {
       message("Here's the original error message:\n\n")
       message(cond)
       message(
-        "\nTry reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
+        "\n\nTry reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
       )
       message("You will have to enter your network password.  Then try running the function again.\n")
     }
