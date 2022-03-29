@@ -24,7 +24,7 @@ easy_install <-
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cat("Installing tarball\n")
       install_targz(tarball = package)
-      sync_cache()
+      if(getOption("renv.config.pak.enabled")) sync_cache()
     } else {
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
@@ -38,14 +38,14 @@ easy_install <-
 
         if (answer == 1) {
           renv::install(packages = package)
-          sync_cache()
+          if(getOption("renv.config.pak.enabled")) sync_cache()
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           safely_hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
         renv::install(packages = package)
-        sync_cache()
+        if(getOption("renv.config.pak.enabled")) sync_cache()
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)

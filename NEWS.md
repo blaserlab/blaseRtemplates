@@ -126,3 +126,7 @@
 # blaseRtemplates 0.0.0.9083 - 4
 
 * defaults to use pak and syncs cache
+
+# blaseRtemplates 0.0.0.9085
+
+* defaults not to use pak
