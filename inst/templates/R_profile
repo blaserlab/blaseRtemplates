@@ -7,6 +7,9 @@ options(renv.config.pak.enabled = FALSE)
 # set default git protocol to https
 options(usethis.protocol  = "https")
 
+suppressMessages(if (!require('usethis')) install.packages('usethis'))
+suppressMessages(usethis::git_default_branch_configure("main"))
+
 # the following line sets the default editor to nano
 # if you want to use something else like vim, put it in your ~/.Rprofile
 options(editor="nano")
