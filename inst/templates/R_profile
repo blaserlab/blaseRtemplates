@@ -27,10 +27,5 @@ r["CRAN"] <- "https://cloud.r-project.org"
 options(repos=r)
 })
 
-# Activate the blaserlab repo
-suppressMessages(if (!require('drat')) install.packages('drat'))
-drat::addRepo('blaserlab')
-
-
 if (file.exists("~/.Rprofile")) source("~/.Rprofile")
 
