@@ -12,6 +12,9 @@ usethis::use_readme_md(open = FALSE)
 # uncomment and run to generate a news file to document updates.
 # usethis::use_news_md()
 
+# set your default branch to "main" for git init
+system("git config --global init.defaultBranch main")
+
 # initialize git
 usethis::use_git()
 

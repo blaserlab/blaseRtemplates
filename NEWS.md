@@ -131,6 +131,6 @@
 
 * defaults not to use pak
 
-# blaseRtemplates 0.0.0.9086
+# blaseRtemplates 0.0.0.9086-7
 
 * set default git branch to main
