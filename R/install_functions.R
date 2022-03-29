@@ -24,9 +24,7 @@ easy_install <-
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cat("Installing tarball\n")
       install_targz(tarball = package)
-    } else if (stringr::str_detect(package, "@")) {
-      cat("Installing", package, "...")
-      renv::install(package)
+      sync_cache()
     } else {
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
@@ -40,12 +38,14 @@ easy_install <-
 
         if (answer == 1) {
           renv::install(packages = package)
+          sync_cache()
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           safely_hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
         renv::install(packages = package)
+        sync_cache()
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)
@@ -106,5 +106,18 @@ getormake_renv_cellar <- function() {
   }
 
   return(cellar)
+
+}
+
+
+#' @import renv
+sync_cache <- function() {
+  lib <- renv::paths$library()
+  lock <- renv:::renv_lockfile_load(".")
+  packages <- lock$Packages
+  invisible(lapply(
+    X = packages,
+    FUN = \(x) renv:::renv_cache_synchronize(record = x, linkable = TRUE)
+  ))
 
 }

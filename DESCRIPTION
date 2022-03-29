@@ -24,4 +24,5 @@ Imports:
     drat,
     devtools,
     purrr,
-    tibble
+    tibble,
+    pak

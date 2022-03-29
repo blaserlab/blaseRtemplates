@@ -122,3 +122,7 @@
 # blaseRtemplates 0.0.0.9081
 
 * modified .Rprofile template
+
+# blaseRtemplates 0.0.0.9082
+
+* defaults to use pak and syncs cache
