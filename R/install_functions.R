@@ -81,7 +81,7 @@ install_targz <- function(tarball) {
 safely_hydrate <- function(packages) {
   cache_path <- renv::paths$cache()
   if (fs::dir_exists(file.path(cache_path, packages))) {
-    renv::hydrate(packages)
+    renv::hydrate(packages, update = TRUE)
   } else {
     message("The package is not in your cache.\n Attempting a new installation ")
     if (packages %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {

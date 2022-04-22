@@ -139,3 +139,8 @@
 
 * removed dratify
 * exposed sync_cache
+
+# blaseRtemplates 0.0.0.9089
+
+* made easy install update to latest version when linking to cache 
+* added load_process template for scrnaseq
