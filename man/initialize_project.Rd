@@ -23,8 +23,6 @@ project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Us
 \item If on RStudio server, the current RStudio project is activated.
 \item Otherwise, the working directory and active project is changed.
 }}
-
-\item{roxygen}{Do you plan to use roxygen2 to document your package?}
 }
 \value{
 Path to the newly created project or package, invisibly.

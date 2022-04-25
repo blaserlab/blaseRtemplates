@@ -12,7 +12,6 @@
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
-#' @param roxygen Do you plan to use roxygen2 to document your package?
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
@@ -23,7 +22,7 @@
 #'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
-#' @import usethis fs withr
+#' @import usethis fs withr rstudioapi rlang
 #' @export
 initialize_project <- function(path,
                                rstudio = rstudioapi::isAvailable(),
