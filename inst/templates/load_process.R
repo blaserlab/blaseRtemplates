@@ -1,8 +1,11 @@
 # this is a general template for loading and processing 10X scrnaseq data
 # modify as necessary
 
+# read in the config file -------------------------------------------------
 analysis_configs <- read_csv("/path/to/analysis_configs.csv")
 
+
+# generate sequencing qc table --------------------------------------------
 seq_qc <- map_dfr(.x = analysis_configs$sample,
                   .f = \(x, data = analysis_configs) {
                     pipestance <- data |>
@@ -26,12 +29,13 @@ seq_qc <- map_dfr(.x = analysis_configs$sample,
                       ) |>
                       mutate(sample = x) |>
                       relocate(sample) |>
-                      mutate(`Fraction Reads in Cells` = as.numeric(str_remove_all(`Fraction Reads in Cells`, "[:punct:]")) /
-                               1000)
+                      mutate(`Fraction Reads in Cells` =
+                               as.numeric(str_remove_all(`Fraction Reads in Cells`,
+                                                         "[:punct:]")) / 1000)
 
                   })
 
-# Generate a list of CDS objects using purrr::map
+# Generate a list of CDS objects using purrr::map ------------------------
 cds_list <- map(.x = analysis_configs$sample,
                 .f = \(x, conf = analysis_configs) {
                   conf_filtered <- conf |>
@@ -53,7 +57,7 @@ cds_list <- map(.x = analysis_configs$sample,
   set_names(nm = analysis_configs$sample)
 
 
-# generate a list of qc results for individual CDS objects
+# generate a list of qc results for individual CDS objects ---------------
 ind_qc_res <- pmap(.l = list(
   cds = cds_list,
   cds_name = names(cds_list),
@@ -63,13 +67,13 @@ ind_qc_res <- pmap(.l = list(
   set_names(nm = names(cds_list))
 
 
-# gets the number of cells in each cds and divides it by 100000
+# gets the number of cells in each cds and divides it by 100000 ---------
 anticipated_doublet_rate <- unlist(map(cds_list, ncol)) / 100000
 
-# extracts the first element of the qc result list for each cds
+# extracts the first element of the qc result list for each cds ---------
 qc_calls <- map(ind_qc_res, 1)
 
-# generates a list of tables with doubletfinder results
+# generates a list of tables with doubletfinder results -----------------
 doubletfinder_list <-
   pmap(
     .l = list(
@@ -82,7 +86,7 @@ doubletfinder_list <-
   set_names(names(cds_list))
 
 
-# rejoins doubletfinder and qc data onto the list of CDS objects
+# rejoins doubletfinder and qc data onto the list of CDS objects -------
 cds_list_rejoined <- pmap(
   .l = list(
     cds = cds_list,
@@ -92,37 +96,53 @@ cds_list_rejoined <- pmap(
   .f = bb_rejoin
 )
 
-# Merge the CDS list into a single CDS
+# Merge the CDS list into a single CDS ---------------------------------
 cds_main <- monocle3::combine_cds(cds_list = cds_list_rejoined)
 
-# Remove mitochondrial and ribosomal genes.
+# Remove mitochondrial and ribosomal genes. ----------------------------
 cds_main <-
-  cds_main[rowData(cds_main)$gene_short_name %notin% blaseRdata::hg38_remove_genes, ]
+  cds_main[rowData(cds_main)$gene_short_name %notin%
+             blaseRdata::hg38_remove_genes, ]
 
-# Remove the low-quality cells
+# Remove the low-quality cells ----------------------------------------
 cds_main <- cds_main[, colData(cds_main)$qc.any == FALSE]
 
-# Remove the high-confidence doublets
+
+# Uncomment and run the following section if you want to preview the CDS
+# before removing predicted doublets and aligning.
+
+# option to preview cds ---------------------------------------------------
+# # Calculate the PCA dimensions
+# cds_main <- preprocess_cds(cds_main,
+#                            use_genes = bb_rowmeta(cds_main) |>
+#                              filter(data_type == "Gene Expression") |>
+#                              pull(id))
+# # Calculate UMAP dimensions
+# cds_main <- reduce_dimension(cds_main, cores = 40)
+
+
+# Remove the high-confidence doublets ------------------------------------
 cds_main <-
   cds_main[, colData(cds_main)$doubletfinder_high_conf == "Singlet"]
 
-# Now remove the qc and doubletfinder columns from the cell metadata because we are done with them.
+# Remove the qc and doubletfinder columns from the cell metadata --------
 colData(cds_main)$qc.any <- NULL
 colData(cds_main)$doubletfinder_low_conf <- NULL
 colData(cds_main)$doubletfinder_high_conf <- NULL
 
-# Calculate the PCA dimensions
+# Calculate the PCA dimensions ------------------------------------------
 cds_main <- preprocess_cds(cds_main,
                            use_genes = bb_rowmeta(cds_main) |>
                              filter(data_type == "Gene Expression") |>
                              pull(id))
-# Calculate UMAP dimensions
+# Calculate UMAP dimensions ---------------------------------------------
 cds_main <- reduce_dimension(cds_main, cores = 40)
 
-# align by batch
+# align by batch --------------------------------------------------------
+# edit the align_by parameter accordingly
 cds_main <- bb_align(cds_main, align_by = "batch")
 
-# Identify clusters and calculate top markers
+# Identify clusters and calculate top markers ---------------------------
 dir.create("data")
 cds_main <-
   bb_triplecluster(
@@ -133,17 +153,19 @@ cds_main <-
   )
 cds_main_top_markers <- read_csv("data/cds_main_top_markers.csv")
 
-# Identify gene modules and add them to the gene metadata.
+# Identify gene modules and add them to the gene metadata. ---------------
 cds_main <- bb_gene_modules(cds_main, n_cores = 24)
 
-# align to seurat reference
+# align to seurat reference ---------------------------------------------
+# NB:  human PBMC only
 cds_main <-
   bb_seurat_anno(
     cds_main,
-    reference = system.file("extdata", "pbmc_multimodal.h5seurat", package = "blaseRextras")
+    reference = system.file("extdata", "pbmc_multimodal.h5seurat",
+                            package = "blaseRextras")
   )
 
-# save the objects
+# save the objects -------------------------------------------------------
 save(analysis_configs, file = "data/analysis_configs.rda", compress = "bzip2")
 save(cds_main, file = "data/cds_main.rda", compress = "bzip2")
 save(cds_main_top_markers, file = "data/cds_main_top_markers.rda", compress = "bzip2")
