@@ -6,7 +6,8 @@
 \usage{
 easy_install(
   package,
-  how = c("ask", "new_or_update", "link_from_cache", "tarball")
+  how = c("ask", "new_or_update", "link_from_cache", "tarball"),
+  use_pak = FALSE
 )
 }
 \arguments{
@@ -27,8 +28,4 @@ if(interactive()){
  easy_install("praise")
  }
 }
-}
-\seealso{
-\code{\link[stringr]{str_detect}}
-\code{\link[renv]{install}},\code{\link[renv]{hydrate}}
 }

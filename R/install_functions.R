@@ -10,21 +10,25 @@
 #'  easy_install("praise")
 #'  }
 #' }
-#' @seealso
-#'  \code{\link[stringr]{str_detect}}
-#'  \code{\link[renv]{install}},\code{\link[renv]{hydrate}}
 #' @rdname easy_install
 #' @export
+#' @importFrom pak pak
+#' @importFrom renv install
 #' @importFrom stringr str_detect str_replace
-#' @importFrom renv install hydrate
 easy_install <-
   function(package,
-           how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
+           how = c("ask", "new_or_update", "link_from_cache", "tarball"),
+           use_pak = FALSE) {
     how <- match.arg(how)
+    if (use_pak) {
+      install_fun <- pak::pak
+    } else {
+      install_fun <- renv::install
+    }
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cat("Installing tarball\n")
-      install_targz(tarball = package)
-      if(getOption("renv.config.pak.enabled")) sync_cache()
+      install_targz(tarball = package, inst_fun = install_fun)
+      if(use_pak) sync_cache()
     } else {
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
@@ -37,15 +41,15 @@ easy_install <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          renv::install(packages = package)
-          if(getOption("renv.config.pak.enabled")) sync_cache()
+          install_fun(package)
+          if(use_pak) sync_cache()
         } else {
           message("Attempting to link to ", package_name, " in cache...")
           safely_hydrate(packages = package_name)
         }
       } else if (how == "new_or_update") {
-        renv::install(packages = package)
-        if(getOption("renv.config.pak.enabled")) sync_cache()
+        install_fun(package)
+        if(use_pak) sync_cache()
       } else if (how == "link_from_cache") {
         message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(packages = package_name)
@@ -62,7 +66,7 @@ easy_install <-
 #' @importFrom fs file_copy path_file
 #' @importFrom stringr str_replace
 #' @importFrom renv install
-install_targz <- function(tarball) {
+install_targz <- function(tarball, inst_fun = install_fun) {
   cellar <- getormake_renv_cellar()
   fs::file_copy(path = tarball,
                 new_path = cellar,
@@ -71,24 +75,20 @@ install_targz <- function(tarball) {
   #   stringr::str_replace("_", "@") |>
   #   stringr::str_replace(".tar.gz", "")
   install_string <- file.path(cellar, fs::path_file(tarball))
-  renv::install(install_string)
+  inst_fun(install_string)
 
 }
 
 
 #' @importFrom renv paths hydrate install
 #' @importFrom fs dir_exists
-safely_hydrate <- function(packages) {
+safely_hydrate <- function(packages, inst_fun = install_fun) {
   cache_path <- renv::paths$cache()
   if (fs::dir_exists(file.path(cache_path, packages))) {
     renv::hydrate(packages, update = TRUE)
   } else {
     message("The package is not in your cache.\n Attempting a new installation ")
-    if (packages %in% c("blaseRtools", "blaseRtemplates", "blaseRdata")) {
-      packages <- paste0("blaserlab/", packages)
-    }
-
-    renv::install(packages)
+    inst_fun(packages)
   }
 }
 
