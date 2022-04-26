@@ -111,7 +111,7 @@ cds_main <- cds_main[, colData(cds_main)$qc.any == FALSE]
 # Uncomment and run the following section if you want to preview the CDS
 # before removing predicted doublets and aligning.
 
-# option to preview cds ---------------------------------------------------
+# # option to preview cds ---------------------------------------------------
 # # Calculate the PCA dimensions
 # cds_main <- preprocess_cds(cds_main,
 #                            use_genes = bb_rowmeta(cds_main) |>

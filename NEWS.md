@@ -145,7 +145,11 @@
 * made easy install update to latest version when linking to cache 
 * added load_process template for scrnaseq
 
-# blaseRtemplates 0.0.0.9090
+# blaseRtemplates 0.0.0.9090-1
 
 * edited load_process template
 * provided option to use pak for easy_install
+
+# blaseRtemplates 0.0.0.9092
+
+* edited sync cache to only work when in an renv project

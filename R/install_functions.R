@@ -117,13 +117,16 @@ getormake_renv_cellar <- function() {
 #' @export
 #' @import renv
 sync_cache <- function() {
-  renv::snapshot(prompt = FALSE)
-  lib <- renv::paths$library()
-  lock <- renv:::renv_lockfile_load(".")
-  packages <- lock$Packages
-  invisible(lapply(
-    X = packages,
-    FUN = \(x) renv:::renv_cache_synchronize(record = x, linkable = TRUE)
-  ))
+  if ("RENV_PROJECT" %in% names(Sys.getenv())) {
+    renv::snapshot(prompt = FALSE)
+    lib <- renv::paths$library()
+    lock <- renv:::renv_lockfile_load(".")
+    packages <- lock$Packages
+    invisible(lapply(
+      X = packages,
+      FUN = \(x) renv:::renv_cache_synchronize(record = x, linkable = TRUE)
+    ))
+  }
+
 
 }
