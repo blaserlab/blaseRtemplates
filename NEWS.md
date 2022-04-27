@@ -153,3 +153,7 @@
 # blaseRtemplates 0.0.0.9092
 
 * edited sync cache to only work when in an renv project
+
+# blaseRtemplates 0.0.0.9093
+
+* edited r profile template to include blaserlab r universe repo
