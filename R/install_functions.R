@@ -116,12 +116,12 @@ safely_hydrate <- function(package) {
   }
   if (fs::dir_exists(file.path(cache_path, package_min))) {
     link_cache_to_proj(package = package)
-    sync_cache()
   } else {
-    message("The package is not in your cache.\n Attempting a new installation ")
+    message(package, " is not in your cache.\nAttempting a new installation ")
     pak::pkg_install(package, ask = FALSE)
     sync_cache()
     write_cache_binary_pkg_catalog()
+    message("Success.")
   }
 }
 
@@ -219,6 +219,42 @@ link_cache_to_proj <- function(package) {
   stopifnot("Unable to unambiguously identify the requested version.\nTry using the hash." = length(link_path) == 1)
   new_link_path <- file.path(.libPaths()[1], pname)
   unlink(new_link_path, recursive = T)
-  success <- file.symlink(to = new_link_path, from = link_path)
-  if (success) message("Success.")
+  invisible(file.symlink(to = new_link_path, from = link_path))
+
+  # get the list of dependencies for the package you just installed
+  deps <- read.dcf(file.path(new_link_path, "DESCRIPTION")) |>
+    tibble::as_tibble()
+  deps <- suppressWarnings(c(deps$Imports, deps$Suggests, deps$Depends)) |>
+    stringr::str_remove_all("\\n") |>
+    stringr::str_remove_all("\\([^()]+\\)") |>
+    stringr::str_remove_all(" ") |>
+    stringr::str_split(",")
+  if (is.null(deps)) {
+    needed <- character(0)
+  } else {
+    deps <- deps[[1]]
+
+    # get the installed packages
+    installed <- installed.packages() |>
+      tibble::as_tibble() |>
+      # dplyr::filter(LibPath == .libPaths()[1]) |>
+      dplyr::pull(Package)
+
+    # find out which ones are still needed
+    needed <- deps[which(deps %notin% installed)]
+    needed <- needed[which(needed != "R")]
+
+  }
+
+  # recursively apply easy_install
+  if (length(needed) == 0) {# exit case
+    sync_cache()
+    message("Success.")
+  } else {# recursive case
+    purrr::walk(.x = needed,
+                .f = \(x) easy_install(x, how = "link_from_cache"))
+  }
+
+
+
 }
