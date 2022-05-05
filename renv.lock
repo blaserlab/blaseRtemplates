@@ -1709,6 +1709,23 @@
         "rlang"
       ]
     },
+    "limma": {
+      "Package": "limma",
+      "Version": "3.52.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "limma",
+      "RemoteRef": "limma",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.52.0",
+      "git_url": "https://git.bioconductor.org/packages/limma",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "35c3146",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "83616baef5888acc5f1ef1b3806b3042",
+      "Requirements": []
+    },
     "listenv": {
       "Package": "listenv",
       "Version": "0.8.0",
@@ -1842,6 +1859,7 @@
         "igraph",
         "irlba",
         "leidenbase",
+        "limma",
         "lmtest",
         "pbapply",
         "pbmcapply",
