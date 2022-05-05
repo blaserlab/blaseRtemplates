@@ -157,3 +157,7 @@
 # blaseRtemplates 0.0.0.9093
 
 * edited r profile template to include blaserlab r universe repo
+
+# blaseRtemplates 0.0.0.9094
+
+* adopted pak for all install functions 

@@ -1,5 +1,5 @@
 #' @title Install Or Update A Local R Data Package
-#' @description If a directory is specified, this function will compare the currently installed version to the latest available version in the directory.  If there is a newer version available (based on version number), it will install this version.  If a binary is specifically requested it will install that one. If the package hasn't been installed, it will install it.
+#' @description If a directory is specified, this function will compare the currently installed version to the latest available version in the directory.  If there is a newer version available (based on version number), it will install this version.  If a tarball is specifically requested it will install that one. If the package hasn't ever been installed, it will install the newest version.
 #' @param path Path to a directory containing one or more versions of the same data package.
 #' @return noting
 #' @seealso
@@ -22,7 +22,7 @@ bb_renv_datapkg <- function(path) {
     expr = {
       if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
         message(stringr::str_glue("Installing {path}.  There may be newer versions available."))
-        renv::install(path)
+        install_targz(tarball = path)
         sync_cache()
       } else {
         latest_version <- file.info(list.files(path, full.names = T)) |>
@@ -41,10 +41,10 @@ bb_renv_datapkg <- function(path) {
         if (possibly_packageVersion(datapackage_stem) == "0.0.0.0000") {
           message(stringr::str_glue("Installing {datapackage_stem} for the first time."))
           if (stringr::str_sub(path,-1) == "/") {
-            renv::install(paste0(path, latest_version))
+            install_targz(tarball = paste0(path, latest_version))
             sync_cache()
           } else {
-            renv::install(paste0(path, "/", latest_version))
+            install_targz(tarball = paste0(path, "/", latest_version))
             sync_cache()
           }
         } else {
@@ -55,10 +55,10 @@ bb_renv_datapkg <- function(path) {
               )
             )
             if (stringr::str_sub(path,-1) == "/") {
-              renv::install(paste0(path, latest_version))
+              install_targz(tarball = paste0(path, latest_version))
               sync_cache()
             } else {
-              renv::install(paste0(path, "/", latest_version))
+              install_targz(tarball = paste0(path, "/", latest_version))
               sync_cache()
             }
 
@@ -73,13 +73,16 @@ bb_renv_datapkg <- function(path) {
       }
     },
     error = function(cond) {
-      message(
-        "The most common reason for this function to err is you are disconnected from the OSUMC network drive.\n"
-      )
       message("Here's the original error message:\n\n")
       message(cond)
       message(
-        "\n\nTry reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
+        "\n\nThe most common reason for this function to err is that the path to the datapkg directory has changed.\nCheck this and retry.\n\n"
+      )
+      message(
+        "\n\nThe second most common reason for this function to err is you are disconnected from the OSUMC network drive.\n"
+      )
+      message(
+        "Try reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
       )
       message("You will have to enter your network password.  Then try running the function again.\n")
     }

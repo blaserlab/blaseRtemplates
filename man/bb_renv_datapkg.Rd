@@ -13,7 +13,7 @@ bb_renv_datapkg(path)
 noting
 }
 \description{
-If a directory is specified, this function will compare the currently installed version to the latest available version in the directory.  If there is a newer version available (based on version number), it will install this version.  If a binary is specifically requested it will install that one. If the package hasn't been installed, it will install it.
+If a directory is specified, this function will compare the currently installed version to the latest available version in the directory.  If there is a newer version available (based on version number), it will install this version.  If a tarball is specifically requested it will install that one. If the package hasn't ever been installed, it will install the newest version.
 }
 \seealso{
 \code{\link[purrr]{safely}},\code{\link[purrr]{map}}
