@@ -1158,8 +1158,14 @@
     "filelock": {
       "Package": "filelock",
       "Version": "1.0.2",
-      "Source": "Repository",
+      "Source": "CRAN",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "filelock",
+      "RemoteRef": "filelock",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.2",
       "Hash": "38ec653c2613bed60052ba3787bd8a2c",
       "Requirements": []
     },
@@ -1545,8 +1551,14 @@
     "httr": {
       "Package": "httr",
       "Version": "1.4.3",
-      "Source": "Repository",
+      "Source": "CRAN",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "httr",
+      "RemoteRef": "httr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.4.3",
       "Hash": "88d1b310583777edf01ccd1216fb0b2b",
       "Requirements": [
         "R6",
@@ -2002,8 +2014,14 @@
     "pkgcache": {
       "Package": "pkgcache",
       "Version": "2.0.1",
-      "Source": "Repository",
+      "Source": "CRAN",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pkgcache",
+      "RemoteRef": "pkgcache",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.0.1",
       "Hash": "0f34e8af5c360bf236338c28423922f4",
       "Requirements": [
         "R6",
@@ -2807,8 +2825,14 @@
     "tibble": {
       "Package": "tibble",
       "Version": "3.1.7",
-      "Source": "Repository",
+      "Source": "CRAN",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tibble",
+      "RemoteRef": "tibble",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.1.7",
       "Hash": "08415af406e3dd75049afef9552e7355",
       "Requirements": [
         "ellipsis",

@@ -1,6 +1,6 @@
 Package: blaseRtemplates
 Title: Generates a structured R project with custom templates. 
-Version: 0.0.0.9095
+Version: 0.0.0.9096
 Authors@R: 
     person("Brad", "Blaser", , "bradley.blaser@osumc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3168-5423"))
@@ -28,4 +28,5 @@ Imports:
     cli (>= 3.2.0),
     rlang,
     rstudioapi,
-    pkgcache
+    pkgcache,
+    digest

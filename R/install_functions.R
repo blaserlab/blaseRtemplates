@@ -23,7 +23,6 @@ easy_install <-
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cat("Installing tarball\n")
       install_targz(tarball = package, inst_fun = install_fun)
-      sync_cache()
     } else {
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
@@ -103,6 +102,7 @@ safely_hydrate <- function(packages) {
   cache_path <- renv::paths$cache()
   if (fs::dir_exists(file.path(cache_path, packages))) {
     renv::hydrate(packages, update = TRUE)
+    sync_cache()
   } else {
     message("The package is not in your cache.\n Attempting a new installation ")
     pak::pkg_install(packages, ask = FALSE)
