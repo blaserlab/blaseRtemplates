@@ -18,7 +18,11 @@ easy_install(
 will install packages and return nothing
 }
 \description{
-Typically we would like to use existing copies of packages in our renv cache, rather than taking time to re-download them all.  Renv::hydrate provides this internal function.  You can specify this option with how = "link_from_cache".  Alternatively we may want to install a new package or update a package from CRAN, bioconductor or another repository.  Specify this with "new_or_update".  When installing local packages from tarball files, "how" is ignored, but an option for "tarball" is there for completeness.  If "tarball" is selected but the package is not a tarball, a message to that effect is returned.
+Typically we would like to use existing copies of packages in our renv cache, rather than taking time to re-download them all and rebuild them all.  You can specify this option with how = "link_from_cache".  Providing only the package name will install the latest available version.  Providing package @1.2.3" will install package version 1.2.3.  Providing package#hash will install a unique version of the package, identified by the hash.  You can get the package hash list with \code{get_cache_binary_pkg_catalog()}.
+
+Alternatively we may want to install a new package or update a package from CRAN, bioconductor or another repository.  Specify this with "new_or_update".
+
+When installing local packages from tarball files, "how" is ignored, but an option for "tarball" is there for completeness.  If "tarball" is selected but the package is not a tarball, a message to that effect is returned.
 }
 \examples{
 \dontrun{

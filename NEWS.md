@@ -161,3 +161,7 @@
 # blaseRtemplates 0.0.0.9094
 
 * adopted pak for all install functions 
+
+# blaseRtemplates 0.0.0.9095-7
+
+* major changes to easy install, allowing direct linking from cache to project 
