@@ -207,7 +207,7 @@ link_cache_to_proj <- function(package) {
       dplyr::pull(path_plus)
   } else {
     pname <- package
-    message("Linking to newest available version in the cache.")
+    message("Linking to newest available version of ", pname, " in the *binary* cache.")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::group_by(package) |>
       dplyr::arrange(package, desc(modification_time)) |>
@@ -224,20 +224,19 @@ link_cache_to_proj <- function(package) {
   # get the list of dependencies for the package you just installed
   deps <- read.dcf(file.path(new_link_path, "DESCRIPTION")) |>
     tibble::as_tibble()
-  deps <- suppressWarnings(c(deps$Imports, deps$Suggests, deps$Depends)) |>
+  deps <- suppressWarnings(c(deps$Imports, deps$Depends)) |>
     stringr::str_remove_all("\\n") |>
     stringr::str_remove_all("\\([^()]+\\)") |>
     stringr::str_remove_all(" ") |>
-    stringr::str_split(",")
+    stringr::str_split(",") |>
+    unlist()
   if (is.null(deps)) {
     needed <- character(0)
   } else {
-    deps <- deps[[1]]
 
     # get the installed packages
     installed <- installed.packages() |>
       tibble::as_tibble() |>
-      # dplyr::filter(LibPath == .libPaths()[1]) |>
       dplyr::pull(Package)
 
     # find out which ones are still needed

@@ -25,24 +25,5 @@ options(repos = c(
   blaserlab = 'https://blaserlab.r-universe.dev',
   CRAN = 'https://cloud.r-project.org'))
 
-local({if (length(.libPaths()) > 1) {
-  msg <- "\nUsing libraries at paths:"
-} else {
-  msg <- "\nUsing library at path:"
-}
-libs <- paste("-", .libPaths(), collapse = "\n")
-cat(msg, libs, sep = "\n")
-})
-cat("\n")
-
-if ("RENV_PROJECT" %in% names(Sys.getenv())) {
-  cat("Linked to renv cache:\n")
-  cat("-", renv::paths$cache(), "\n\n")
-  } else {
-  cat("\n***  Warning:  you are not in an active renv project! ***\n")
-  cat("- Some functions may be unavailable.\n\n")
-  }
-
-
 if (file.exists("~/.Rprofile")) source("~/.Rprofile")
 
