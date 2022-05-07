@@ -45,6 +45,9 @@ easy_install <-
         } else {
           # message("Attempting to link to ", package_name, " in cache...")
           safely_hydrate(package = package_name)
+          sync_cache()
+          write_cache_binary_pkg_catalog()
+          message("Successfully installed ", package, " and its recursive dependencies.")
         }
       } else if (how == "new_or_update") {
         pak::pkg_install(package, ask = FALSE)
@@ -53,6 +56,9 @@ easy_install <-
       } else if (how == "link_from_cache") {
         # message("Attempting to link to ", package_name, " in cache...")
         safely_hydrate(package = package_name)
+        sync_cache()
+        write_cache_binary_pkg_catalog()
+        message("Successfully installed ", package, " and its recursive dependencies.")
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
@@ -110,16 +116,10 @@ safely_hydrate <- function(package) {
   }
   if (fs::dir_exists(file.path(cache_path, package_min))) {
     link_cache_to_proj(package = package)
-    sync_cache()
-    write_cache_binary_pkg_catalog()
-    message("Successfully installed ", package, " and its recursive dependencies.")
 
   } else {
     message(package, " is not in your cache.\nAttempting a new installation ")
     pak::pkg_install(package, ask = FALSE)
-    sync_cache()
-    write_cache_binary_pkg_catalog()
-    message("Success.")
   }
 }
 
@@ -247,7 +247,7 @@ link_cache_to_proj <- function(package) {
   # recursively apply easy_install
   if (length(needed) > 0) {
     purrr::walk(.x = needed,
-                .f = \(x) easy_install(x, how = "link_from_cache"))
+                .f = safely_hydrate)
   }
 
 
