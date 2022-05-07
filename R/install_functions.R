@@ -64,6 +64,7 @@ easy_install <-
   }
 
 #' @importFrom fs path_file
+#' @importFrom dplyr pull filter
 #' @importFrom stringr str_remove
 #' @importFrom digest digest
 #' @importFrom pkgcache pkg_cache_add_file
@@ -75,23 +76,17 @@ install_targz <- function(tarball) {
   package_version <- stringr::str_remove(tarball_file, ".*_") |>
     stringr::str_remove(".tar.gz")
   package_hash <- digest::digest(tarball, file = TRUE, algo = "sha256")
-
   # put the targz in the pkgcache
-  pkgcache::pkg_cache_add_file(file = tarball, relpath = paste0("src/contrib/", tarball_file),
+  pkgcache::pkg_cache_add_file(file = tarball,
+                               relpath = paste0("src/contrib/", tarball_file),
                                package = package_name,
                                version = package_version,
                                platform = "source")
 
   # now install from the cache so you don't have to transfer large files twice
   # get the path to the cached version
-  install_path <- pak::cache_list() |>
-    filter(sha256 == package_hash) |>
-    pull(fullpath) |>
-    unique()
-
-  if (length(install_path) > 1) {
-    warning("It looks like the tarball is duplicated in the source code cache.\n\n")
-  }
+  install_path <- file.path(pkgcache::pkg_cache_summary()$cachepath,
+                            "src","contrib", tarball_file)
 
   # install the tarball
   pak::pkg_install(install_path, ask = FALSE)
@@ -100,7 +95,6 @@ install_targz <- function(tarball) {
 
 
 }
-
 
 #' @importFrom renv paths hydrate
 #' @importFrom fs dir_exists
@@ -257,3 +251,4 @@ link_cache_to_proj <- function(package) {
 
 
 }
+
