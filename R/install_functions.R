@@ -160,6 +160,7 @@ get_cache_binary_pkg_catalog <- function() {
     dplyr::mutate(version = stringr::str_remove(path, paste0(renv::paths$cache(), "/"))) |>
     dplyr::mutate(version = stringr::str_remove(version, "[^/]+/")) |>
     dplyr::mutate(version = stringr::str_remove(version, "/.*")) |>
+    dplyr::mutate(version = as.package_version(version)) |>
     dplyr::mutate(hash = stringr::str_extract(path, "/[:alnum:]+$")) |>
     dplyr::mutate(hash =  stringr::str_remove(hash, "/"))
 
@@ -204,7 +205,7 @@ link_cache_to_proj <- function(package) {
     message("Linking to newest available version of ", pname, " in the *binary* cache.")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::group_by(package) |>
-      dplyr::arrange(package, desc(modification_time)) |>
+      dplyr::arrange(package, desc(version), desc(modification_time)) |>
       dplyr::slice_head(n = 1) |>
       dplyr::filter(package == pname) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
@@ -240,14 +241,13 @@ link_cache_to_proj <- function(package) {
   }
 
   # recursively apply easy_install
-  if (length(needed) == 0) {# exit case
-    sync_cache()
-    message("Success.")
-  } else {# recursive case
+  if (length(needed) > 0) {
     purrr::walk(.x = needed,
                 .f = \(x) easy_install(x, how = "link_from_cache"))
   }
 
+  sync_cache()
+  message("Successfully installed ", pname, " and its recursive dependencies.")
 
 
 }
