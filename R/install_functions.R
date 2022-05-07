@@ -110,6 +110,10 @@ safely_hydrate <- function(package) {
   }
   if (fs::dir_exists(file.path(cache_path, package_min))) {
     link_cache_to_proj(package = package)
+    sync_cache()
+    write_cache_binary_pkg_catalog()
+    message("Successfully installed ", package, " and its recursive dependencies.")
+
   } else {
     message(package, " is not in your cache.\nAttempting a new installation ")
     pak::pkg_install(package, ask = FALSE)
@@ -246,8 +250,6 @@ link_cache_to_proj <- function(package) {
                 .f = \(x) easy_install(x, how = "link_from_cache"))
   }
 
-  sync_cache()
-  message("Successfully installed ", pname, " and its recursive dependencies.")
 
 
 }
