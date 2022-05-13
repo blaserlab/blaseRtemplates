@@ -48,7 +48,6 @@ easy_restore <- function(lockfile = "default") {
                              res <- x
                            }
                          })
-
   purrr::walk(
     .x = inst,
     .f = \(x) safely_hydrate(x)
@@ -300,6 +299,9 @@ link_cache_to_proj <- function(package) {
     stringr::str_remove_all(" ") |>
     stringr::str_split(",") |>
     unlist()
+  # strip out empty strings which will destroy your project lib
+  deps[which(deps != "")]
+
   if (is.null(deps)) {
     needed <- character(0)
   } else {
@@ -315,7 +317,8 @@ link_cache_to_proj <- function(package) {
 
   }
 
-  # recursively apply safely hydrate
+
+# recursively apply safely hydrate
   if (length(needed) > 0) {
     purrr::walk(.x = needed,
                 .f = safely_hydrate)
