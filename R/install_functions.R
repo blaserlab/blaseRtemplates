@@ -7,17 +7,14 @@
 #' @rdname easy_init
 #' @export
 #' @importFrom renv init dependencies
-#' @importFrom purrr walk possibly
+#' @importFrom purrr walk
 easy_init <- function() {
   # intitiate an renv lockfile without installing anything
   renv::init(bioconductor = TRUE, bare = TRUE)
   packages <- renv::dependencies()$Package
   purrr::walk(
     .x = packages,
-    .f = \(x) purrr::possibly(
-      safely_hydrate(x),
-      otherwise = message(inst, " could not be installed.")
-    )
+    .f = \(x) safely_hydrate(x),
   )
   sync_cache()
   write_cache_binary_pkg_catalog()
@@ -34,7 +31,7 @@ easy_init <- function() {
 #' @rdname easy_restore
 #' @export
 #' @importFrom rjson fromJSON
-#' @importFrom purrr map_chr walk possibly
+#' @importFrom purrr map_chr walk
 easy_restore <- function(lockfile = "default") {
   if (lockfile == "default") {
     lockfile = "renv.lock"
@@ -54,16 +51,13 @@ easy_restore <- function(lockfile = "default") {
 
   purrr::walk(
     .x = inst,
-    .f = \(x) purrr::possibly(
-      safely_hydrate(x),
-      otherwise = message(inst, " could not be installed.")
-    )
+    .f = \(x) safely_hydrate(x)
+
   )
   sync_cache()
   write_cache_binary_pkg_catalog()
 
 }
-
 
 #' @title Easily Install Packages
 #' @description Typically we would like to use existing copies of packages in our renv cache, rather than taking time to re-download them all and rebuild them all.  You can specify this option with how = "link_from_cache".  Providing only the package name will install the latest available version.  Providing package @@1.2.3" will install package version 1.2.3.  Providing package#hash will install a unique version of the package, identified by the hash.  You can get the package hash list with ```get_cache_binary_pkg_catalog()```.
