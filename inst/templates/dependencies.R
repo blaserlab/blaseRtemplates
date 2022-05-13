@@ -3,11 +3,11 @@
 
 # set up the renv from scratch
 
-# renv::init(bioconductor = TRUE)
+# blaseRtemplates::easy_init()
 
 # restore the renv from the lockfile
 
-# renv::restore(clean = TRUE)
+# blaseRtemplates::easy_restore()
 
 
 

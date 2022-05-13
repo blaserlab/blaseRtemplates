@@ -10,7 +10,7 @@
 #' @importFrom purrr walk
 easy_init <- function() {
   # intitiate an renv lockfile without installing anything
-  renv::init(bioconductor = TRUE, bare = TRUE)
+  renv::init(bioconductor = TRUE, bare = TRUE, restart = FALSE)
   packages <- renv::dependencies()$Package
   purrr::walk(
     .x = packages,
