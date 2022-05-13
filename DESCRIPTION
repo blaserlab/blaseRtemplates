@@ -30,4 +30,5 @@ Imports:
     rstudioapi,
     pkgcache,
     digest,
-    readr
+    readr,
+    rjson
