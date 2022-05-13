@@ -14,7 +14,7 @@ easy_init <- function() {
   packages <- renv::dependencies()$Package
   purrr::walk(
     .x = packages,
-    .f = \(x) safely_hydrate(x),
+    .f = \(x) safely_hydrate(x)
   )
   sync_cache()
   write_cache_binary_pkg_catalog()
