@@ -1,3 +1,70 @@
+#' @title Easily Initiate an renv Project
+#' @description Behave similarly to renv::init but instead of downloading and building everything, will first attempt to link to the latest versions of packages available in your cache.
+#' @return Nothing
+#' @seealso
+#'  \code{\link[renv]{init}}, \code{\link[renv]{dependencies}}
+#'  \code{\link[purrr]{map}}, \code{\link[purrr]{safely}}
+#' @rdname easy_init
+#' @export
+#' @importFrom renv init dependencies
+#' @importFrom purrr walk possibly
+easy_init <- function() {
+  # intitiate an renv lockfile without installing anything
+  renv::init(bioconductor = TRUE, bare = TRUE)
+  packages <- renv::dependencies()$Package
+  purrr::walk(
+    .x = packages,
+    .f = \(x) purrr::possibly(
+      safely_hydrate(x),
+      otherwise = message(inst, " could not be installed.")
+    )
+  )
+  sync_cache()
+  write_cache_binary_pkg_catalog()
+}
+
+
+#' @title Easily restore a project from an RENV Lockfile
+#' @description Reads the project lockfile or another lockfile supplied as an argument.  Then attempts to link to a binary version of each package in the cache.  If unavailable it will attempt to link to the newest version in the cache.  If that is unavailable it will install the package from the available repositories.
+#' @param lockfile Optional non-default lock file to restore from.  Otherwise will use "renv.lock", Default: 'default'
+#' @return Nothing
+#' @seealso
+#'  \code{\link[rjson]{fromJSON}}
+#'  \code{\link[purrr]{map}}
+#' @rdname easy_restore
+#' @export
+#' @importFrom rjson fromJSON
+#' @importFrom purrr map_chr walk possibly
+easy_restore <- function(lockfile = "default") {
+  if (lockfile == "default") {
+    lockfile = "renv.lock"
+  }
+  message("Attempting to restore the library from ", lockfile, ".\n")
+  lock <- rjson::fromJSON(file = lockfile)
+  packages <- names(lock$Packages)
+  inst <- purrr::map_chr(.x = packages,
+                         .f = \(x, lck = lock) {
+                           ind <- lck[["Packages"]][[x]]
+                           if ("Hash" %in% names(ind)) {
+                             res <- paste0(x, "#", ind[["Hash"]])
+                           } else {
+                             res <- x
+                           }
+                         })
+
+  purrr::walk(
+    .x = inst,
+    .f = \(x) purrr::possibly(
+      safely_hydrate(x),
+      otherwise = message(inst, " could not be installed.")
+    )
+  )
+  sync_cache()
+  write_cache_binary_pkg_catalog()
+
+}
+
+
 #' @title Easily Install Packages
 #' @description Typically we would like to use existing copies of packages in our renv cache, rather than taking time to re-download them all and rebuild them all.  You can specify this option with how = "link_from_cache".  Providing only the package name will install the latest available version.  Providing package @@1.2.3" will install package version 1.2.3.  Providing package#hash will install a unique version of the package, identified by the hash.  You can get the package hash list with ```get_cache_binary_pkg_catalog()```.
 #'
@@ -186,6 +253,7 @@ write_cache_binary_pkg_catalog <- function(path = NULL) {
 #' @importFrom stringr str_detect str_remove
 #' @importFrom dplyr filter mutate pull group_by arrange slice_head
 link_cache_to_proj <- function(package) {
+  method <- "install.specific"
   if (stringr::str_detect(package, "@")) {
     pname <- stringr::str_remove(package, "@.+")
     pversion <- stringr::str_remove(package, ".+@")
@@ -195,7 +263,8 @@ link_cache_to_proj <- function(package) {
       dplyr::filter(version == pversion) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
-
+    if (length(link_path) == 0) method <- "install.latest"
+    if (length(link_path) > 1) method <- "install.latest"
   } else if (stringr::str_detect(package, "#")) {
     pname <- stringr::str_remove(package, "#.+")
     phash <- stringr::str_remove(package, ".+#")
@@ -204,8 +273,14 @@ link_cache_to_proj <- function(package) {
       dplyr::filter(hash == phash) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
+    if (length(link_path) == 0) method <- "install.latest"
+    if (length(link_path) > 1) method <- "install.latest"
   } else {
     pname <- package
+    method <- "install.latest"
+  }
+
+  if (method == "install.latest") {
     message("Linking to newest available version of ", pname, " in the *binary* cache.")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::group_by(package) |>
@@ -214,8 +289,10 @@ link_cache_to_proj <- function(package) {
       dplyr::filter(package == pname) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
+  } else {
+    message("Linking to ", package, " in the *binary* cache.")
   }
-  stopifnot("Unable to unambiguously identify the requested version.\nTry using the hash." = length(link_path) == 1)
+
   new_link_path <- file.path(.libPaths()[1], pname)
   unlink(new_link_path, recursive = T)
   invisible(file.symlink(to = new_link_path, from = link_path))
@@ -244,7 +321,7 @@ link_cache_to_proj <- function(package) {
 
   }
 
-  # recursively apply easy_install
+  # recursively apply safely hydrate
   if (length(needed) > 0) {
     purrr::walk(.x = needed,
                 .f = safely_hydrate)

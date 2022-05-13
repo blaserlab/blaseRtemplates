@@ -16,6 +16,31 @@
     "Version": "3.15"
   },
   "Packages": {
+    "AnnotationDbi": {
+      "Package": "AnnotationDbi",
+      "Version": "1.58.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "AnnotationDbi",
+      "RemoteRef": "AnnotationDbi",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.58.0",
+      "git_url": "https://git.bioconductor.org/packages/AnnotationDbi",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "05fcf7a",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "106e57984a3dd77bd060133fa4cccf58",
+      "Requirements": [
+        "Biobase",
+        "BiocGenerics",
+        "DBI",
+        "IRanges",
+        "KEGGREST",
+        "RSQLite",
+        "S4Vectors"
+      ]
+    },
     "BH": {
       "Package": "BH",
       "Version": "1.78.0-0",
@@ -116,6 +141,111 @@
         "rsvd"
       ]
     },
+    "Biostrings": {
+      "Package": "Biostrings",
+      "Version": "2.64.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Biostrings",
+      "RemoteRef": "Biostrings",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.64.0",
+      "git_url": "https://git.bioconductor.org/packages/Biostrings",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "c7ad3c7",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "bb0da3fab1de7f0db482b74f45bff16c",
+      "Requirements": [
+        "BiocGenerics",
+        "GenomeInfoDb",
+        "IRanges",
+        "S4Vectors",
+        "XVector",
+        "crayon"
+      ]
+    },
+    "CellChat": {
+      "Package": "CellChat",
+      "Version": "1.4.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "CellChat",
+      "RemoteUsername": "sqjin",
+      "RemotePkgRef": "github::sqjin/CellChat",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "501c09046c5968554c888df67ecb32ce63cb9a1c",
+      "Hash": "f984af62cd50870dbf9db438e7477151",
+      "Requirements": [
+        "BiocGenerics",
+        "ComplexHeatmap",
+        "FNN",
+        "Matrix",
+        "NMF",
+        "RColorBrewer",
+        "RSpectra",
+        "Rcpp",
+        "RcppEigen",
+        "Rtsne",
+        "circlize",
+        "colorspace",
+        "cowplot",
+        "dplyr",
+        "expm",
+        "forcats",
+        "future",
+        "future.apply",
+        "ggalluvial",
+        "ggplot2",
+        "ggpubr",
+        "ggrepel",
+        "igraph",
+        "irlba",
+        "magrittr",
+        "patchwork",
+        "pbapply",
+        "plyr",
+        "reshape2",
+        "reticulate",
+        "scales",
+        "shape",
+        "sna",
+        "stringr",
+        "svglite"
+      ]
+    },
+    "ComplexHeatmap": {
+      "Package": "ComplexHeatmap",
+      "Version": "2.12.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ComplexHeatmap",
+      "RemoteRef": "ComplexHeatmap",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.12.0",
+      "git_url": "https://git.bioconductor.org/packages/ComplexHeatmap",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "8a5f060",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "dfc85f03afca224993b96d7b87577153",
+      "Requirements": [
+        "GetoptLong",
+        "GlobalOptions",
+        "IRanges",
+        "RColorBrewer",
+        "circlize",
+        "clue",
+        "codetools",
+        "colorspace",
+        "digest",
+        "doParallel",
+        "foreach",
+        "matrixStats",
+        "png"
+      ]
+    },
     "DBI": {
       "Package": "DBI",
       "Version": "1.1.2",
@@ -123,6 +253,37 @@
       "Repository": "CRAN",
       "Hash": "dcd1743af4336156873e3ce3c950b8b9",
       "Requirements": []
+    },
+    "DESeq2": {
+      "Package": "DESeq2",
+      "Version": "1.36.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "DESeq2",
+      "RemoteRef": "DESeq2",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.36.0",
+      "git_url": "https://git.bioconductor.org/packages/DESeq2",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "2800b78",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "86ab1f2e3a303a1e0cebf0ef979d53bf",
+      "Requirements": [
+        "Biobase",
+        "BiocGenerics",
+        "BiocParallel",
+        "GenomicRanges",
+        "IRanges",
+        "Rcpp",
+        "RcppArmadillo",
+        "S4Vectors",
+        "SummarizedExperiment",
+        "genefilter",
+        "geneplotter",
+        "ggplot2",
+        "locfit"
+      ]
     },
     "DelayedArray": {
       "Package": "DelayedArray",
@@ -160,6 +321,24 @@
         "sparseMatrixStats"
       ]
     },
+    "DoubletFinder": {
+      "Package": "DoubletFinder",
+      "Version": "2.0.3",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "DoubletFinder",
+      "RemoteUsername": "chris-mcginnis-ucsf",
+      "RemotePkgRef": "github::chris-mcginnis-ucsf/DoubletFinder",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "67fb8b5808eb16167ead5f9b439677cc24837554",
+      "Hash": "d2197f1a08a45200009265817923e075",
+      "Requirements": [
+        "KernSmooth",
+        "ROCR",
+        "fields"
+      ]
+    },
     "FNN": {
       "Package": "FNN",
       "Version": "1.1.3",
@@ -167,6 +346,42 @@
       "Repository": "CRAN",
       "Hash": "b56998fff55e4a4b4860ad6e8c67e0f9",
       "Requirements": []
+    },
+    "GO.db": {
+      "Package": "GO.db",
+      "Version": "3.15.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GO.db",
+      "RemoteRef": "GO.db",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/data/annotation",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.15.0",
+      "Hash": "a6cfd59916bd9ee10e7c6dacf53f326a",
+      "Requirements": [
+        "AnnotationDbi"
+      ]
+    },
+    "GOSemSim": {
+      "Package": "GOSemSim",
+      "Version": "2.22.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GOSemSim",
+      "RemoteRef": "GOSemSim",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.22.0",
+      "git_url": "https://git.bioconductor.org/packages/GOSemSim",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "fd74aeb",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "9241c4b9bcff07f7b6bbdc88fd66ea5a",
+      "Requirements": [
+        "AnnotationDbi",
+        "GO.db",
+        "Rcpp"
+      ]
     },
     "GenomeInfoDb": {
       "Package": "GenomeInfoDb",
@@ -192,6 +407,33 @@
       "Hash": "b0e605ca22c2a5c6a65a3960729462da",
       "Requirements": []
     },
+    "GenomicAlignments": {
+      "Package": "GenomicAlignments",
+      "Version": "1.32.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GenomicAlignments",
+      "RemoteRef": "GenomicAlignments",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.32.0",
+      "git_url": "https://git.bioconductor.org/packages/GenomicAlignments",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "7a660a9",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "53befefc544a80e984e1b2cabcd06098",
+      "Requirements": [
+        "BiocGenerics",
+        "BiocParallel",
+        "Biostrings",
+        "GenomeInfoDb",
+        "GenomicRanges",
+        "IRanges",
+        "Rsamtools",
+        "S4Vectors",
+        "SummarizedExperiment"
+      ]
+    },
     "GenomicRanges": {
       "Package": "GenomicRanges",
       "Version": "1.48.0",
@@ -209,6 +451,38 @@
         "XVector"
       ]
     },
+    "GetoptLong": {
+      "Package": "GetoptLong",
+      "Version": "1.0.5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GetoptLong",
+      "RemoteRef": "GetoptLong",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.5",
+      "Hash": "61fac01c73abf03ac72e88dc3952c1e3",
+      "Requirements": [
+        "GlobalOptions",
+        "crayon",
+        "rjson"
+      ]
+    },
+    "GlobalOptions": {
+      "Package": "GlobalOptions",
+      "Version": "0.1.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GlobalOptions",
+      "RemoteRef": "GlobalOptions",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1.2",
+      "Hash": "c3f7b221e60c28f5f3533d74c6fef024",
+      "Requirements": []
+    },
     "IRanges": {
       "Package": "IRanges",
       "Version": "2.30.0",
@@ -221,6 +495,27 @@
       "Requirements": [
         "BiocGenerics",
         "S4Vectors"
+      ]
+    },
+    "KEGGREST": {
+      "Package": "KEGGREST",
+      "Version": "1.36.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "KEGGREST",
+      "RemoteRef": "KEGGREST",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.36.0",
+      "git_url": "https://git.bioconductor.org/packages/KEGGREST",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "591818b",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "e718cd8ccc6fcdc817a84a2c01f6b43c",
+      "Requirements": [
+        "Biostrings",
+        "httr",
+        "png"
       ]
     },
     "KernSmooth": {
@@ -273,6 +568,66 @@
         "matrixStats"
       ]
     },
+    "MatrixModels": {
+      "Package": "MatrixModels",
+      "Version": "0.5-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "MatrixModels",
+      "RemoteRef": "MatrixModels",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.5-0",
+      "Hash": "366a8838782928e398b8762c932a42a3",
+      "Requirements": [
+        "Matrix"
+      ]
+    },
+    "NLP": {
+      "Package": "NLP",
+      "Version": "0.2-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "NLP",
+      "RemoteRef": "NLP",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.2-1",
+      "Hash": "94b0a21c13933f61cf6272a192964624",
+      "Requirements": []
+    },
+    "NMF": {
+      "Package": "NMF",
+      "Version": "0.24.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "NMF",
+      "RemoteRef": "NMF",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.24.0",
+      "Hash": "224e3b351776723e729c944c8f15a225",
+      "Requirements": [
+        "Biobase",
+        "BiocManager",
+        "RColorBrewer",
+        "cluster",
+        "colorspace",
+        "digest",
+        "doParallel",
+        "foreach",
+        "ggplot2",
+        "gridBase",
+        "pkgmaker",
+        "registry",
+        "reshape2",
+        "rngtools",
+        "stringr"
+      ]
+    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
@@ -313,6 +668,44 @@
         "bitops"
       ]
     },
+    "ROCR": {
+      "Package": "ROCR",
+      "Version": "1.0-11",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ROCR",
+      "RemoteRef": "ROCR",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0-11",
+      "Hash": "cc151930e20e16427bc3d0daec62b4a9",
+      "Requirements": [
+        "gplots"
+      ]
+    },
+    "RSQLite": {
+      "Package": "RSQLite",
+      "Version": "2.2.14",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "RSQLite",
+      "RemoteRef": "RSQLite",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.2.14",
+      "Hash": "086113da6af75461b8dc8d916dcf9620",
+      "Requirements": [
+        "DBI",
+        "Rcpp",
+        "bit64",
+        "blob",
+        "memoise",
+        "pkgconfig",
+        "plogr"
+      ]
+    },
     "RSpectra": {
       "Package": "RSpectra",
       "Version": "0.16-1",
@@ -339,6 +732,22 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "5681153e3eb103725e35ac5f7ebca910",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
+    "RcppArmadillo": {
+      "Package": "RcppArmadillo",
+      "Version": "0.11.0.0.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "RcppArmadillo",
+      "RemoteRef": "RcppArmadillo",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.11.0.0.0",
+      "Hash": "704ac7bb6a49df5a9a2b014793fcc6cb",
       "Requirements": [
         "Rcpp"
       ]
@@ -370,6 +779,24 @@
         "Rcpp"
       ]
     },
+    "RcppML": {
+      "Package": "RcppML",
+      "Version": "0.3.7",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "RcppML",
+      "RemoteRef": "RcppML",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3.7",
+      "Hash": "225157373f361daf85198a8d1ddaa733",
+      "Requirements": [
+        "Matrix",
+        "Rcpp",
+        "RcppEigen"
+      ]
+    },
     "RcppProgress": {
       "Package": "RcppProgress",
       "Version": "0.4.2",
@@ -377,6 +804,38 @@
       "Repository": "CRAN",
       "Hash": "1c0aa18b97e6aaa17f93b8b866c0ace5",
       "Requirements": []
+    },
+    "RcppRoll": {
+      "Package": "RcppRoll",
+      "Version": "0.3.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "RcppRoll",
+      "RemoteRef": "RcppRoll",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3.0",
+      "Hash": "84a03997fbb5acfb3c9b43bad88fea1f",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
+    "RcppTOML": {
+      "Package": "RcppTOML",
+      "Version": "0.1.7",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "RcppTOML",
+      "RemoteRef": "RcppTOML",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1.7",
+      "Hash": "f8a578aa91321ecec1292f1e2ffadeda",
+      "Requirements": [
+        "Rcpp"
+      ]
     },
     "ResidualMatrix": {
       "Package": "ResidualMatrix",
@@ -401,6 +860,54 @@
       "Hash": "e0d1744b1339290bce02b1699230b8b5",
       "Requirements": []
     },
+    "Rhtslib": {
+      "Package": "Rhtslib",
+      "Version": "1.28.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Rhtslib",
+      "RemoteRef": "Rhtslib",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.28.0",
+      "git_url": "https://git.bioconductor.org/packages/Rhtslib",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "214fde2",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "6cda0d827f065bf128b75e8a88473c10",
+      "Requirements": [
+        "zlibbioc"
+      ]
+    },
+    "Rsamtools": {
+      "Package": "Rsamtools",
+      "Version": "2.12.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Rsamtools",
+      "RemoteRef": "Rsamtools",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.12.0",
+      "git_url": "https://git.bioconductor.org/packages/Rsamtools",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "d6a65dd",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "4665745352d449bb37eedb7f860ce22f",
+      "Requirements": [
+        "BiocGenerics",
+        "BiocParallel",
+        "Biostrings",
+        "GenomeInfoDb",
+        "GenomicRanges",
+        "IRanges",
+        "Rhtslib",
+        "S4Vectors",
+        "XVector",
+        "bitops",
+        "zlibbioc"
+      ]
+    },
     "Rtsne": {
       "Package": "Rtsne",
       "Version": "0.16",
@@ -424,6 +931,20 @@
         "BiocGenerics"
       ]
     },
+    "SQUAREM": {
+      "Package": "SQUAREM",
+      "Version": "2021.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "SQUAREM",
+      "RemoteRef": "SQUAREM",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2021.1",
+      "Hash": "0cf10dab0d023d5b46a5a14387556891",
+      "Requirements": []
+    },
     "ScaledMatrix": {
       "Package": "ScaledMatrix",
       "Version": "1.4.0",
@@ -437,6 +958,159 @@
         "DelayedArray",
         "Matrix",
         "S4Vectors"
+      ]
+    },
+    "Seurat": {
+      "Package": "Seurat",
+      "Version": "4.1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Seurat",
+      "RemoteRef": "Seurat",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "4.1.1",
+      "Hash": "0d7350ea71e070760974a50692596c4d",
+      "Requirements": [
+        "KernSmooth",
+        "MASS",
+        "Matrix",
+        "RANN",
+        "RColorBrewer",
+        "ROCR",
+        "Rcpp",
+        "RcppAnnoy",
+        "RcppEigen",
+        "RcppProgress",
+        "Rtsne",
+        "SeuratObject",
+        "cluster",
+        "cowplot",
+        "fitdistrplus",
+        "future",
+        "future.apply",
+        "ggplot2",
+        "ggrepel",
+        "ggridges",
+        "httr",
+        "ica",
+        "igraph",
+        "irlba",
+        "jsonlite",
+        "leiden",
+        "lmtest",
+        "matrixStats",
+        "miniUI",
+        "patchwork",
+        "pbapply",
+        "plotly",
+        "png",
+        "reticulate",
+        "rlang",
+        "scales",
+        "scattermore",
+        "sctransform",
+        "shiny",
+        "spatstat.core",
+        "spatstat.geom",
+        "tibble",
+        "uwot"
+      ]
+    },
+    "SeuratDisk": {
+      "Package": "SeuratDisk",
+      "Version": "0.0.0.9020",
+      "Source": "CRAN",
+      "Repository": "https://blaserlab.r-universe.dev",
+      "Remotes": "satijalab/seurat-data",
+      "RemoteUrl": "https://github.com/mojaveazure/seurat-disk",
+      "RemoteRef": "SeuratDisk",
+      "RemoteSha": "0.0.0.9020",
+      "RemoteType": "standard",
+      "RemotePkgRef": "SeuratDisk",
+      "RemoteRepos": "https://blaserlab.r-universe.dev",
+      "RemotePkgPlatform": "source",
+      "Hash": "7846d036588f61547f52a296b71017a0",
+      "Requirements": [
+        "Matrix",
+        "R6",
+        "Seurat",
+        "SeuratObject",
+        "cli",
+        "crayon",
+        "hdf5r",
+        "rlang",
+        "stringi",
+        "withr"
+      ]
+    },
+    "SeuratObject": {
+      "Package": "SeuratObject",
+      "Version": "4.1.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "SeuratObject",
+      "RemoteRef": "SeuratObject",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "4.1.0",
+      "Hash": "8242cf3391113462a4af2ba2062a6637",
+      "Requirements": [
+        "Matrix",
+        "Rcpp",
+        "RcppEigen",
+        "future",
+        "future.apply",
+        "progressr",
+        "rgeos",
+        "rlang",
+        "sp"
+      ]
+    },
+    "Signac": {
+      "Package": "Signac",
+      "Version": "1.6.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Signac",
+      "RemoteRef": "Signac",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.6.0",
+      "Hash": "e7eca201fd8cde3c2b4cc296a22dd77d",
+      "Requirements": [
+        "BiocGenerics",
+        "GenomeInfoDb",
+        "GenomicRanges",
+        "IRanges",
+        "Matrix",
+        "Rcpp",
+        "RcppRoll",
+        "Rsamtools",
+        "S4Vectors",
+        "Seurat",
+        "SeuratObject",
+        "data.table",
+        "dplyr",
+        "fastmatch",
+        "future",
+        "future.apply",
+        "ggforce",
+        "ggplot2",
+        "ggrepel",
+        "ggseqlogo",
+        "irlba",
+        "lsa",
+        "patchwork",
+        "pbapply",
+        "qlcMatrix",
+        "scales",
+        "stringi",
+        "tidyr",
+        "tidyselect"
       ]
     },
     "SingleCellExperiment": {
@@ -455,6 +1129,34 @@
         "S4Vectors",
         "SummarizedExperiment"
       ]
+    },
+    "SnowballC": {
+      "Package": "SnowballC",
+      "Version": "0.7.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "SnowballC",
+      "RemoteRef": "SnowballC",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.7.0",
+      "Hash": "bc26e07c0d747fd287c370fe355e7b85",
+      "Requirements": []
+    },
+    "SparseM": {
+      "Package": "SparseM",
+      "Version": "1.81",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "SparseM",
+      "RemoteRef": "SparseM",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.81",
+      "Hash": "2042cd9759cc89a453c4aefef0ce9aae",
+      "Requirements": []
     },
     "SummarizedExperiment": {
       "Package": "SummarizedExperiment",
@@ -477,6 +1179,20 @@
         "S4Vectors"
       ]
     },
+    "XML": {
+      "Package": "XML",
+      "Version": "3.99-0.9",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "XML",
+      "RemoteRef": "XML",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.99-0.9",
+      "Hash": "6e75b3884423e21eda89b424a98e091d",
+      "Requirements": []
+    },
     "XVector": {
       "Package": "XVector",
       "Version": "0.36.0",
@@ -491,6 +1207,67 @@
         "IRanges",
         "S4Vectors",
         "zlibbioc"
+      ]
+    },
+    "abind": {
+      "Package": "abind",
+      "Version": "1.4-5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "abind",
+      "RemoteRef": "abind",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.4-5",
+      "Hash": "4f57884290cc75ab22f4af9e9d4ca862",
+      "Requirements": []
+    },
+    "annotate": {
+      "Package": "annotate",
+      "Version": "1.74.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "annotate",
+      "RemoteRef": "annotate",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.74.0",
+      "git_url": "https://git.bioconductor.org/packages/annotate",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "200c717",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "c0860969b53c340fbb7aec0c63cd99f8",
+      "Requirements": [
+        "AnnotationDbi",
+        "Biobase",
+        "BiocGenerics",
+        "DBI",
+        "XML",
+        "httr",
+        "xtable"
+      ]
+    },
+    "ashr": {
+      "Package": "ashr",
+      "Version": "2.2-54",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ashr",
+      "RemoteRef": "ashr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.2-54",
+      "Hash": "2d88cb8017dd744c6eeb38bf85eae9dd",
+      "Requirements": [
+        "Matrix",
+        "Rcpp",
+        "SQUAREM",
+        "etrunct",
+        "invgamma",
+        "mixsqp",
+        "truncnorm"
       ]
     },
     "askpass": {
@@ -571,6 +1348,20 @@
         "Rcpp"
       ]
     },
+    "beeswarm": {
+      "Package": "beeswarm",
+      "Version": "0.4.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "beeswarm",
+      "RemoteRef": "beeswarm",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.0",
+      "Hash": "0f4e9d8caa6feaa7e409ae6c30f2ca66",
+      "Requirements": []
+    },
     "bit": {
       "Package": "bit",
       "Version": "4.0.4",
@@ -613,6 +1404,78 @@
       "RemoteSha": "c700901190567a2339b892f73c4c6e6937708bbb",
       "Hash": "fcc4bad1854abf20c8465c46682ecd31",
       "Requirements": []
+    },
+    "blaseRtools": {
+      "Package": "blaseRtools",
+      "Version": "0.0.0.9080",
+      "Source": "GitHub",
+      "Remotes": "github::blaserlab/blaseRdata,\n        github::cole-trapnell-lab/monocle3,\n        github::mojaveazure/seurat-disk,\n        github::chris-mcginnis-ucsf/DoubletFinder,\n        github::blaserlab/blaseRtemplates, github::sqjin/CellChat",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "blaseRtools",
+      "RemoteUsername": "blaserlab",
+      "RemotePkgRef": "blaserlab/blaseRtools",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "7b5a52ace8d427601cb9d69928760699b9f7ac7f",
+      "Hash": "812dd25cca8513fcaa1f3acfa4ce8f94",
+      "Requirements": [
+        "BiocGenerics",
+        "Biostrings",
+        "CellChat",
+        "ComplexHeatmap",
+        "DESeq2",
+        "DoubletFinder",
+        "GenomeInfoDb",
+        "GenomicAlignments",
+        "GenomicRanges",
+        "IRanges",
+        "MASS",
+        "Matrix",
+        "Matrix.utils",
+        "Rsamtools",
+        "Seurat",
+        "SeuratDisk",
+        "SeuratObject",
+        "Signac",
+        "SingleCellExperiment",
+        "SummarizedExperiment",
+        "annotate",
+        "ashr",
+        "batchelor",
+        "blaseRdata",
+        "broom",
+        "circlize",
+        "cowplot",
+        "digest",
+        "dplyr",
+        "fs",
+        "genefilter",
+        "geneplotter",
+        "ggforce",
+        "ggplot2",
+        "ggpubr",
+        "ggrepel",
+        "hexbin",
+        "huxtable",
+        "knitr",
+        "leidenbase",
+        "limma",
+        "monocle3",
+        "org.Dr.eg.db",
+        "org.Hs.eg.db",
+        "org.Mm.eg.db",
+        "pheatmap",
+        "prompt",
+        "readxl",
+        "renv",
+        "rmarkdown",
+        "rrvgo",
+        "rstatix",
+        "scater",
+        "stringr",
+        "tidyverse",
+        "topGO"
+      ]
     },
     "blob": {
       "Package": "blob",
@@ -683,6 +1546,22 @@
         "sass"
       ]
     },
+    "caTools": {
+      "Package": "caTools",
+      "Version": "1.18.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "caTools",
+      "RemoteRef": "caTools",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.18.2",
+      "Hash": "34d90fa5845004236b9eacafc51d07b2",
+      "Requirements": [
+        "bitops"
+      ]
+    },
     "cachem": {
       "Package": "cachem",
       "Version": "1.0.6",
@@ -705,6 +1584,45 @@
         "processx"
       ]
     },
+    "car": {
+      "Package": "car",
+      "Version": "3.0-13",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "car",
+      "RemoteRef": "car",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.0-13",
+      "Hash": "69e00596e08b7f64e5a7d16447bec44d",
+      "Requirements": [
+        "MASS",
+        "abind",
+        "carData",
+        "lme4",
+        "maptools",
+        "mgcv",
+        "nlme",
+        "nnet",
+        "pbkrtest",
+        "quantreg"
+      ]
+    },
+    "carData": {
+      "Package": "carData",
+      "Version": "3.0-5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "carData",
+      "RemoteRef": "carData",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.0-5",
+      "Hash": "ac6cdb8552c61bd36b0e54d07cf2aab7",
+      "Requirements": []
+    },
     "cellranger": {
       "Package": "cellranger",
       "Version": "1.1.0",
@@ -714,6 +1632,24 @@
       "Requirements": [
         "rematch",
         "tibble"
+      ]
+    },
+    "circlize": {
+      "Package": "circlize",
+      "Version": "0.4.15",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "circlize",
+      "RemoteRef": "circlize",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.15",
+      "Hash": "2bb47a2fe6ab009b1dcc5566d8c3a988",
+      "Requirements": [
+        "GlobalOptions",
+        "colorspace",
+        "shape"
       ]
     },
     "class": {
@@ -756,6 +1692,22 @@
       "Hash": "3f038e5ac7f41d4ac41ce658c85e3042",
       "Requirements": []
     },
+    "clue": {
+      "Package": "clue",
+      "Version": "0.3-60",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "clue",
+      "RemoteRef": "clue",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3-60",
+      "Hash": "402594b0365210ad6df53e8fcda69d8a",
+      "Requirements": [
+        "cluster"
+      ]
+    },
     "cluster": {
       "Package": "cluster",
       "Version": "2.1.3",
@@ -763,6 +1715,22 @@
       "Repository": "CRAN",
       "Hash": "c5f8447373ec2a0f593c694024e5b7ee",
       "Requirements": []
+    },
+    "coda": {
+      "Package": "coda",
+      "Version": "0.19-4",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "coda",
+      "RemoteRef": "coda",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.19-4",
+      "Hash": "24b6d006b8b2343876cf230687546932",
+      "Requirements": [
+        "lattice"
+      ]
     },
     "codetools": {
       "Package": "codetools",
@@ -797,6 +1765,39 @@
       "Requirements": [
         "memoise",
         "rlang"
+      ]
+    },
+    "corrplot": {
+      "Package": "corrplot",
+      "Version": "0.92",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "corrplot",
+      "RemoteRef": "corrplot",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.92",
+      "Hash": "fcf11a91936fd5047b2ee9bc00595e36",
+      "Requirements": []
+    },
+    "cowplot": {
+      "Package": "cowplot",
+      "Version": "1.1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "cowplot",
+      "RemoteRef": "cowplot",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1.1",
+      "Hash": "b418e8423699d11c7f2087c2bfd07da2",
+      "Requirements": [
+        "ggplot2",
+        "gtable",
+        "rlang",
+        "scales"
       ]
     },
     "cpp11": {
@@ -949,6 +1950,51 @@
       "Hash": "cf6b206a045a684728c3267ef7596190",
       "Requirements": []
     },
+    "doParallel": {
+      "Package": "doParallel",
+      "Version": "1.0.17",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "doParallel",
+      "RemoteRef": "doParallel",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.17",
+      "Hash": "451e5edf411987991ab6a5410c45011f",
+      "Requirements": [
+        "foreach",
+        "iterators"
+      ]
+    },
+    "docopt": {
+      "Package": "docopt",
+      "Version": "0.7.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "docopt",
+      "RemoteRef": "docopt",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.7.1",
+      "Hash": "e9eeef7931ee99ca0093f3f20b88e09b",
+      "Requirements": []
+    },
+    "dotCall64": {
+      "Package": "dotCall64",
+      "Version": "1.0-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "dotCall64",
+      "RemoteRef": "dotCall64",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0-1",
+      "Hash": "d0ef6cd1546530da4d72179b52856e84",
+      "Requirements": []
+    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "1.0.9",
@@ -1020,6 +2066,20 @@
         "rlang"
       ]
     },
+    "etrunct": {
+      "Package": "etrunct",
+      "Version": "0.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "etrunct",
+      "RemoteRef": "etrunct",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1",
+      "Hash": "d1cdcd7d3ee4de411b7a29877a5e322a",
+      "Requirements": []
+    },
     "evaluate": {
       "Package": "evaluate",
       "Version": "0.15",
@@ -1027,6 +2087,22 @@
       "Repository": "CRAN",
       "Hash": "699a7a93d08c962d9f8950b2d7a227f1",
       "Requirements": []
+    },
+    "expm": {
+      "Package": "expm",
+      "Version": "0.999-6",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "expm",
+      "RemoteRef": "expm",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.999-6",
+      "Hash": "1bb0f92b6125ea03dd7142f8eaf36bf5",
+      "Requirements": [
+        "Matrix"
+      ]
     },
     "fansi": {
       "Package": "fansi",
@@ -1052,6 +2128,38 @@
       "Hash": "77bd60a6157420d4ffa93b27cf6a58b8",
       "Requirements": []
     },
+    "fastmatch": {
+      "Package": "fastmatch",
+      "Version": "1.1-3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "fastmatch",
+      "RemoteRef": "fastmatch",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1-3",
+      "Hash": "dabc225759a2c2b241e60e42bf0e8e54",
+      "Requirements": []
+    },
+    "fields": {
+      "Package": "fields",
+      "Version": "13.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "fields",
+      "RemoteRef": "fields",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "13.3",
+      "Hash": "fb9e1353a33d1a5e7b6648b33b838538",
+      "Requirements": [
+        "maps",
+        "spam",
+        "viridis"
+      ]
+    },
     "filelock": {
       "Package": "filelock",
       "Version": "1.0.2",
@@ -1065,6 +2173,23 @@
       "RemoteSha": "1.0.2",
       "Hash": "38ec653c2613bed60052ba3787bd8a2c",
       "Requirements": []
+    },
+    "fitdistrplus": {
+      "Package": "fitdistrplus",
+      "Version": "1.1-8",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "fitdistrplus",
+      "RemoteRef": "fitdistrplus",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1-8",
+      "Hash": "9de7bf56c16871adf44dc88a24c7836c",
+      "Requirements": [
+        "MASS",
+        "survival"
+      ]
     },
     "flt3.aml.zfish.datapkg": {
       "Package": "flt3.aml.zfish.datapkg",
@@ -1097,6 +2222,23 @@
         "magrittr",
         "rlang",
         "tibble"
+      ]
+    },
+    "foreach": {
+      "Package": "foreach",
+      "Version": "1.5.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "foreach",
+      "RemoteRef": "foreach",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.5.2",
+      "Hash": "618609b42c9406731ead03adf5379850",
+      "Requirements": [
+        "codetools",
+        "iterators"
       ]
     },
     "foreign": {
@@ -1188,6 +2330,23 @@
         "parallelly"
       ]
     },
+    "future.apply": {
+      "Package": "future.apply",
+      "Version": "1.9.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "future.apply",
+      "RemoteRef": "future.apply",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.9.0",
+      "Hash": "8ec2bd333ccd4df6bf70e68dded6c364",
+      "Requirements": [
+        "future",
+        "globals"
+      ]
+    },
     "gargle": {
       "Package": "gargle",
       "Version": "1.2.0",
@@ -1204,6 +2363,53 @@
         "rlang",
         "rstudioapi",
         "withr"
+      ]
+    },
+    "genefilter": {
+      "Package": "genefilter",
+      "Version": "1.78.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "genefilter",
+      "RemoteRef": "genefilter",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.78.0",
+      "git_url": "https://git.bioconductor.org/packages/genefilter",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "2f57438",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "e9e2e24e99d1d61da12d57a86ab2e2a2",
+      "Requirements": [
+        "AnnotationDbi",
+        "Biobase",
+        "BiocGenerics",
+        "annotate",
+        "survival"
+      ]
+    },
+    "geneplotter": {
+      "Package": "geneplotter",
+      "Version": "1.74.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "geneplotter",
+      "RemoteRef": "geneplotter",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.74.0",
+      "git_url": "https://git.bioconductor.org/packages/geneplotter",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "ca81956",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "89e2bc47cd7229f1db440004d9cfa1ea",
+      "Requirements": [
+        "AnnotationDbi",
+        "Biobase",
+        "BiocGenerics",
+        "RColorBrewer",
+        "annotate",
+        "lattice"
       ]
     },
     "generics": {
@@ -1229,6 +2435,71 @@
         "zip"
       ]
     },
+    "ggalluvial": {
+      "Package": "ggalluvial",
+      "Version": "0.12.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggalluvial",
+      "RemoteRef": "ggalluvial",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.12.3",
+      "Hash": "8e8537ec2a70017be8e5e20b1bbf4e98",
+      "Requirements": [
+        "dplyr",
+        "ggplot2",
+        "lazyeval",
+        "rlang",
+        "tidyr",
+        "tidyselect"
+      ]
+    },
+    "ggbeeswarm": {
+      "Package": "ggbeeswarm",
+      "Version": "0.6.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggbeeswarm",
+      "RemoteRef": "ggbeeswarm",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.6.0",
+      "Hash": "dd68b9b215b2d3119603549a794003c3",
+      "Requirements": [
+        "beeswarm",
+        "ggplot2",
+        "vipor"
+      ]
+    },
+    "ggforce": {
+      "Package": "ggforce",
+      "Version": "0.3.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggforce",
+      "RemoteRef": "ggforce",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3.3",
+      "Hash": "4c64a588b497f8c088e1d308ddd40bc6",
+      "Requirements": [
+        "MASS",
+        "Rcpp",
+        "RcppEigen",
+        "ggplot2",
+        "gtable",
+        "polyclip",
+        "rlang",
+        "scales",
+        "tidyselect",
+        "tweenr",
+        "withr"
+      ]
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.3.6",
@@ -1248,6 +2519,37 @@
         "withr"
       ]
     },
+    "ggpubr": {
+      "Package": "ggpubr",
+      "Version": "0.4.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggpubr",
+      "RemoteRef": "ggpubr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.0",
+      "Hash": "77089557d374c69db7cb77e65f0d6ab0",
+      "Requirements": [
+        "cowplot",
+        "dplyr",
+        "ggplot2",
+        "ggrepel",
+        "ggsci",
+        "ggsignif",
+        "glue",
+        "gridExtra",
+        "magrittr",
+        "polynom",
+        "purrr",
+        "rlang",
+        "rstatix",
+        "scales",
+        "tibble",
+        "tidyr"
+      ]
+    },
     "ggrepel": {
       "Package": "ggrepel",
       "Version": "0.9.1",
@@ -1259,6 +2561,74 @@
         "ggplot2",
         "rlang",
         "scales"
+      ]
+    },
+    "ggridges": {
+      "Package": "ggridges",
+      "Version": "0.5.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggridges",
+      "RemoteRef": "ggridges",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.5.3",
+      "Hash": "9d028e8f37c84dba356ce3c367a1978e",
+      "Requirements": [
+        "ggplot2",
+        "plyr",
+        "scales",
+        "withr"
+      ]
+    },
+    "ggsci": {
+      "Package": "ggsci",
+      "Version": "2.9",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggsci",
+      "RemoteRef": "ggsci",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.9",
+      "Hash": "81ccb8213ed592598210afd10c3a5936",
+      "Requirements": [
+        "ggplot2",
+        "scales"
+      ]
+    },
+    "ggseqlogo": {
+      "Package": "ggseqlogo",
+      "Version": "0.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggseqlogo",
+      "RemoteRef": "ggseqlogo",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1",
+      "Hash": "461f7f16a39039e9ca8ea4b647c4094d",
+      "Requirements": [
+        "ggplot2"
+      ]
+    },
+    "ggsignif": {
+      "Package": "ggsignif",
+      "Version": "0.6.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ggsignif",
+      "RemoteRef": "ggsignif",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.6.3",
+      "Hash": "2e82e829a1c4a6c5d41921c177051e85",
+      "Requirements": [
+        "ggplot2"
       ]
     },
     "gh": {
@@ -1299,6 +2669,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "4f2596dfb05dac67b9dc558e5c6fba2e",
+      "Requirements": []
+    },
+    "goftest": {
+      "Package": "goftest",
+      "Version": "1.2-3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "goftest",
+      "RemoteRef": "goftest",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.2-3",
+      "Hash": "dbe0201f91eeb15918dd3fbf01ee689a",
       "Requirements": []
     },
     "googledrive": {
@@ -1347,6 +2731,57 @@
         "vctrs"
       ]
     },
+    "gplots": {
+      "Package": "gplots",
+      "Version": "3.1.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "gplots",
+      "RemoteRef": "gplots",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.1.3",
+      "Hash": "75437dd4c43599f6e9418ea249495fda",
+      "Requirements": [
+        "KernSmooth",
+        "caTools",
+        "gtools"
+      ]
+    },
+    "graph": {
+      "Package": "graph",
+      "Version": "1.74.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "graph",
+      "RemoteRef": "graph",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.74.0",
+      "git_url": "https://git.bioconductor.org/packages/graph",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "4af608a",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "08e64017b9fc86340df1a13eb89573cc",
+      "Requirements": [
+        "BiocGenerics"
+      ]
+    },
+    "gridBase": {
+      "Package": "gridBase",
+      "Version": "0.4-7",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "gridBase",
+      "RemoteRef": "gridBase",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4-7",
+      "Hash": "c6b1256546a22b4b9f4fae3ba5117b97",
+      "Requirements": []
+    },
     "gridExtra": {
       "Package": "gridExtra",
       "Version": "2.3",
@@ -1373,6 +2808,20 @@
       "Hash": "ac5c6baf7822ce8732b343f14c072c4d",
       "Requirements": []
     },
+    "gtools": {
+      "Package": "gtools",
+      "Version": "3.9.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "gtools",
+      "RemoteRef": "gtools",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.9.2",
+      "Hash": "2ace6c4a06297d0b364e0444384a2b82",
+      "Requirements": []
+    },
     "haven": {
       "Package": "haven",
       "Version": "2.5.0",
@@ -1390,6 +2839,55 @@
         "tibble",
         "tidyselect",
         "vctrs"
+      ]
+    },
+    "hdf5r": {
+      "Package": "hdf5r",
+      "Version": "1.3.5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "hdf5r",
+      "RemoteRef": "hdf5r",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.3.5",
+      "Hash": "0870af1f511f6d6d1230e71856801f86",
+      "Requirements": [
+        "R6",
+        "bit64"
+      ]
+    },
+    "here": {
+      "Package": "here",
+      "Version": "1.0.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "here",
+      "RemoteRef": "here",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.1",
+      "Hash": "24b224366f9c2e7534d2344d10d59211",
+      "Requirements": [
+        "rprojroot"
+      ]
+    },
+    "hexbin": {
+      "Package": "hexbin",
+      "Version": "1.28.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "hexbin",
+      "RemoteRef": "hexbin",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.28.2",
+      "Hash": "76314b69dc54f8c14204063a2fd6d74a",
+      "Requirements": [
+        "lattice"
       ]
     },
     "highr": {
@@ -1474,6 +2972,46 @@
         "openssl"
       ]
     },
+    "huxtable": {
+      "Package": "huxtable",
+      "Version": "5.4.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "huxtable",
+      "RemoteRef": "huxtable",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "5.4.0",
+      "Hash": "633926f3332d7a937ff16a8a98aa2192",
+      "Requirements": [
+        "R6",
+        "assertthat",
+        "commonmark",
+        "generics",
+        "glue",
+        "memoise",
+        "rlang",
+        "stringi",
+        "stringr",
+        "tidyselect",
+        "xml2"
+      ]
+    },
+    "ica": {
+      "Package": "ica",
+      "Version": "1.0-2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ica",
+      "RemoteRef": "ica",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0-2",
+      "Hash": "95ba9b882bb834ecbdad37338a11f3f8",
+      "Requirements": []
+    },
     "ids": {
       "Package": "ids",
       "Version": "1.0.1",
@@ -1505,6 +3043,20 @@
       "Hash": "6154ec2223172bce8162d4153cda21f7",
       "Requirements": []
     },
+    "invgamma": {
+      "Package": "invgamma",
+      "Version": "1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "invgamma",
+      "RemoteRef": "invgamma",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1",
+      "Hash": "d124cd1623454d8aeaaec5d67cf1d146",
+      "Requirements": []
+    },
     "irlba": {
       "Package": "irlba",
       "Version": "2.3.5",
@@ -1521,6 +3073,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "7ab57a6de7f48a8dc84910d1eca42883",
+      "Requirements": []
+    },
+    "iterators": {
+      "Package": "iterators",
+      "Version": "1.0.14",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "iterators",
+      "RemoteRef": "iterators",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.14",
+      "Hash": "8954069286b4b2b0d023d1b288dce978",
       "Requirements": []
     },
     "jquerylib": {
@@ -1606,6 +3172,24 @@
       "Hash": "d908914ae53b04d4c0c0fd72ecc35370",
       "Requirements": []
     },
+    "leiden": {
+      "Package": "leiden",
+      "Version": "0.4.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "leiden",
+      "RemoteRef": "leiden",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.2",
+      "Hash": "3f7527c44b7e5cb63e916c6cfb986410",
+      "Requirements": [
+        "Matrix",
+        "igraph",
+        "reticulate"
+      ]
+    },
     "leidenbase": {
       "Package": "leidenbase",
       "Version": "0.1.9",
@@ -1651,6 +3235,30 @@
       "Hash": "0bde42ee282efb18c7c4e63822f5b4f7",
       "Requirements": []
     },
+    "lme4": {
+      "Package": "lme4",
+      "Version": "1.1-29",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lme4",
+      "RemoteRef": "lme4",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1-29",
+      "Hash": "4f55df530bfb9fe95fc42738fa55f183",
+      "Requirements": [
+        "MASS",
+        "Matrix",
+        "Rcpp",
+        "RcppEigen",
+        "boot",
+        "lattice",
+        "minqa",
+        "nlme",
+        "nloptr"
+      ]
+    },
     "lmtest": {
       "Package": "lmtest",
       "Version": "0.9-40",
@@ -1659,6 +3267,38 @@
       "Hash": "c6fafa6cccb1e1dfe7f7d122efd6e6a7",
       "Requirements": [
         "zoo"
+      ]
+    },
+    "locfit": {
+      "Package": "locfit",
+      "Version": "1.5-9.5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "locfit",
+      "RemoteRef": "locfit",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.5-9.5",
+      "Hash": "ab000f1b849b9378c2b51487c70fe93c",
+      "Requirements": [
+        "lattice"
+      ]
+    },
+    "lsa": {
+      "Package": "lsa",
+      "Version": "0.73.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lsa",
+      "RemoteRef": "lsa",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.73.3",
+      "Hash": "f228e7dc89060fa4a7f3271ff744c099",
+      "Requirements": [
+        "SnowballC"
       ]
     },
     "lubridate": {
@@ -1679,6 +3319,38 @@
       "Repository": "CRAN",
       "Hash": "7ce2733a9826b3aeb1775d56fd305472",
       "Requirements": []
+    },
+    "maps": {
+      "Package": "maps",
+      "Version": "3.4.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "maps",
+      "RemoteRef": "maps",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.4.0",
+      "Hash": "b3d98a967ec17c80f795719529812fa0",
+      "Requirements": []
+    },
+    "maptools": {
+      "Package": "maptools",
+      "Version": "1.1-4",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "maptools",
+      "RemoteRef": "maptools",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1-4",
+      "Hash": "e60a1728ad29c48a3491777e0c55a07d",
+      "Requirements": [
+        "foreign",
+        "lattice",
+        "sp"
+      ]
     },
     "matrixStats": {
       "Package": "matrixStats",
@@ -1723,6 +3395,57 @@
       "Repository": "CRAN",
       "Hash": "18e9c28c1d3ca1560ce30658b22ce104",
       "Requirements": []
+    },
+    "miniUI": {
+      "Package": "miniUI",
+      "Version": "0.1.1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "miniUI",
+      "RemoteRef": "miniUI",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1.1.1",
+      "Hash": "fec5f52652d60615fdb3957b3d74324a",
+      "Requirements": [
+        "htmltools",
+        "shiny"
+      ]
+    },
+    "minqa": {
+      "Package": "minqa",
+      "Version": "1.2.4",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "minqa",
+      "RemoteRef": "minqa",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.2.4",
+      "Hash": "eaee7d2a6f3ed4491df868611cb064cc",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
+    "mixsqp": {
+      "Package": "mixsqp",
+      "Version": "0.3-43",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "mixsqp",
+      "RemoteRef": "mixsqp",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3-43",
+      "Hash": "e1b117daee4dfaebad99ab9a4606dd5d",
+      "Requirements": [
+        "Rcpp",
+        "RcppArmadillo",
+        "irlba"
+      ]
     },
     "modelr": {
       "Package": "modelr",
@@ -1809,6 +3532,24 @@
         "colorspace"
       ]
     },
+    "network": {
+      "Package": "network",
+      "Version": "1.17.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "network",
+      "RemoteRef": "network",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.17.1",
+      "Hash": "a3a94709afe998d2745847ce69c6c5d9",
+      "Requirements": [
+        "magrittr",
+        "statnet.common",
+        "tibble"
+      ]
+    },
     "nlme": {
       "Package": "nlme",
       "Version": "3.1-157",
@@ -1819,12 +3560,42 @@
         "lattice"
       ]
     },
+    "nloptr": {
+      "Package": "nloptr",
+      "Version": "2.0.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "nloptr",
+      "RemoteRef": "nloptr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.0.1",
+      "Hash": "158916799afe8d32e07b0b1920ea79a8",
+      "Requirements": [
+        "testthat"
+      ]
+    },
     "nnet": {
       "Package": "nnet",
       "Version": "7.3-17",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "cb1d8d9f300a7e536b89c8a88c53f610",
+      "Requirements": []
+    },
+    "numDeriv": {
+      "Package": "numDeriv",
+      "Version": "2016.8-1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "numDeriv",
+      "RemoteRef": "numDeriv",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2016.8-1.1",
+      "Hash": "df58958f293b166e4ab885ebcad90e02",
       "Requirements": []
     },
     "openssl": {
@@ -1837,11 +3608,62 @@
         "askpass"
       ]
     },
+    "org.Dr.eg.db": {
+      "Package": "org.Dr.eg.db",
+      "Version": "3.15.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "org.Dr.eg.db",
+      "RemoteRef": "org.Dr.eg.db",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/data/annotation",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.15.0",
+      "Hash": "2cc52ff4025babe6fa3a3834b33a98a6",
+      "Requirements": [
+        "AnnotationDbi"
+      ]
+    },
+    "org.Hs.eg.db": {
+      "Package": "org.Hs.eg.db",
+      "Version": "3.15.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "org.Hs.eg.db",
+      "RemoteRef": "org.Hs.eg.db",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/data/annotation",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.15.0",
+      "Hash": "ea73036cd4946b4577e0aa9e51d0a61b",
+      "Requirements": [
+        "AnnotationDbi"
+      ]
+    },
+    "org.Mm.eg.db": {
+      "Package": "org.Mm.eg.db",
+      "Version": "3.15.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "org.Mm.eg.db",
+      "RemoteRef": "org.Mm.eg.db",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/data/annotation",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "3.15.0",
+      "Hash": "ad876508bf40966eaad1a0e89a83d522",
+      "Requirements": [
+        "AnnotationDbi"
+      ]
+    },
     "pak": {
       "Package": "pak",
       "Version": "0.3.0",
-      "Source": "Repository",
+      "Source": "CRAN",
       "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pak",
+      "RemoteRef": "pak",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3.0",
       "Hash": "a39d952e8d1f652b6f31469a73efce39",
       "Requirements": []
     },
@@ -1853,6 +3675,23 @@
       "Hash": "115faaa1a50897c3e2339d1cb7d3d493",
       "Requirements": []
     },
+    "patchwork": {
+      "Package": "patchwork",
+      "Version": "1.1.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "patchwork",
+      "RemoteRef": "patchwork",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1.1",
+      "Hash": "c446b30cb33ec125ff02588b60660ccb",
+      "Requirements": [
+        "ggplot2",
+        "gtable"
+      ]
+    },
     "pbapply": {
       "Package": "pbapply",
       "Version": "1.5-0",
@@ -1860,6 +3699,29 @@
       "Repository": "CRAN",
       "Hash": "11359a5bb73622ab3f4136bf57108b64",
       "Requirements": []
+    },
+    "pbkrtest": {
+      "Package": "pbkrtest",
+      "Version": "0.5.1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pbkrtest",
+      "RemoteRef": "pbkrtest",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.5.1",
+      "Hash": "b304ff5955f37b48bd30518faf582929",
+      "Requirements": [
+        "MASS",
+        "Matrix",
+        "broom",
+        "dplyr",
+        "knitr",
+        "lme4",
+        "magrittr",
+        "numDeriv"
+      ]
     },
     "pbmcapply": {
       "Package": "pbmcapply",
@@ -1965,6 +3827,42 @@
         "withr"
       ]
     },
+    "pkgmaker": {
+      "Package": "pkgmaker",
+      "Version": "0.32.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pkgmaker",
+      "RemoteRef": "pkgmaker",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.32.2",
+      "Hash": "db98ef04b0de97d7010505999323c8bf",
+      "Requirements": [
+        "assertthat",
+        "codetools",
+        "digest",
+        "registry",
+        "stringr",
+        "withr",
+        "xtable"
+      ]
+    },
+    "plogr": {
+      "Package": "plogr",
+      "Version": "0.2.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "plogr",
+      "RemoteRef": "plogr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.2.0",
+      "Hash": "09eb987710984fc2905c7129c7d85e65",
+      "Requirements": []
+    },
     "plotly": {
       "Package": "plotly",
       "Version": "4.10.0",
@@ -2005,6 +3903,48 @@
         "Rcpp"
       ]
     },
+    "png": {
+      "Package": "png",
+      "Version": "0.1-7",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "png",
+      "RemoteRef": "png",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.1-7",
+      "Hash": "03b7076c234cb3331288919983326c55",
+      "Requirements": []
+    },
+    "polyclip": {
+      "Package": "polyclip",
+      "Version": "1.10-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "polyclip",
+      "RemoteRef": "polyclip",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.10-0",
+      "Hash": "cb167f328b3ada4ec5cf67a7df4c900a",
+      "Requirements": []
+    },
+    "polynom": {
+      "Package": "polynom",
+      "Version": "1.4-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "polynom",
+      "RemoteRef": "polynom",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.4-1",
+      "Hash": "ceb5c2a59ba33d42d051285a3e8a5118",
+      "Requirements": []
+    },
     "praise": {
       "Package": "praise",
       "Version": "1.0.0",
@@ -2043,6 +3983,22 @@
         "crayon",
         "hms",
         "prettyunits"
+      ]
+    },
+    "progressr": {
+      "Package": "progressr",
+      "Version": "0.10.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "progressr",
+      "RemoteRef": "progressr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.10.0",
+      "Hash": "7df448f5ae46ab0a1af0fb619349d3fd",
+      "Requirements": [
+        "digest"
       ]
     },
     "promises": {
@@ -2104,6 +4060,45 @@
       "Requirements": [
         "magrittr",
         "rlang"
+      ]
+    },
+    "qlcMatrix": {
+      "Package": "qlcMatrix",
+      "Version": "0.9.7",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "qlcMatrix",
+      "RemoteRef": "qlcMatrix",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.9.7",
+      "Hash": "132c83536ad209678fbfcace91da1302",
+      "Requirements": [
+        "Matrix",
+        "docopt",
+        "slam",
+        "sparsesvd"
+      ]
+    },
+    "quantreg": {
+      "Package": "quantreg",
+      "Version": "5.93",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "quantreg",
+      "RemoteRef": "quantreg",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "5.93",
+      "Hash": "48485e5cbfe385caf47ce1d9442f5147",
+      "Requirements": [
+        "MASS",
+        "Matrix",
+        "MatrixModels",
+        "SparseM",
+        "survival"
       ]
     },
     "rappdirs": {
@@ -2180,6 +4175,20 @@
         "tibble"
       ]
     },
+    "registry": {
+      "Package": "registry",
+      "Version": "0.5-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "registry",
+      "RemoteRef": "registry",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.5-1",
+      "Hash": "1c9935f4f14c6c096c9c9072ddee59f1",
+      "Requirements": []
+    },
     "rematch": {
       "Package": "rematch",
       "Version": "1.0.1",
@@ -2245,6 +4254,59 @@
         "stringr"
       ]
     },
+    "reticulate": {
+      "Package": "reticulate",
+      "Version": "1.25",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "reticulate",
+      "RemoteRef": "reticulate",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.25",
+      "Hash": "786b311743eb8cd347491f8f0a571941",
+      "Requirements": [
+        "Matrix",
+        "Rcpp",
+        "RcppTOML",
+        "here",
+        "jsonlite",
+        "png",
+        "rappdirs",
+        "withr"
+      ]
+    },
+    "rgeos": {
+      "Package": "rgeos",
+      "Version": "0.5-9",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rgeos",
+      "RemoteRef": "rgeos",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.5-9",
+      "Hash": "7cfa4f73a070042ecf141d5c1d1bfcae",
+      "Requirements": [
+        "sp"
+      ]
+    },
+    "rjson": {
+      "Package": "rjson",
+      "Version": "0.2.21",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rjson",
+      "RemoteRef": "rjson",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.2.21",
+      "Hash": "f9da75e6444e95a1baf8ca24909d63b9",
+      "Requirements": []
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "1.0.2",
@@ -2270,6 +4332,22 @@
         "tinytex",
         "xfun",
         "yaml"
+      ]
+    },
+    "rngtools": {
+      "Package": "rngtools",
+      "Version": "1.5.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rngtools",
+      "RemoteRef": "rngtools",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.5.2",
+      "Hash": "367a915f939520767660671efa0e32bd",
+      "Requirements": [
+        "digest"
       ]
     },
     "roxygen2": {
@@ -2310,6 +4388,34 @@
       "Hash": "1de7ab598047a87bba48434ba35d497d",
       "Requirements": []
     },
+    "rrvgo": {
+      "Package": "rrvgo",
+      "Version": "1.8.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rrvgo",
+      "RemoteRef": "rrvgo",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.8.0",
+      "git_url": "https://git.bioconductor.org/packages/rrvgo",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "de1ac17",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "ce790f9e6965cba0513eaa75f47764aa",
+      "Requirements": [
+        "AnnotationDbi",
+        "GO.db",
+        "GOSemSim",
+        "ggplot2",
+        "ggrepel",
+        "pheatmap",
+        "shiny",
+        "tm",
+        "treemap",
+        "wordcloud"
+      ]
+    },
     "rsample": {
       "Package": "rsample",
       "Version": "0.1.1",
@@ -2329,6 +4435,32 @@
         "tidyr",
         "tidyselect",
         "vctrs"
+      ]
+    },
+    "rstatix": {
+      "Package": "rstatix",
+      "Version": "0.7.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rstatix",
+      "RemoteRef": "rstatix",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.7.0",
+      "Hash": "aa020f8efde649badd0b2b5456e942fe",
+      "Requirements": [
+        "broom",
+        "car",
+        "corrplot",
+        "dplyr",
+        "generics",
+        "magrittr",
+        "purrr",
+        "rlang",
+        "tibble",
+        "tidyr",
+        "tidyselect"
       ]
     },
     "rstudioapi": {
@@ -2424,6 +4556,90 @@
         "viridisLite"
       ]
     },
+    "scater": {
+      "Package": "scater",
+      "Version": "1.24.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "scater",
+      "RemoteRef": "scater",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.24.0",
+      "git_url": "https://git.bioconductor.org/packages/scater",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "013f093",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "52c6afa5fe07d6d45bcc0437565f2cef",
+      "Requirements": [
+        "BiocGenerics",
+        "BiocNeighbors",
+        "BiocParallel",
+        "BiocSingular",
+        "DelayedArray",
+        "DelayedMatrixStats",
+        "Matrix",
+        "RColorBrewer",
+        "RcppML",
+        "Rtsne",
+        "S4Vectors",
+        "SingleCellExperiment",
+        "SummarizedExperiment",
+        "beachmat",
+        "ggbeeswarm",
+        "ggplot2",
+        "ggrepel",
+        "gridExtra",
+        "rlang",
+        "scuttle",
+        "viridis"
+      ]
+    },
+    "scattermore": {
+      "Package": "scattermore",
+      "Version": "0.8",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "scattermore",
+      "RemoteRef": "scattermore",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.8",
+      "Hash": "77ef398f338597b86a3d6853c585ce38",
+      "Requirements": [
+        "ggplot2",
+        "scales"
+      ]
+    },
+    "sctransform": {
+      "Package": "sctransform",
+      "Version": "0.3.3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sctransform",
+      "RemoteRef": "sctransform",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.3.3",
+      "Hash": "85ff27d18c45a92993f6d7fd09c41f79",
+      "Requirements": [
+        "MASS",
+        "Matrix",
+        "Rcpp",
+        "RcppArmadillo",
+        "dplyr",
+        "future",
+        "future.apply",
+        "ggplot2",
+        "gridExtra",
+        "magrittr",
+        "matrixStats",
+        "reshape2",
+        "rlang"
+      ]
+    },
     "scuttle": {
       "Package": "scuttle",
       "Version": "1.6.0",
@@ -2483,6 +4699,20 @@
         "units"
       ]
     },
+    "shape": {
+      "Package": "shape",
+      "Version": "1.4.6",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "shape",
+      "RemoteRef": "shape",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.4.6",
+      "Hash": "9067f962730f58b14d8ae54ca885509f",
+      "Requirements": []
+    },
     "shiny": {
       "Package": "shiny",
       "Version": "1.7.1",
@@ -2510,6 +4740,28 @@
         "sourcetools",
         "withr",
         "xtable"
+      ]
+    },
+    "sinew": {
+      "Package": "sinew",
+      "Version": "0.4.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sinew",
+      "RemoteRef": "sinew",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.0",
+      "Hash": "9a7d102e0d254aeae96052c637f3efee",
+      "Requirements": [
+        "cli",
+        "crayon",
+        "rematch2",
+        "rstudioapi",
+        "sos",
+        "stringi",
+        "yaml"
       ]
     },
     "sitmo": {
@@ -2544,6 +4796,23 @@
         "warp"
       ]
     },
+    "sna": {
+      "Package": "sna",
+      "Version": "2.6",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sna",
+      "RemoteRef": "sna",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.6",
+      "Hash": "a2a44d327eeca6d2550b4c6dcef22e68",
+      "Requirements": [
+        "network",
+        "statnet.common"
+      ]
+    },
     "snow": {
       "Package": "snow",
       "Version": "0.4-4",
@@ -2557,6 +4826,22 @@
       "RemoteSha": "0.4-4",
       "Hash": "40b74690debd20c57d93d8c246b305d4",
       "Requirements": []
+    },
+    "sos": {
+      "Package": "sos",
+      "Version": "2.1-4",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sos",
+      "RemoteRef": "sos",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.1-4",
+      "Hash": "696a25c20d2c70e1cb46ef81529d4c86",
+      "Requirements": [
+        "brew"
+      ]
     },
     "sourcetools": {
       "Package": "sourcetools",
@@ -2587,6 +4872,22 @@
         "sp"
       ]
     },
+    "spam": {
+      "Package": "spam",
+      "Version": "2.8-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spam",
+      "RemoteRef": "spam",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.8-0",
+      "Hash": "516ffcf193fa4f07683611a4474db22b",
+      "Requirements": [
+        "dotCall64"
+      ]
+    },
     "sparseMatrixStats": {
       "Package": "sparseMatrixStats",
       "Version": "1.8.0",
@@ -2603,12 +4904,142 @@
         "matrixStats"
       ]
     },
+    "sparsesvd": {
+      "Package": "sparsesvd",
+      "Version": "0.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sparsesvd",
+      "RemoteRef": "sparsesvd",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.2",
+      "Hash": "c1f957f9c7e40091da380da53882ade2",
+      "Requirements": [
+        "Matrix"
+      ]
+    },
     "spatial": {
       "Package": "spatial",
       "Version": "7.3-15",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "c23666fdb7789c8a45e65340bb334607",
+      "Requirements": []
+    },
+    "spatstat.core": {
+      "Package": "spatstat.core",
+      "Version": "2.4-2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.core",
+      "RemoteRef": "spatstat.core",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.4-2",
+      "Hash": "1f996e01b9890a001823bd97818e75e9",
+      "Requirements": [
+        "Matrix",
+        "abind",
+        "goftest",
+        "mgcv",
+        "nlme",
+        "rpart",
+        "spatstat.data",
+        "spatstat.geom",
+        "spatstat.random",
+        "spatstat.sparse",
+        "spatstat.utils",
+        "tensor"
+      ]
+    },
+    "spatstat.data": {
+      "Package": "spatstat.data",
+      "Version": "2.2-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.data",
+      "RemoteRef": "spatstat.data",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.2-0",
+      "Hash": "5b4f6c12d1a222680579070a045786bb",
+      "Requirements": [
+        "Matrix",
+        "spatstat.utils"
+      ]
+    },
+    "spatstat.geom": {
+      "Package": "spatstat.geom",
+      "Version": "2.4-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.geom",
+      "RemoteRef": "spatstat.geom",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.4-0",
+      "Hash": "33f4612dc27fa9228cac4713bb2edfd7",
+      "Requirements": [
+        "deldir",
+        "polyclip",
+        "spatstat.data",
+        "spatstat.utils"
+      ]
+    },
+    "spatstat.random": {
+      "Package": "spatstat.random",
+      "Version": "2.2-0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.random",
+      "RemoteRef": "spatstat.random",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.2-0",
+      "Hash": "c08d6e00855f11e04ac863dce8d6779e",
+      "Requirements": [
+        "spatstat.data",
+        "spatstat.geom",
+        "spatstat.utils"
+      ]
+    },
+    "spatstat.sparse": {
+      "Package": "spatstat.sparse",
+      "Version": "2.1-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.sparse",
+      "RemoteRef": "spatstat.sparse",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.1-1",
+      "Hash": "cde91679dea4a2fb53833a86f32c94f5",
+      "Requirements": [
+        "Matrix",
+        "abind",
+        "spatstat.utils",
+        "tensor"
+      ]
+    },
+    "spatstat.utils": {
+      "Package": "spatstat.utils",
+      "Version": "2.3-1",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "spatstat.utils",
+      "RemoteRef": "spatstat.utils",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.3-1",
+      "Hash": "cd59e2bcc05a5e34c00fe4760f118960",
       "Requirements": []
     },
     "spdep": {
@@ -2637,6 +5068,22 @@
       "Requirements": [
         "MASS",
         "Matrix"
+      ]
+    },
+    "statnet.common": {
+      "Package": "statnet.common",
+      "Version": "4.6.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "statnet.common",
+      "RemoteRef": "statnet.common",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "4.6.0",
+      "Hash": "4c1387839f4770332fe1ce2f79ba982e",
+      "Requirements": [
+        "coda"
       ]
     },
     "stringi": {
@@ -2669,12 +5116,59 @@
         "Matrix"
       ]
     },
+    "svglite": {
+      "Package": "svglite",
+      "Version": "2.1.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "svglite",
+      "RemoteRef": "svglite",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.1.0",
+      "Hash": "68dfdf211af6aa4e5f050f064f64d401",
+      "Requirements": [
+        "cpp11",
+        "systemfonts"
+      ]
+    },
     "sys": {
       "Package": "sys",
       "Version": "3.4",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "b227d13e29222b4574486cfcbde077fa",
+      "Requirements": []
+    },
+    "systemfonts": {
+      "Package": "systemfonts",
+      "Version": "1.0.4",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "systemfonts",
+      "RemoteRef": "systemfonts",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.4",
+      "Hash": "90b28393209827327de889f49935140a",
+      "Requirements": [
+        "cpp11"
+      ]
+    },
+    "tensor": {
+      "Package": "tensor",
+      "Version": "1.5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tensor",
+      "RemoteRef": "tensor",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.5",
+      "Hash": "25cfab6cf405c15bccf7e69ec39df090",
       "Requirements": []
     },
     "terra": {
@@ -2820,6 +5314,108 @@
         "xfun"
       ]
     },
+    "tm": {
+      "Package": "tm",
+      "Version": "0.7-8",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tm",
+      "RemoteRef": "tm",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.7-8",
+      "Hash": "608413cbdf64d418b6a33e6c3d4d3b25",
+      "Requirements": [
+        "BH",
+        "NLP",
+        "Rcpp",
+        "slam",
+        "xml2"
+      ]
+    },
+    "topGO": {
+      "Package": "topGO",
+      "Version": "2.48.0",
+      "Source": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "topGO",
+      "RemoteRef": "topGO",
+      "RemoteRepos": "https://bioconductor.org/packages/3.15/bioc",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.48.0",
+      "git_url": "https://git.bioconductor.org/packages/topGO",
+      "git_branch": "RELEASE_3_15",
+      "git_last_commit": "a47f007",
+      "git_last_commit_date": "2022-04-26",
+      "Hash": "e0a64845ef3ab58a96d5e7f304ffd002",
+      "Requirements": [
+        "AnnotationDbi",
+        "Biobase",
+        "BiocGenerics",
+        "DBI",
+        "GO.db",
+        "SparseM",
+        "graph",
+        "lattice",
+        "matrixStats"
+      ]
+    },
+    "treemap": {
+      "Package": "treemap",
+      "Version": "2.4-3",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "treemap",
+      "RemoteRef": "treemap",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.4-3",
+      "Hash": "754d9ed7b25a790451f5da1a62fc7d04",
+      "Requirements": [
+        "RColorBrewer",
+        "colorspace",
+        "data.table",
+        "ggplot2",
+        "gridBase",
+        "igraph",
+        "shiny"
+      ]
+    },
+    "truncnorm": {
+      "Package": "truncnorm",
+      "Version": "1.0-8",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "truncnorm",
+      "RemoteRef": "truncnorm",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0-8",
+      "Hash": "cc8b5bfa01c930ccb56d3051e515fbd8",
+      "Requirements": []
+    },
+    "tweenr": {
+      "Package": "tweenr",
+      "Version": "1.0.2",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tweenr",
+      "RemoteRef": "tweenr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.0.2",
+      "Hash": "6cc663f970a529dbf776f11d5bcd1a2e",
+      "Requirements": [
+        "Rcpp",
+        "farver",
+        "magrittr",
+        "rlang"
+      ]
+    },
     "tzdb": {
       "Package": "tzdb",
       "Version": "0.3.0",
@@ -2913,6 +5509,20 @@
         "rlang"
       ]
     },
+    "vipor": {
+      "Package": "vipor",
+      "Version": "0.4.5",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "vipor",
+      "RemoteRef": "vipor",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "0.4.5",
+      "Hash": "ea85683da7f2bfa63a98dc6416892591",
+      "Requirements": []
+    },
     "viridis": {
       "Package": "viridis",
       "Version": "0.6.2",
@@ -3003,6 +5613,23 @@
       "Repository": "CRAN",
       "Hash": "d6bc0432436a0aefbf29d5de8588b876",
       "Requirements": []
+    },
+    "wordcloud": {
+      "Package": "wordcloud",
+      "Version": "2.6",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "wordcloud",
+      "RemoteRef": "wordcloud",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "2.6",
+      "Hash": "dddb6538141ed1e2435cb63c6c748d16",
+      "Requirements": [
+        "RColorBrewer",
+        "Rcpp"
+      ]
     },
     "xfun": {
       "Package": "xfun",

@@ -165,3 +165,7 @@
 # blaseRtemplates 0.0.0.9095-9
 
 * major changes to easy install, allowing direct linking from cache to project 
+
+# blaseRtemplates 0.0.0.9103
+
+* added easy_restore and easy_init
