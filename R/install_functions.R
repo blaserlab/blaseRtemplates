@@ -6,18 +6,51 @@
 #'  \code{\link[purrr]{map}}, \code{\link[purrr]{safely}}
 #' @rdname easy_init
 #' @export
+#' @importFrom usethis proj_get
 #' @importFrom renv init dependencies
-#' @importFrom purrr walk
+#' @importFrom dplyr group_by arrange slice_head filter mutate
+#' @importFrom purrr walk2 walk
 easy_init <- function() {
-  # intitiate an renv lockfile without installing anything
+  # check to be sure you are in an r project
+  usethis::proj_get()
+  # intitiate an renv project without installing anything
   renv::init(bioconductor = TRUE, bare = TRUE, restart = FALSE)
+  # get the packages we need
   packages <- renv::dependencies()$Package
-  purrr::walk(
-    .x = packages,
-    .f = \(x) safely_hydrate(x)
-  )
+  # load the package catalog and get teh latest versions
+  cat <- get_cache_binary_pkg_catalog() |>
+    dplyr::group_by(package) |>
+    dplyr::arrange(package, desc(version), desc(modification_time)) |>
+    dplyr::slice_head(n = 1)
+  inst <- cat |>
+    dplyr::filter(package %in% packages) |>
+    dplyr::mutate(path = file.path(path, package)) |>
+    dplyr::filter(path != "")
+
+  purrr::walk2(.x = inst$path,
+               .y = inst$package,
+               .f = \(x, y) {
+                 library_link_path <- file.path(.libPaths()[1], y)
+                 if (dir.exists(library_link_path))
+                   unlink(library_link_path, recursive = T)
+                 message("Linking to ", y, " in renv cache.")
+                 invisible(file.symlink(to = library_link_path, from = x))
+
+               })
+
+  remainder <- packages[which(packages %notin% inst$package)]
+
+  if (length(remainder) > 0) {
+    message("Attempting to install packages not found in the cache.")
+    purrr::walk(.x = remainder,
+                .f = \(x) safely_hydrate(package = x))
+  }
+
   sync_cache()
   write_cache_binary_pkg_catalog()
+  message("\nInitiated a new renv project.\n")
+
+
 }
 
 
@@ -31,32 +64,65 @@ easy_init <- function() {
 #' @rdname easy_restore
 #' @export
 #' @importFrom rjson fromJSON
-#' @importFrom purrr map_chr walk
+#' @importFrom purrr map_dfr walk2 walk
+#' @importFrom tibble tibble
+#' @importFrom dplyr left_join filter select mutate
 easy_restore <- function(lockfile = "default") {
+  stopifnot("You must be in an active renv project to use this function." = "RENV_PROJECT" %in% names(Sys.getenv()))
   if (lockfile == "default") {
     lockfile = "renv.lock"
   }
   message("Attempting to restore the library from ", lockfile, ".\n")
   lock <- rjson::fromJSON(file = lockfile)
   packages <- names(lock$Packages)
-  inst <- purrr::map_chr(.x = packages,
+  inst <- purrr::map_dfr(.x = packages,
                          .f = \(x, lck = lock) {
                            ind <- lck[["Packages"]][[x]]
                            if ("Hash" %in% names(ind)) {
-                             res <- paste0(x, "#", ind[["Hash"]])
+                             res <- tibble::tibble(package = x, hash = ind[["Hash"]])
                            } else {
-                             res <- x
+                             res <- tibble::tibble(package = x, hash = "no hash")
                            }
                          })
-  purrr::walk(
-    .x = inst,
-    .f = \(x) safely_hydrate(x)
+  cat <- get_cache_binary_pkg_catalog()
+  bin_paths_inst <- dplyr::left_join(
+    inst |>
+      dplyr::filter(hash != "no hash") |>
+      dplyr::select(hash),
+    cat |>
+      dplyr::select(c(path, hash, package))
+  ) |>
+    dplyr::filter(path != "") |>
+    dplyr::filter(!is.na(path)) |>
+    dplyr::mutate(path = file.path(path, package))
 
-  )
-  sync_cache()
-  write_cache_binary_pkg_catalog()
+
+  purrr::walk2(.x = bin_paths_inst$path,
+               .y = bin_paths_inst$package,
+               .f = \(x, y) {
+                 library_link_path <- file.path(.libPaths()[1], y)
+                 if (dir.exists(library_link_path))
+                   unlink(library_link_path, recursive = T)
+                 message("Linking to ", y, " in renv cache.")
+                 invisible(file.symlink(to = library_link_path, from = x))
+
+               })
+
+  remainder <- inst$package[which(inst$package %notin% bin_paths_inst$package)]
+
+  if (length(remainder) > 0) {
+    message("Attempting to install packages not found in the cache.")
+    purrr::walk(.x = remainder,
+                .f = \(x) safely_hydrate(package = x))
+    sync_cache()
+    write_cache_binary_pkg_catalog()
+  }
+
+  message("\nRestored project library from lock file.\n")
 
 }
+
+
 
 #' @title Easily Install Packages
 #' @description Typically we would like to use existing copies of packages in our renv cache, rather than taking time to re-download them all and rebuild them all.  You can specify this option with how = "link_from_cache".  Providing only the package name will install the latest available version.  Providing package @@1.2.3" will install package version 1.2.3.  Providing package#hash will install a unique version of the package, identified by the hash.  You can get the package hash list with ```get_cache_binary_pkg_catalog()```.
