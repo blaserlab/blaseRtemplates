@@ -17,34 +17,8 @@ easy_init <- function() {
   renv::init(bioconductor = TRUE, bare = TRUE, restart = FALSE)
   # get the packages we need
   packages <- renv::dependencies()$Package
-  # load the package catalog and get teh latest versions
-  cat <- get_cache_binary_pkg_catalog() |>
-    dplyr::group_by(package) |>
-    dplyr::arrange(package, desc(version), desc(modification_time)) |>
-    dplyr::slice_head(n = 1)
-  inst <- cat |>
-    dplyr::filter(package %in% packages) |>
-    dplyr::mutate(path = file.path(path, package)) |>
-    dplyr::filter(path != "")
-
-  purrr::walk2(.x = inst$path,
-               .y = inst$package,
-               .f = \(x, y) {
-                 library_link_path <- file.path(.libPaths()[1], y)
-                 if (dir.exists(library_link_path))
-                   unlink(library_link_path, recursive = T)
-                 message("Linking to ", y, " in renv cache.")
-                 invisible(file.symlink(to = library_link_path, from = x))
-
-               })
-
-  remainder <- packages[which(packages %notin% inst$package)]
-
-  if (length(remainder) > 0) {
-    message("Attempting to install packages not found in the cache.")
-    purrr::walk(.x = remainder,
-                .f = \(x) safely_hydrate(package = x))
-  }
+  purrr::walk(.x = packages,
+              .f = link_cache_to_proj)
 
   sync_cache()
   write_cache_binary_pkg_catalog()
