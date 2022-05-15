@@ -1,7 +1,3 @@
-#' @importFrom cli cli_div
-cli::cli_div(theme = list(span.emph = list(color = "orange")))
-
-
 #' @title Easily Initiate an renv Project
 #' @description Behave similarly to renv::init but instead of downloading and building everything, will first attempt to link to the latest versions of packages available in your cache.
 #' @return Nothing
@@ -46,8 +42,9 @@ easy_init <- function() {
 #' @importFrom purrr map_dfr walk2 walk
 #' @importFrom tibble tibble
 #' @importFrom dplyr left_join filter select mutate
-#' @importFrom cli cli_alert_info cli_alert_success cli_alert_warning
+#' @importFrom cli cli_alert_info cli_alert_success cli_alert_warning cli_div
 easy_restore <- function(lockfile = "default") {
+  cli::cli_div(theme = list(span.emph = list(color = "orange")))
   stopifnot("You must be in an active renv project to use this function." = "RENV_PROJECT" %in% names(Sys.getenv()))
   if (lockfile == "default") {
     lockfile = "renv.lock"
@@ -123,11 +120,12 @@ easy_restore <- function(lockfile = "default") {
 #' @export
 #' @importFrom stringr str_detect str_replace
 #' @importFrom pak pkg_install
-#' @importFrom cli cli_alert_success
+#' @importFrom cli cli_alert_success cli_div
 easy_install <-
   function(package,
            how = c("ask", "new_or_update", "link_from_cache", "tarball")
            ) {
+    cli::cli_div(theme = list(span.emph = list(color = "orange")))
     how <- match.arg(how)
     stopifnot("You must be in an renv project to use this function." = "RENV_PROJECT" %in% names(Sys.getenv()))
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
@@ -211,8 +209,9 @@ install_targz <- function(tarball) {
 #' @importFrom renv paths hydrate
 #' @importFrom fs dir_exists
 #' @importFrom pak pkg_install
-#' @importFrom cli cli_alert_warning
+#' @importFrom cli cli_alert_warning cli_div
 safely_hydrate <- function(package) {
+  cli::cli_div(theme = list(span.emph = list(color = "orange")))
   cache_path <- renv::paths$cache()
   if (stringr::str_detect(package, "@")) {
     package_min <- stringr::str_remove(package, "@.+")
@@ -292,8 +291,9 @@ write_cache_binary_pkg_catalog <- function(path = NULL) {
 
 #' @importFrom stringr str_detect str_remove
 #' @importFrom dplyr filter mutate pull group_by arrange slice_head
-#' @importFrom cli cli_alert_info cli_alert_success
+#' @importFrom cli cli_alert_info cli_alert_success cli_div
 link_cache_to_proj <- function(package) {
+  cli::cli_div(theme = list(span.emph = list(color = "orange")))
   method <- "install.specific"
   if (stringr::str_detect(package, "@")) {
     pname <- stringr::str_remove(package, "@.+")
