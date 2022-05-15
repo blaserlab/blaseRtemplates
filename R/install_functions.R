@@ -15,7 +15,9 @@ easy_init <- function() {
   # check to be sure you are in an r project
   usethis::proj_get()
   # intitiate an renv project without installing anything
-  renv::init(bioconductor = TRUE, bare = TRUE, restart = FALSE)
+  renv::init(bioconductor = TRUE,
+             bare = TRUE,
+             restart = FALSE)
   # get the packages we need
   packages <- renv::dependencies()$Package
   purrr::walk(.x = packages,
@@ -49,7 +51,7 @@ easy_restore <- function(lockfile = "default") {
   if (lockfile == "default") {
     lockfile = "renv.lock"
   }
-  cli::cli_alert_info("Attempting to restore the library from {lockfile}.\n",)
+  cli::cli_alert_info("Attempting to restore the library from {lockfile}.\n", )
   lock <- rjson::fromJSON(file = lockfile)
   packages <- names(lock$Packages)
   inst <- purrr::map_dfr(.x = packages,
@@ -67,7 +69,8 @@ easy_restore <- function(lockfile = "default") {
       dplyr::filter(hash != "no hash") |>
       dplyr::select(hash),
     cat |>
-      dplyr::select(c(path, hash, package))
+      dplyr::select(c(path, hash, package)),
+    by = "hash"
   ) |>
     dplyr::filter(path != "") |>
     dplyr::filter(!is.na(path)) |>
@@ -85,7 +88,8 @@ easy_restore <- function(lockfile = "default") {
 
                })
 
-  remainder <- inst$package[which(inst$package %notin% bin_paths_inst$package)]
+  remainder <-
+    inst$package[which(inst$package %notin% bin_paths_inst$package)]
 
   if (length(remainder) > 0) {
     cli::cli_alert_warning("Attempting to install packages not found in the cache.")
@@ -123,8 +127,7 @@ easy_restore <- function(lockfile = "default") {
 #' @importFrom cli cli_alert_success cli_div
 easy_install <-
   function(package,
-           how = c("ask", "new_or_update", "link_from_cache", "tarball")
-           ) {
+           how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     how <- match.arg(how)
     stopifnot("You must be in an renv project to use this function." = "RENV_PROJECT" %in% names(Sys.getenv()))
@@ -185,18 +188,23 @@ install_targz <- function(tarball) {
   package_name <- stringr::str_remove(tarball_file, "_.*")
   package_version <- stringr::str_remove(tarball_file, ".*_") |>
     stringr::str_remove(".tar.gz")
-  package_hash <- digest::digest(tarball, file = TRUE, algo = "sha256")
+  package_hash <-
+    digest::digest(tarball, file = TRUE, algo = "sha256")
   # put the targz in the pkgcache
-  pkgcache::pkg_cache_add_file(file = tarball,
-                               relpath = paste0("src/contrib/", tarball_file),
-                               package = package_name,
-                               version = package_version,
-                               platform = "source")
+  pkgcache::pkg_cache_add_file(
+    file = tarball,
+    relpath = paste0("src/contrib/", tarball_file),
+    package = package_name,
+    version = package_version,
+    platform = "source"
+  )
 
   # now install from the cache so you don't have to transfer large files twice
   # get the path to the cached version
   install_path <- file.path(pkgcache::pkg_cache_summary()$cachepath,
-                            "src","contrib", tarball_file)
+                            "src",
+                            "contrib",
+                            tarball_file)
 
   # install the tarball
   pak::pkg_install(install_path, ask = FALSE)
@@ -304,8 +312,10 @@ link_cache_to_proj <- function(package) {
       dplyr::filter(version == pversion) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
-    if (length(link_path) == 0) method <- "install.latest"
-    if (length(link_path) > 1) method <- "install.latest"
+    if (length(link_path) == 0)
+      method <- "install.latest"
+    if (length(link_path) > 1)
+      method <- "install.latest"
   } else if (stringr::str_detect(package, "#")) {
     pname <- stringr::str_remove(package, "#.+")
     phash <- stringr::str_remove(package, ".+#")
@@ -314,8 +324,10 @@ link_cache_to_proj <- function(package) {
       dplyr::filter(hash == phash) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
-    if (length(link_path) == 0) method <- "install.latest"
-    if (length(link_path) > 1) method <- "install.latest"
+    if (length(link_path) == 0)
+      method <- "install.latest"
+    if (length(link_path) > 1)
+      method <- "install.latest"
   } else {
     pname <- package
     method <- "install.latest"
@@ -353,7 +365,6 @@ link_cache_to_proj <- function(package) {
   if (is.null(deps)) {
     needed <- character(0)
   } else {
-
     # get the installed packages
     installed <- installed.packages() |>
       tibble::as_tibble() |>
@@ -366,7 +377,7 @@ link_cache_to_proj <- function(package) {
   }
 
 
-# recursively apply safely hydrate
+  # recursively apply safely hydrate
   if (length(needed) > 0) {
     purrr::walk(.x = needed,
                 .f = safely_hydrate)
@@ -375,4 +386,3 @@ link_cache_to_proj <- function(package) {
 
 
 }
-
