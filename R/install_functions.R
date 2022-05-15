@@ -1,3 +1,7 @@
+#' @importFrom cli cli_div
+cli::cli_div(theme = list(span.emph = list(color = "orange")))
+
+
 #' @title Easily Initiate an renv Project
 #' @description Behave similarly to renv::init but instead of downloading and building everything, will first attempt to link to the latest versions of packages available in your cache.
 #' @return Nothing
@@ -10,6 +14,7 @@
 #' @importFrom renv init dependencies
 #' @importFrom dplyr group_by arrange slice_head filter mutate
 #' @importFrom purrr walk2 walk
+#' @importFrom cli cli_alert_success
 easy_init <- function() {
   # check to be sure you are in an r project
   usethis::proj_get()
@@ -22,7 +27,7 @@ easy_init <- function() {
 
   sync_cache()
   write_cache_binary_pkg_catalog()
-  message("\nInitiated a new renv project.\n")
+  cli::cli_alert_success("\nInitiated a new renv project.\n")
 
 
 }
@@ -41,12 +46,13 @@ easy_init <- function() {
 #' @importFrom purrr map_dfr walk2 walk
 #' @importFrom tibble tibble
 #' @importFrom dplyr left_join filter select mutate
+#' @importFrom cli cli_alert_info cli_alert_success cli_alert_warning
 easy_restore <- function(lockfile = "default") {
   stopifnot("You must be in an active renv project to use this function." = "RENV_PROJECT" %in% names(Sys.getenv()))
   if (lockfile == "default") {
     lockfile = "renv.lock"
   }
-  message("Attempting to restore the library from ", lockfile, ".\n")
+  cli::cli_alert_info("Attempting to restore the library from {lockfile}.\n",)
   lock <- rjson::fromJSON(file = lockfile)
   packages <- names(lock$Packages)
   inst <- purrr::map_dfr(.x = packages,
@@ -77,7 +83,7 @@ easy_restore <- function(lockfile = "default") {
                  library_link_path <- file.path(.libPaths()[1], y)
                  if (dir.exists(library_link_path))
                    unlink(library_link_path, recursive = T)
-                 message("Linking to ", y, " in renv cache.")
+                 cli::cli_alert_info("Linking to {.emph {y}} in renv cache.")
                  invisible(file.symlink(to = library_link_path, from = x))
 
                })
@@ -85,17 +91,16 @@ easy_restore <- function(lockfile = "default") {
   remainder <- inst$package[which(inst$package %notin% bin_paths_inst$package)]
 
   if (length(remainder) > 0) {
-    message("Attempting to install packages not found in the cache.")
+    cli::cli_alert_warning("Attempting to install packages not found in the cache.")
     purrr::walk(.x = remainder,
                 .f = \(x) safely_hydrate(package = x))
     sync_cache()
     write_cache_binary_pkg_catalog()
   }
 
-  message("\nRestored project library from lock file.\n")
+  cli::cli_alert_success("\nRestored project library from lock file.\n")
 
 }
-
 
 
 #' @title Easily Install Packages
@@ -118,6 +123,7 @@ easy_restore <- function(lockfile = "default") {
 #' @export
 #' @importFrom stringr str_detect str_replace
 #' @importFrom pak pkg_install
+#' @importFrom cli cli_alert_success
 easy_install <-
   function(package,
            how = c("ask", "new_or_update", "link_from_cache", "tarball")
@@ -147,7 +153,7 @@ easy_install <-
           safely_hydrate(package = package_name)
           sync_cache()
           write_cache_binary_pkg_catalog()
-          message("Successfully installed ", package, " and its recursive dependencies.")
+          cli::cli_alert_success("Successfully installed {.emph {package}} and its recursive dependencies.")
         }
       } else if (how == "new_or_update") {
         pak::pkg_install(package, ask = FALSE)
@@ -158,7 +164,7 @@ easy_install <-
         safely_hydrate(package = package_name)
         sync_cache()
         write_cache_binary_pkg_catalog()
-        message("Successfully installed ", package, " and its recursive dependencies.")
+        cli::cli_alert_success("Successfully installed {.emph {package}} and its recursive dependencies.")
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
@@ -205,6 +211,7 @@ install_targz <- function(tarball) {
 #' @importFrom renv paths hydrate
 #' @importFrom fs dir_exists
 #' @importFrom pak pkg_install
+#' @importFrom cli cli_alert_warning
 safely_hydrate <- function(package) {
   cache_path <- renv::paths$cache()
   if (stringr::str_detect(package, "@")) {
@@ -218,7 +225,7 @@ safely_hydrate <- function(package) {
     link_cache_to_proj(package = package)
 
   } else {
-    message(package, " is not in your cache.\nAttempting a new installation ")
+    cli::cli_alert_warning("{.emph {package}} is not in your cache.\nAttempting a new installation ")
     pak::pkg_install(package, ask = FALSE)
   }
 }
@@ -285,12 +292,13 @@ write_cache_binary_pkg_catalog <- function(path = NULL) {
 
 #' @importFrom stringr str_detect str_remove
 #' @importFrom dplyr filter mutate pull group_by arrange slice_head
+#' @importFrom cli cli_alert_info cli_alert_success
 link_cache_to_proj <- function(package) {
   method <- "install.specific"
   if (stringr::str_detect(package, "@")) {
     pname <- stringr::str_remove(package, "@.+")
     pversion <- stringr::str_remove(package, ".+@")
-    message("Attempting to link to ", pname, " version: ", pversion)
+    cli::cli_alert_info("Attempting to link to {.emph {pname}} version: {.emph {pversion}}.")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::filter(package == pname) |>
       dplyr::filter(version == pversion) |>
@@ -301,7 +309,7 @@ link_cache_to_proj <- function(package) {
   } else if (stringr::str_detect(package, "#")) {
     pname <- stringr::str_remove(package, "#.+")
     phash <- stringr::str_remove(package, ".+#")
-    message("Attempting to link to ", pname, " hash: ", phash)
+    cli::cli_alert_info("Attempting to link to {.emph {pname}} hash: {.emph {phash}}")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::filter(hash == phash) |>
       dplyr::mutate(path_plus = file.path(path, package)) |>
@@ -314,7 +322,7 @@ link_cache_to_proj <- function(package) {
   }
 
   if (method == "install.latest") {
-    message("Linking to newest available version of ", pname, " in the *binary* cache.")
+    cli::cli_alert_info("Linking to newest available version of {.emph {pname}} in the {.emph binary} cache.")
     link_path <- get_cache_binary_pkg_catalog() |>
       dplyr::group_by(package) |>
       dplyr::arrange(package, desc(version), desc(modification_time)) |>
@@ -323,7 +331,7 @@ link_cache_to_proj <- function(package) {
       dplyr::mutate(path_plus = file.path(path, package)) |>
       dplyr::pull(path_plus)
   } else {
-    message("Linking to ", package, " in the *binary* cache.")
+    cli::cli_alert_success("Linking to {.emph {package}} in the {.emph binary} cache.")
   }
 
   new_link_path <- file.path(.libPaths()[1], pname)
