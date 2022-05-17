@@ -366,9 +366,7 @@ link_cache_to_proj <- function(package) {
     needed <- character(0)
   } else {
     # get the installed packages
-    installed <- installed.packages() |>
-      tibble::as_tibble() |>
-      dplyr::pull(Package)
+    installed <- list.files(.libPaths()[1])
 
     # find out which ones are still needed
     needed <- deps[which(deps %notin% installed)]
