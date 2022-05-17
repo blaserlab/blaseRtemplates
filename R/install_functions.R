@@ -378,7 +378,12 @@ link_cache_to_proj <- function(package) {
   # recursively apply safely hydrate
   if (length(needed) > 0) {
     purrr::walk(.x = needed,
-                .f = safely_hydrate)
+                .f = \(x) {
+                  # check if x is still needed at this point in the recursion
+                  if (x %notin% list.files(.libPaths()))
+                    safely_hydrate(x)
+                }
+                  )
   }
 
 
