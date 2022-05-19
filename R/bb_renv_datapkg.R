@@ -21,57 +21,62 @@ bb_renv_datapkg <- function(path) {
   tryCatch(
     expr = {
       if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
-        message(stringr::str_glue("Installing {path}.  There may be newer versions available."))
+        cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
         install_targz(tarball = path)
         sync_cache()
       } else {
         latest_version <- file.info(list.files(path, full.names = T)) |>
-          tibble::as_tibble(rownames = "file")|>
-          dplyr::filter(str_detect(file, pattern = ".tar.gz")) |>
+          tibble::as_tibble(rownames = "file") |>
+          dplyr::filter(stringr::str_detect(file, pattern = ".tar.gz")) |>
           dplyr::arrange(desc(mtime)) |>
           dplyr::slice(1) |>
           dplyr::pull(file) |>
-          stringr::str_split(pattern = "/") |>
-          purrr::map(tail, n = 1) |>
-          unlist()
-        datapackage_stem <- stringr::str_replace(latest_version, "_.*", "")
-        latest_version_number <- stringr::str_replace(latest_version, "^.*_", "")
+          basename()
+        datapackage_stem <-
+          stringr::str_replace(latest_version, "_.*", "")
         latest_version_number <-
-          stringr::str_replace(latest_version_number, ".tar.gz", "")
-        if (possibly_packageVersion(datapackage_stem) == "0.0.0.0000") {
-          message(stringr::str_glue("Installing {datapackage_stem} for the first time."))
-          if (stringr::str_sub(path,-1) == "/") {
-            install_targz(tarball = paste0(path, latest_version))
-            sync_cache()
-          } else {
-            install_targz(tarball = paste0(path, "/", latest_version))
-            sync_cache()
-          }
+          stringr::str_replace(latest_version, "^.*_", "")
+        latest_version_number <-
+          stringr::str_replace(latest_version_number, ".tar.gz", "") |>
+          as.package_version()
+
+        # check if the newest version is available in renv cache
+        cat <- get_cache_binary_pkg_catalog()
+
+        latest_cached <- cat |>
+          dplyr::filter(package == datapackage_stem) |>
+          dplyr::arrange(desc(version), desc(modification_time)) |>
+          dplyr::slice_head(n = 1) |>
+          dplyr::pull(version)
+
+        in_cache <- FALSE
+        cache_up_to_date <- FALSE
+        project_up_to_date <- FALSE
+
+        if (length(latest_cached) > 0) in_cache <- TRUE
+        if (in_cache) {
+          if (latest_cached >= latest_version_number) cache_up_to_date <- TRUE
+        }
+        if (possibly_packageVersion(datapackage_stem) == latest_version_number) project_up_to_date <- TRUE
+
+        if (project_up_to_date) {
+          cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
         } else {
-          if (packageVersion(datapackage_stem) < latest_version_number) {
-            message(
-              stringr::str_glue(
-                "A newer data package version is available.  Installing {latest_version}."
-              )
-            )
-            if (stringr::str_sub(path,-1) == "/") {
-              install_targz(tarball = paste0(path, latest_version))
-              sync_cache()
-            } else {
-              install_targz(tarball = paste0(path, "/", latest_version))
-              sync_cache()
-            }
-
+          # check to see if cache is up to date and install from there if so
+          if (cache_up_to_date) {
+            easy_install(paste(datapackage_stem, latest_cached, sep = "@"), "link_from_cache")
           } else {
-            message(str_glue(
-              "Your current version of {datapackage_stem} is up to date."
-            ))
-
+            cli::cli_alert_info("Installing the latest version of {datapackage_stem}.")
+            install_datapackage(path, latest_version)
           }
+        }
+
+
 
         }
-      }
-    },
+
+    }
+    ,
     error = function(cond) {
       message("Here's the original error message:\n\n")
       message(cond)
@@ -88,3 +93,15 @@ bb_renv_datapkg <- function(path) {
     }
   )
 }
+
+install_datapackage <-
+  function(path, latest_version) {
+    if (stringr::str_sub(path, -1) == "/") {
+      install_targz(tarball = paste0(path, latest_version))
+      sync_cache()
+    } else {
+      install_targz(tarball = paste0(path, "/", latest_version))
+      sync_cache()
+    }
+  }
+

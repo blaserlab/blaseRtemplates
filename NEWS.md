@@ -169,3 +169,7 @@
 # blaseRtemplates 0.0.0.9103-09
 
 * added easy_restore and easy_init
+
+# blaseRtemplates 0.0.0.9115
+
+* edited bb_renv_datapkg
