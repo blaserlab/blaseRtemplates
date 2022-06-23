@@ -360,7 +360,7 @@ link_cache_to_proj <- function(package) {
     stringr::str_split(",") |>
     unlist()
   # strip out empty strings which will destroy your project lib
-  deps[which(deps != "")]
+  deps <- deps[which(deps != "")]
 
   if (is.null(deps)) {
     needed <- character(0)

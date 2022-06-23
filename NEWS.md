@@ -173,3 +173,7 @@
 # blaseRtemplates 0.0.0.9115
 
 * edited bb_renv_datapkg
+
+# blaseRtemplates 0.0.0.9116
+
+* fixed bug where init deletes your project library if there is a trailing comma in dependencies
