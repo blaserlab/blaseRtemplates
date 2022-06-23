@@ -361,11 +361,11 @@ link_cache_to_proj <- function(package) {
   if (pname %in% list.dirs(.libPaths()[1L], full.names = FALSE, recursive = FALSE)) {
     # unlink any old versions of the package existing in the project library
     unlink(new_link_path, recursive = T)
-    # create the new symlink from teh cached version to the project library
-    invisible(file.symlink(to = new_link_path, from = link_path))
 
   }
 
+  # create the new symlink from teh cached version to the project library
+  invisible(file.symlink(to = new_link_path, from = link_path))
 
   # get the list of dependencies for the package you just installed
   deps <- read.dcf(file.path(new_link_path, "DESCRIPTION")) |>
