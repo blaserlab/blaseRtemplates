@@ -233,7 +233,13 @@ safely_hydrate <- function(package) {
 
   } else {
     cli::cli_alert_warning("{.emph {package}} is not in your cache.\nAttempting a new installation ")
-    pak::pkg_install(package, ask = FALSE)
+    tryCatch({
+      pak::pkg_install(package, ask = FALSE)
+
+    }, error = function(cond) {
+      cli::cli_alert_danger("{.emph {package}} could not be installed.  Moving on...")
+    })
+
   }
 }
 
