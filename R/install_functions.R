@@ -81,8 +81,10 @@ easy_restore <- function(lockfile = "default") {
                .y = bin_paths_inst$package,
                .f = \(x, y) {
                  library_link_path <- file.path(.libPaths()[1], y)
-                 if (dir.exists(library_link_path))
+                 if (y %in% list.dirs(.libPaths()[1L], full.names = FALSE, recursive = FALSE)) {
+                   # unlink any old versions of the package existing in the project library
                    unlink(library_link_path, recursive = T)
+                 }
                  cli::cli_alert_info("Linking to {.emph {y}} in renv cache.")
                  invisible(file.symlink(to = library_link_path, from = x))
 
