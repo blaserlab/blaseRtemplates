@@ -74,21 +74,13 @@ cache_fun <-
       fs::link_create(path = to, new_path = package)
     }
 
-    pkg_tbl <- tibble::tibble(
-      R_version = paste0(R.Version()$major, ".",R.Version()$minor),
-      name = name,
-      version = version,
-      date_time = Sys.time(),
-      hash = hash,
-      binary_location = to
-    )
-
     deps <- get_all_deps(package)
+
     dep_tbl <-
       tibble::tibble(hashes = hash,
                      name = name,
                      dependencies = deps)
-    return(list("pkg_tbl" = pkg_tbl, "dep_tbl" = dep_tbl))
+    return(dep_tbl)
 
   }
 
@@ -98,34 +90,34 @@ cache_fun <-
 #' @importFrom readr read_tsv write_tsv
 #' @importFrom dplyr bind_rows group_by arrange slice_head ungroup
 update_package_catalog <-
-  function(cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), pkg_update) {
+  function() {
     catch_blasertemplates_root()
-    pkg_cat <- fs::path(cache_loc, "package_catalog.tsv")
-    if (fs::file_exists(pkg_cat)) {
-      readr::read_tsv(pkg_cat, col_types = readr::cols()) |>
-        dplyr::mutate(version = as.package_version(version)) |>
-        dplyr::bind_rows(pkg_update) |>
-        dplyr::group_by(hash) |>
-        dplyr::arrange(date_time, .by_group = TRUE) |>
-        dplyr::slice_head(n = 1) |>
-        dplyr::ungroup() |>
-        dplyr::distinct() |>
-        readr::write_tsv(fs::path(cache_loc, "package_catalog.tsv"))
+    cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
+    fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 2) |>
+      dplyr::anti_join(fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 1)) |>
+      dplyr::select(path, birth_time) |>
+      dplyr::mutate(hash = fs::path_file(path)) |>
+      dplyr::mutate(version = as.package_version(fs::path_file(fs::path_dir(path)))) |>
+      dplyr::mutate(name = fs::path_file(fs::path_dir(fs::path_dir(path)))) |>
+      dplyr::mutate(R_version = paste0(R.version$major, ".", R.version$minor)) |>
+      dplyr::select(R_version,
+                    name,
+                    version,
+                    date_time = birth_time,
+                    hash,
+                    binary_location = path) |>
+      readr::write_tsv(file = fs::path(cache_loc, "package_catalog.tsv"))
 
-    } else {
-      readr::write_tsv(pkg_update,
-                       file = fs::path(cache_loc, "package_catalog.tsv"))
-    }
   }
-
 
 #' @title update the dependency catalog
 #' @importFrom fs path file_exists
 #' @importFrom readr read_tsv write_tsv
 #' @importFrom dplyr bind_rows distinct
 update_dependency_catalog <-
-  function(cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), dep_update) {
+  function(dep_update) {
     catch_blasertemplates_root()
+    cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
     dep_cat <- fs::path(cache_loc, "dependency_catalog.tsv")
     if (fs::file_exists(dep_cat)) {
       readr::read_tsv(dep_cat, col_types = readr::cols()) |>
@@ -153,17 +145,15 @@ hash_n_cache <- function() {
   cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
   packages <- find_unlinked_packages(lib_path = lib_loc)
   if (length(packages) > 1) {
-    pkg_dep <- purrr::map(.x = packages,
+    pkg_dep <- purrr::map_dfr(.x = packages,
                               .f = \(x, loc = cache_loc) {
                                 cache_fun(package = x, loc)
-                              }) |>
-      purrr::transpose() |>
-      purrr::map(dplyr::bind_rows)
+                              })
   } else {
     pkg_dep <- cache_fun(package = packages, cache_loc)
   }
-  update_package_catalog(cache_loc = cache_loc, pkg_update = pkg_dep$pkg_tbl)
-  update_dependency_catalog(cache_loc = cache_loc, dep_update = pkg_dep$dep_tbl)
+  update_package_catalog()
+  update_dependency_catalog(dep_update = pkg_dep)
 }
 
 
