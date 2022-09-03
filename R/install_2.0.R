@@ -267,8 +267,8 @@ rec_get_deps <-
     )
 
   }
-
-link_new_library <- function(newest_or_hashes = "newest") {
+#' @export
+get_new_library <- function(newest_or_hashes = "newest") {
   catch_blasertemplates_root()
   cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
   project_library <- .libPaths()[1]
@@ -417,15 +417,15 @@ link_deps <- function(package) {
 }
 
 
-
+#' @export
 install_one_package <-
   function(package,
            which_version = NULL,
            which_hash = NULL,
            how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
+    catch_blasertemplates_root()
     how <- match.arg(how)
-    stopifnot("You must be in blaseRtemplates project to use this function." = "BLASERTEMPLATES_PROJECT" %in% names(Sys.getenv()))
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cli::cli_alert_info("Installing tarball")
       pak::pkg_install(package)
@@ -445,7 +445,7 @@ install_one_package <-
           pak::pkg_install(package, ask = FALSE)
           hash_n_cache()
         } else {
-          link_one_package(package = package_name, version = which_version, hash = which_hash)
+          link_one_new_package(package = package_name, version = which_version, hash = which_hash)
           link_deps(package = package_name)
           cli::cli_alert_success("Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache.")
         }
@@ -453,7 +453,7 @@ install_one_package <-
         pak::pkg_install(package, ask = FALSE)
         hash_n_cache()
       } else if (how == "link_from_cache") {
-        link_one_package(package = package_name, version = which_version, hash = which_hash)
+        link_one_new_package(package = package_name, version = which_version, hash = which_hash)
         link_deps(package = package_name)
         cli::cli_alert_success("Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache.")
       } else if (how == "tarball") {

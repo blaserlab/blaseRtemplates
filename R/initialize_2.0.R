@@ -123,7 +123,7 @@ initialize_project <- function(path,
                  fs::path_file(path))
   usethis::with_project(path, code = {
     source(".Rprofile")
-    link_new_library()
+    get_new_library()
     write_project_library_catalog()
     })
 
