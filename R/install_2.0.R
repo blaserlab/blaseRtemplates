@@ -399,7 +399,7 @@ link_one_new_package <- function(package,
       pull(binary_location)
 
     fs::link_create(path = path_to_link,
-                    new_path = fs:path(.libPaths()[1], package))
+                    new_path = fs::path(.libPaths()[1], package))
 
   }
 }
