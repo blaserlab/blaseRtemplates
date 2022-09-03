@@ -263,7 +263,7 @@ rec_get_deps <-
       needed = needed,
       checked = checked,
       deps = deps,
-      catalog = fs::path(cache_loc, "dependency_catalog.tsv")
+      catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")
     )
 
   }
