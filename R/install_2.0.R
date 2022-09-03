@@ -398,8 +398,8 @@ link_one_new_package <- function(package,
       dplyr::filter(hash == hash_to_link) |>
       dplyr::pull(binary_location)
 
-    if(fs::dir_exists(fs::path(.libPaths()[1], package)))
-      fs::dir_delete(fs::path(.libPaths()[1], package))
+    if(fs::link_exists(fs::path(.libPaths()[1], package)))
+      fs::link_delete(fs::path(.libPaths()[1], package))
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
 
@@ -414,8 +414,8 @@ link_deps <- function(package) {
     dplyr::pull(binary_location)
   purrr::walk(.x = dep_paths,
       .f = \(x) {
-        if(fs::dir_exists(fs::path(.libPaths()[1], x)))
-          fs::dir_delete(fs::path(.libPaths()[1], x))
+        if(fs::link_exists(fs::path(.libPaths()[1], x)))
+          fs::link_delete(fs::path(.libPaths()[1], x))
         fs::link_create(path = x, new_path = fs::path(.libPaths()[1], package))
       })
 }
