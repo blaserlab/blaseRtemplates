@@ -1,3 +1,5 @@
+#  bootstrap: install pak, pak::install blaseRtemplates, restart
+
 #' Create a package or project using a structured template
 #'
 #' @description
@@ -113,6 +115,17 @@ initialize_project <- function(path,
   )
 
   usethis::use_rstudio()
+
+  # make the new project library
+  fs::dir_create(path_to_cache_root,
+                 "user_project",
+                 Sys.getenv("USER"),
+                 fs::path_file(path))
+  usethis::with_project(path, code = {
+    source(".Rprofile")
+    link_new_library()
+    write_project_library_catalog()
+    })
 
   if (open) {
     if (usethis::proj_activate(proj_get())) {

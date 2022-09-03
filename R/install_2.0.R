@@ -1,17 +1,5 @@
 `%notin%` <- Negate(`%in%`)
 
-if (Sys.getenv("BLASERTEMPLATES_CACHE_ROOT") != "")cache_paths <- list(
-  root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-  cache_library = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
-  user_project = fs::path(
-    Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-    "user_project",
-    Sys.getenv()[["USER"]],
-    fs::path_file(usethis::proj_get())
-  )
-)
-
-
 #' @title Find Unlinked Packages
 #' @importFrom fs dir_info path_file
 #' @importFrom dplyr filter pull
@@ -69,8 +57,9 @@ get_all_deps <- function(package) {
 #' @importFrom tibble tibble
 cache_fun <-
   function(package,
-           cache_loc = cache_paths$cache_library) {
+           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
+    catch_blasertemplates_root()
     name <- fs::path_file(package)
     version <- packageVersion(name)
     hash <- hash_fun(package)
@@ -109,7 +98,8 @@ cache_fun <-
 #' @importFrom readr read_tsv write_tsv
 #' @importFrom dplyr bind_rows group_by arrange slice_head ungroup
 update_package_catalog <-
-  function(cache_loc = cache_paths$root, pkg_update) {
+  function(cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), pkg_update) {
+    catch_blasertemplates_root()
     pkg_cat <- fs::path(cache_loc, "package_catalog.tsv")
     if (fs::file_exists(pkg_cat)) {
       readr::read_tsv(pkg_cat) |>
@@ -134,7 +124,8 @@ update_package_catalog <-
 #' @importFrom readr read_tsv write_tsv
 #' @importFrom dplyr bind_rows distinct
 update_dependency_catalog <-
-  function(cache_loc = cache_paths$root, dep_update) {
+  function(cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), dep_update) {
+    catch_blasertemplates_root()
     dep_cat <- fs::path(cache_loc, "dependency_catalog.tsv")
     if (fs::file_exists(dep_cat)) {
       readr::read_tsv(dep_cat) |>
@@ -149,12 +140,17 @@ update_dependency_catalog <-
   }
 
 
-
+catch_blasertemplates_root <- function() {
+  if (Sys.getenv("BLASERTEMPLATES_CACHE_ROOT") == "")
+    cli::cli_abort(c("x" = "BLASERTEMPLATES_CACHE_ROOT must be set to use this function."))
+}
 
 #' @title hash one or more functions and then cache them and update the catalogs
 #' @importFrom purrr map_dfr
-hash_n_cache <- function(lib_loc = cache_paths$user_project,
-                         cache_loc = cache_paths$library) {
+hash_n_cache <- function() {
+  catch_blasertemplates_root()
+  lib_loc <- .libPaths()[1]
+  cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
   packages <- find_unlinked_packages(lib_path = lib_loc)
   if (length(packages) > 1) {
     pkg_dep <- purrr::map(.x = packages,
@@ -203,10 +199,12 @@ hash_n_cache <- function(lib_loc = cache_paths$user_project,
 #' @importFrom renv dependencies
 #' @importFrom readr read_tsv write_tsv
 write_project_library_catalog <-
-  function(lib_loc = cache_paths$user_project,
-           cache_loc = cache_paths$library,
-           user = Sys.getenv()[["USER"]],
-           project = fs::path_file(usethis::proj_get())) {
+  function() {
+    catch_blasertemplates_root()
+    lib_loc <- .libPaths()[1]
+    cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
+    user <- Sys.getenv()[["USER"]]
+    project <- fs::path_file(usethis::proj_get())
     lib_pkg_hashes <- purrr::map_dfr(.x = fs::dir_ls(lib_loc),
                                      .f = \(x) {
                                        x <- x[fs::is_link(x)]
@@ -220,7 +218,7 @@ write_project_library_catalog <-
 
     fs::dir_create("library_catalogs")
 
-    readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv")) |>
+    readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"), col_types = readr::cols()) |>
       dplyr::mutate(version = as.package_version(version)) |>
       dplyr::filter(hash %in% lib_pkg_hashes$hash) |>
       dplyr::mutate(
@@ -240,7 +238,7 @@ rec_get_deps <-
   function(needed,
            checked = character(0),
            deps = character(0),
-           catalog = fs::path(cache_paths$root, "dependency_catalog.tsv")) {
+           catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")) {
     # base case
     if (length(deps) == 0) {
       catalog <- readr::read_tsv(catalog)
@@ -270,11 +268,12 @@ rec_get_deps <-
 
   }
 
-link_all_packages <- function(newest_or_hashes = "newest",
-                                cache_catalog = fs::path(cache_paths$root, "package_catalog.tsv"),
-                                project_library = cache_paths$user_project) {
+link_new_library <- function(newest_or_hashes = "newest") {
+  catch_blasertemplates_root()
+  cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
+  project_library <- .libPaths()[1]
   # load the catalog
-  pkg_cat <- readr::read_tsv(cache_catalog)
+  pkg_cat <- readr::read_tsv(cache_catalog, col_types = readr::cols())
 
   # get the list of paths to link to
 
@@ -285,7 +284,7 @@ link_all_packages <- function(newest_or_hashes = "newest",
       dplyr::arrange(version, date_time, .by_group = TRUE) |>
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
-    cant_install == 0
+    cant_install <- 0
   } else {
     cli::cli_alert_info("Attempting to link to cached packages with the provided hashes.")
     cant_install <- sum(newest_or_hashes %notin% pkg_cat$hash)
@@ -318,21 +317,22 @@ link_all_packages <- function(newest_or_hashes = "newest",
 
 }
 
-link_one_package <- function(package,
-                                  version,
-                                  hash,
-                                  project_library = cache_paths$user_project) {
+link_one_new_package <- function(package,
+                             version = NULL,
+                             hash = NULL) {
   cli::cli_div(theme = list(span.emph = list(color = "orange")))
+  catch_blasertemplates_root()
   stopifnot("You can only install 1 package at a time with this function." = length(package) == 1)
   stopifnot(
     "You can only supply version OR hash identifiers but not both." = is.null(version) |
       is.null(hash)
   )
+  project_library <- .libPaths()[1]
 
   # first check to be sure the package exists in the cache
   # if not, then install it from the repository
   pkg_cat <-
-    readr::read_tsv(cache_paths$root, "package_catalog.tsv")
+    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"))
   ok <- package %in% pkg_cat$name
 
   if (!ok) {
@@ -398,7 +398,8 @@ link_one_package <- function(package,
       filter(hash = hash_to_link) |>
       pull(binary_location)
 
-    fs::link_create(path = path_to_link, new_path = fs:path(cache_paths$user_project, package))
+    fs::link_create(path = path_to_link,
+                    new_path = fs:path(.libPaths()[1], package))
 
   }
 }
@@ -406,7 +407,7 @@ link_one_package <- function(package,
 link_deps <- function(package) {
   deps <- rec_get_deps(needed = package)
   dep_paths <-
-    readr::read_tsv(cache_paths$root, "package_catalog.tsv") |>
+    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")) |>
     filter(name %in% deps) |>
     pull(binary_location)
   walk(.x = dep_paths,
