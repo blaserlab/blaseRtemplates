@@ -240,8 +240,8 @@ rec_get_deps <-
            deps = character(0),
            catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")) {
     # base case
+    catalog <- readr::read_tsv(catalog, col_types = readr::cols())
     if (length(deps) == 0) {
-      catalog <- readr::read_tsv(catalog, col_types = readr::cols())
       deps <- dplyr::filter(catalog, name == needed) |>
         dplyr::pull(dependencies)
       needed <- deps
@@ -415,6 +415,7 @@ link_deps <- function(package) {
         fs::link_create(path = x, new_path = fs::path(.libPaths()[1], package))
       })
 }
+
 
 
 #' @title Install One Package
