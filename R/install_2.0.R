@@ -409,17 +409,26 @@ link_one_new_package <- function(package,
 link_deps <- function(package) {
   deps <- rec_get_deps(needed = package)
   dep_paths <-
-    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols()) |>
+    readr::read_tsv(fs::path(
+      Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+      "package_catalog.tsv"
+    ),
+    col_types = readr::cols()) |>
     dplyr::filter(name %in% deps) |>
+    dplyr::group_by(name) |>
+    dplyr::arrange(desc(date_time)) |>
+    dplyr::slice_head(n = 1) |>
     dplyr::pull(binary_location)
   dep_path_names <- fs::path_file(dep_paths)
   purrr::walk2(.x = dep_paths,
-              .y = dep_path_names,
-      .f = \(x, y) {
-        if(fs::link_exists(fs::path(.libPaths()[1], y)))
-          fs::link_delete(fs::path(.libPaths()[1], y))
-        fs::link_create(path = x, new_path = fs::path(.libPaths()[1], y))
-      })
+               .y = dep_path_names,
+               .f = \(x, y) {
+                 if (fs::link_exists(fs::path(.libPaths()[1], y)))
+                   fs::link_delete(fs::path(.libPaths()[1], y))
+                 cli::cli_alert_info("Linking to newest available version of {.emph {y}} in the {.emph binary} cache.")
+                 fs::link_create(path = x,
+                                 new_path = fs::path(.libPaths()[1], y))
+               })
 }
 
 
