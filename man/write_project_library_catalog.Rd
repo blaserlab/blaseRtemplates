@@ -4,12 +4,7 @@
 \alias{write_project_library_catalog}
 \title{FUNCTION_TITLE}
 \usage{
-write_project_library_catalog(
-  lib_loc = cache_paths$user_project,
-  cache_loc = cache_paths$library,
-  user = Sys.getenv()[["USER"]],
-  project = fs::path_file(usethis::proj_get())
-)
+write_project_library_catalog()
 }
 \arguments{
 \item{lib_loc}{PARAM_DESCRIPTION, Default: cache_paths$user_project}

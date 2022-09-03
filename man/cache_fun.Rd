@@ -4,7 +4,10 @@
 \alias{cache_fun}
 \title{cache a sinlge package}
 \usage{
-cache_fun(package, cache_loc = cache_paths$cache_library)
+cache_fun(
+  package,
+  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+)
 }
 \description{
 cache a sinlge package

@@ -4,10 +4,7 @@
 \alias{hash_n_cache}
 \title{hash one or more functions and then cache them and update the catalogs}
 \usage{
-hash_n_cache(
-  lib_loc = cache_paths$user_project,
-  cache_loc = cache_paths$library
-)
+hash_n_cache()
 }
 \description{
 hash one or more functions and then cache them and update the catalogs

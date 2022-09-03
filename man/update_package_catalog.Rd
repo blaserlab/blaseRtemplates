@@ -4,7 +4,10 @@
 \alias{update_package_catalog}
 \title{update the package catalog}
 \usage{
-update_package_catalog(cache_loc = cache_paths$root, pkg_update)
+update_package_catalog(
+  cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+  pkg_update
+)
 }
 \description{
 update the package catalog

@@ -102,7 +102,7 @@ update_package_catalog <-
     catch_blasertemplates_root()
     pkg_cat <- fs::path(cache_loc, "package_catalog.tsv")
     if (fs::file_exists(pkg_cat)) {
-      readr::read_tsv(pkg_cat) |>
+      readr::read_tsv(pkg_cat, col_types = readr::cols()) |>
         dplyr::mutate(version = as.package_version(version)) |>
         dplyr::bind_rows(pkg_update) |>
         dplyr::group_by(hash) |>
@@ -128,7 +128,7 @@ update_dependency_catalog <-
     catch_blasertemplates_root()
     dep_cat <- fs::path(cache_loc, "dependency_catalog.tsv")
     if (fs::file_exists(dep_cat)) {
-      readr::read_tsv(dep_cat) |>
+      readr::read_tsv(dep_cat, col_types = readr::cols()) |>
         dplyr::bind_rows(dep_update) |>
         dplyr::distinct() |>
         readr::write_tsv(fs::path(cache_loc, "dependency_catalog.tsv"))
@@ -384,7 +384,7 @@ link_one_new_package <- function(package,
 
     if (method == "install.latest") {
       cli::cli_alert_info(
-        "Linking to newest available version of {.emph {pname}} in the {.emph binary} cache."
+        "Linking to newest available version of {.emph {package}} in the {.emph binary} cache."
       )
       hash_to_link <- pkg_cat |>
         dplyr::filter(name == package) |>
@@ -417,7 +417,29 @@ link_deps <- function(package) {
 }
 
 
+#' @title Install One Package
+#' @description FUNCTION_DESCRIPTION
+#' @param package PARAM_DESCRIPTION
+#' @param which_version PARAM_DESCRIPTION, Default: NULL
+#' @param which_hash PARAM_DESCRIPTION, Default: NULL
+#' @param how PARAM_DESCRIPTION, Default: c("ask", "new_or_update", "link_from_cache", "tarball")
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso
+#'  \code{\link[cli]{cli_div}}, \code{\link[cli]{cli_alert}}
+#'  \code{\link[stringr]{str_detect}}, \code{\link[stringr]{str_replace}}
+#'  \code{\link[pak]{pkg_install}}
+#' @rdname install_one_package
 #' @export
+#' @importFrom cli cli_div cli_alert_info cli_alert_success
+#' @importFrom stringr str_detect str_replace
+#' @importFrom pak pkg_install
 install_one_package <-
   function(package,
            which_version = NULL,

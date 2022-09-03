@@ -4,7 +4,10 @@
 \alias{update_dependency_catalog}
 \title{update the dependency catalog}
 \usage{
-update_dependency_catalog(cache_loc = cache_paths$root, dep_update)
+update_dependency_catalog(
+  cache_loc = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+  dep_update
+)
 }
 \description{
 update the dependency catalog
