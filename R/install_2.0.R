@@ -412,7 +412,7 @@ link_deps <- function(package) {
     dplyr::pull(binary_location)
   purrr::walk(.x = dep_paths,
       .f = \(x) {
-        link_one_package(package = x, version = NULL, hash = NULL)
+        fs::link_create(path = x, new_path = fs::path(.libPaths()[1], package))
       })
 }
 
