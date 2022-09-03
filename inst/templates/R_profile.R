@@ -1,7 +1,3 @@
-# source("renv/activate.R")
-renv::settings$snapshot.type("all")
-options(renv.config.auto.snapshot = TRUE)
-options(renv.config.install.verbose = TRUE)
 
 # set default git protocol to https
 options(usethis.protocol  = "https")
