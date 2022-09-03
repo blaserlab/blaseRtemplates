@@ -241,7 +241,7 @@ rec_get_deps <-
            catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")) {
     # base case
     if (length(deps) == 0) {
-      catalog <- readr::read_tsv(catalog)
+      catalog <- readr::read_tsv(catalog, col_types = readr::cols())
       deps <- filter(catalog, name == needed) |>
         pull(dependencies)
       needed <- deps
@@ -332,7 +332,7 @@ link_one_new_package <- function(package,
   # first check to be sure the package exists in the cache
   # if not, then install it from the repository
   pkg_cat <-
-    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"))
+    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols())
   ok <- package %in% pkg_cat$name
 
   if (!ok) {
@@ -395,7 +395,7 @@ link_one_new_package <- function(package,
 
     }
     path_to_link <- pkg_cat |>
-      filter(hash = hash_to_link) |>
+      filter(hash == hash_to_link) |>
       pull(binary_location)
 
     fs::link_create(path = path_to_link,
@@ -407,7 +407,7 @@ link_one_new_package <- function(package,
 link_deps <- function(package) {
   deps <- rec_get_deps(needed = package)
   dep_paths <-
-    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")) |>
+    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols()) |>
     filter(name %in% deps) |>
     pull(binary_location)
   walk(.x = dep_paths,
