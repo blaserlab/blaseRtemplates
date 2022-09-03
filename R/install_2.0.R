@@ -242,8 +242,8 @@ rec_get_deps <-
     # base case
     if (length(deps) == 0) {
       catalog <- readr::read_tsv(catalog, col_types = readr::cols())
-      deps <- filter(catalog, name == needed) |>
-        pull(dependencies)
+      deps <- dplyr::filter(catalog, name == needed) |>
+        dplyr::pull(dependencies)
       needed <- deps
     }
 
@@ -254,8 +254,8 @@ rec_get_deps <-
     }
 
     # recursive case
-    new_deps <- filter(catalog, name %in% needed) |>
-      pull(dependencies)
+    new_deps <- dplyr::filter(catalog, name %in% needed) |>
+      dplyr::pull(dependencies)
     deps <- c(deps, new_deps)
     checked <- needed
     needed <- new_deps[new_deps %notin% checked]
@@ -291,16 +291,16 @@ get_new_library <- function(newest_or_hashes = "newest") {
     not_installed <-
       newest_or_hashes[newest_or_hashes %notin% pkg_cat$hash]
     from <- pkg_cat |>
-      filter(hash %in% newest_or_hashes) |>
-      select(binary_location, name)
+      dplyr::filter(hash %in% newest_or_hashes) |>
+      dplyr::select(binary_location, name)
 
   }
 
-  walk2(.x = from$binary_location,
+  purrr::walk2(.x = from$binary_location,
         .y = from$name,
         .f = \(x, y, proj_lib = project_library) {
           fs::link_create(path = x,
-                          new_path = path(project_library, y))
+                          new_path = fs::path(project_library, y))
         })
 
   if (cant_install > 0) {
@@ -395,8 +395,8 @@ link_one_new_package <- function(package,
 
     }
     path_to_link <- pkg_cat |>
-      filter(hash == hash_to_link) |>
-      pull(binary_location)
+      dplyr::filter(hash == hash_to_link) |>
+      dplyr::pull(binary_location)
 
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
@@ -408,9 +408,9 @@ link_deps <- function(package) {
   deps <- rec_get_deps(needed = package)
   dep_paths <-
     readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols()) |>
-    filter(name %in% deps) |>
-    pull(binary_location)
-  walk(.x = dep_paths,
+    dplyr::filter(name %in% deps) |>
+    dplyr::pull(binary_location)
+  purrr::walk(.x = dep_paths,
       .f = \(x) {
         link_one_package(package = x, version = NULL, hash = NULL)
       })

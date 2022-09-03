@@ -22,7 +22,8 @@
 #'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
-#' @import usethis fs withr rstudioapi rlang
+#' @import usethis fs rstudioapi rlang
+#' @importFrom withr deferred_clear
 #' @export
 initialize_project <- function(path,
                                rstudio = rstudioapi::isAvailable(),
@@ -88,7 +89,8 @@ initialize_project <- function(path,
 #' @export
 #' @importFrom rstudioapi isAvailable
 #' @importFrom rlang is_interactive
-#' @import usethis fs withr
+#' @importFrom withr deferred_clear
+#' @import usethis fs
 initialize_package <- function(path,
                                fields = list(),
                                rstudio = rstudioapi::isAvailable(),

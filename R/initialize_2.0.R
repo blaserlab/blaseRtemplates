@@ -24,7 +24,8 @@
 #'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
-#' @import usethis fs withr rstudioapi rlang
+#' @import usethis fs rstudioapi rlang
+#' @importFrom withr deferred_clear
 #' @export
 initialize_project <- function(path,
                                path_to_cache_root = "/workspace/rst/cache_R_4_2",
@@ -157,7 +158,8 @@ initialize_project <- function(path,
 #' @export
 #' @importFrom rstudioapi isAvailable
 #' @importFrom rlang is_interactive
-#' @import usethis fs withr
+#' @importFrom withr deferred_clear
+#' @import usethis fs
 initialize_package <- function(path,
                                path_to_cache_root = "/workspace/rst/cache_R_4_2",
                                fields = list(),
