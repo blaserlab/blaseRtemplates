@@ -349,7 +349,7 @@ link_one_new_package <- function(package,
     method <- "install.specific"
     if (!is.null(version)) {
       ok <- version %in% pkg_cat |>
-        dplyr::filter(name = package) |>
+        dplyr::filter(name == package) |>
         dplyr::pull(version)
 
       if (!ok) {
@@ -360,7 +360,7 @@ link_one_new_package <- function(package,
         cli::cli_alert_info("Linking to {.emph {package}} version: {.emph {version}}.")
         hash_to_link <- pkg_cat |>
           dplyr::filter(name == package,
-                        version = version) |>
+                        version == version) |>
           dplyr::arrange(desc(date_time)) |>
           dplyr::pull(hash)
 
