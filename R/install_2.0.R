@@ -93,8 +93,8 @@ update_package_catalog <-
   function() {
     catch_blasertemplates_root()
     cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-    fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 2) |>
-      dplyr::anti_join(fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 1)) |>
+    fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 3) |>
+      dplyr::anti_join(fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 2)) |>
       dplyr::select(path, birth_time) |>
       dplyr::mutate(hash = fs::path_file(path)) |>
       dplyr::mutate(version = as.package_version(fs::path_file(fs::path_dir(path)))) |>
