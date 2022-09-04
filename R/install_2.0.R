@@ -168,18 +168,21 @@ catch_blasertemplates_root <- function() {
 hash_n_cache <- function() {
   catch_blasertemplates_root()
   lib_loc <- .libPaths()[1]
-  cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+  cache_loc <-
+    fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
   packages <- find_unlinked_packages(lib_path = lib_loc)
   if (length(packages) > 1) {
     pkg_dep <- purrr::map_dfr(.x = packages,
                               .f = \(x, loc = cache_loc) {
                                 cache_fun(package = x, loc)
                               })
-  } else {
+    update_package_catalog()
+    update_dependency_catalog(dep_update = pkg_dep)
+  } else if (length(packages) == 1) {
     pkg_dep <- cache_fun(package = packages, cache_loc)
+    update_package_catalog()
+    update_dependency_catalog(dep_update = pkg_dep)
   }
-  update_package_catalog()
-  update_dependency_catalog(dep_update = pkg_dep)
 }
 
 
