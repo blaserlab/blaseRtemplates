@@ -540,7 +540,7 @@ project_data <- function(path) {
         hash_n_cache()
         datapackage_stem <- fs::path_file(path) |>
           stringr::str_remove("_.*")
-        lazyData::requireData(datapackage_stem)
+        lazyData::requireData(datapackage_stem, character_only = TRUE)
       } else {
         latest_version <- file.info(list.files(path, full.names = T)) |>
           tibble::as_tibble(rownames = "file") |>
@@ -558,7 +558,7 @@ project_data <- function(path) {
           as.package_version()
 
         # check if the newest version is available in blaseRtemplates cache
-        cat <- readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"))
+        cat <- readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols())
 
         latest_cached <- cat |>
           dplyr::filter(name == datapackage_stem) |>
@@ -578,17 +578,17 @@ project_data <- function(path) {
 
         if (project_up_to_date) {
           cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
-          lazyData::requireData(datapackage_stem)
+          lazyData::requireData(datapackage_stem, character_only = TRUE)
         } else {
           # check to see if cache is up to date and install from there if so
           if (cache_up_to_date) {
             install_one_package(datapackage_stem, "link_from_cache")
-            lazyData::requireData(datapackage_stem)
+            lazyData::requireData(datapackage_stem, character_only = TRUE)
 
           } else {
             cli::cli_alert_info("Installing the latest version of {datapackage_stem}.")
             install_datapackage_2(path, latest_version)
-            lazyData::requireData(datapackage_stem)
+            lazyData::requireData(datapackage_stem, character_only = TRUE)
           }
         }
 
