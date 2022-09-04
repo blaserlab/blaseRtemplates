@@ -507,7 +507,7 @@ install_one_package <-
           cli::cli_alert_success("Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache.")
         }
       } else if (how == "new_or_update") {
-        pak::pkg_install(package, ask = FALSE)
+        pak::pkg_install(pkg = package, ask = FALSE, lib = .libPaths()[1])
         hash_n_cache()
       } else if (how == "link_from_cache") {
         link_one_new_package(package = package_name, version = which_version, hash = which_hash)
