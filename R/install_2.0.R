@@ -561,8 +561,8 @@ project_data <- function(path) {
         cat <- readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"))
 
         latest_cached <- cat |>
-          dplyr::filter(package == datapackage_stem) |>
-          dplyr::arrange(desc(version), desc(modification_time)) |>
+          dplyr::filter(name == datapackage_stem) |>
+          dplyr::arrange(desc(version), desc(date_time)) |>
           dplyr::slice_head(n = 1) |>
           dplyr::pull(version)
 
