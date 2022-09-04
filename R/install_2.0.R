@@ -380,6 +380,7 @@ link_one_new_package <- function(package,
           dplyr::filter(name == package,
                         version == version) |>
           dplyr::arrange(desc(date_time)) |>
+          dplyr::slice_head(n = 1) |>
           dplyr::pull(hash)
 
       }
