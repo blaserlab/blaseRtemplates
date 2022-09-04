@@ -364,9 +364,11 @@ link_one_new_package <- function(package,
   } else {
     method <- "install.specific"
     if (!is.null(version)) {
-      ok <- version %in% pkg_cat |>
+      available_versions <- pkg_cat |>
         dplyr::filter(name == package) |>
         dplyr::pull(version)
+
+      ok <- version %in% available_versions
 
       if (!ok) {
         cli::cli_alert_warning("The requested package is not available.")
