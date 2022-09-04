@@ -435,7 +435,9 @@ link_deps <- function(package) {
     dplyr::arrange(desc(date_time)) |>
     dplyr::slice_head(n = 1) |>
     dplyr::pull(binary_location)
-  dep_path_names <- fs::path_file(fs::path_dir(fs::path_dir(dep_paths)))
+  dep_path_names <-
+    fs::path_file(fs::path_dir(fs::path_dir(fs::path_dir(dep_paths))))
+  return(dep_path_names)
   purrr::walk2(.x = dep_paths,
                .y = dep_path_names,
                .f = \(x, y) {
