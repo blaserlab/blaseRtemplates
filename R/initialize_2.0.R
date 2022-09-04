@@ -28,13 +28,17 @@
 #' @importFrom withr deferred_clear
 #' @export
 initialize_project <- function(path,
-                               path_to_cache_root = "/workspace/rst/cache_R_4_2",
+                               path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
                                rstudio = rstudioapi::isAvailable(),
                                open = rlang::is_interactive()) {
-  if (!fs::dir_exists(path_to_cache_root)) {
-    cli::cli_alert_warning("Creating a new cache at {path_to_cache_root}")
+  if (path_to_cache_root == "") {
+    cli::cli_alert_warning("No library cache is available.")
+    path_to_cache_root <- readline(prompt = "Enter a valid path to build a new library cache:  ")
     fs::dir_create(fs::path(path_to_cache_root, "library"))
-    fs::dir_create(fs::path(path_to_cache_root, "user_project", Sys.getenv("USER"), fs::path_file(path)))
+    # fs::dir_create(fs::path(path_to_cache_root,
+    #                         "user_project",
+    #                         Sys.getenv("USER"),
+    #                         fs::path_file(path)))
 
 
 

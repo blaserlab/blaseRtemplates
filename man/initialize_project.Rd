@@ -6,14 +6,14 @@
 \usage{
 initialize_project(
   path,
-  path_to_cache_root = "/workspace/rst/cache_R_4_2",
+  path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
   rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive()
 )
 
 initialize_project(
   path,
-  path_to_cache_root = "/workspace/rst/cache_R_4_2",
+  path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
   rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive()
 )

@@ -1,29 +1,28 @@
-
-# renv --------------------------------------------------------------------
-
-# set up the renv from scratch
-
-# blaseRtemplates::easy_init()
-
-# restore the renv from the lockfile
-
-# blaseRtemplates::easy_restore()
-
-
-
 # package installation ----------------------------------------------------
 
-# # Try this first...it's faster:
-# blaseRtemplates::easy_install("<package name>", how = "link_from_cache")
+# # By default, the newest version of all packages available  in the cache
+# # at the time of project initiation are linked to the projet library
 
-# # If you need a new package or an update, try this:
-# blaseRtemplates::easy_install("<package name>", how = "new_or_update")
+# # Use this to update the entire project library
+# # to the newest versions available in the cache
+# blaseRtemplates::get_new_library(newest_or_file = "newest")
 
-# # If you are installing from a "tarball", use this:
-# blaseRtemplates::easy_install("/path/to/tarball.tar.gz")
+# # Use this to update the entire project library
+# # to another version of the project library
+# blaseRtemplates::get_new_library(newest_or_file = "<path/to/file>")
+
+# # Use this to get or update a package from the cache
+# blaseRtemplates::install_one_package("<package name>", how = "link_from_cache")
+
+# # If you need a new package or an update from a repository, try this:
+# blaseRtemplates::install_one_package("<package name>", how = "new_or_update")
 
 # # use "bioc::<package name>" for bioconductor packages
 # # use "<repo/package name>" for github source packages
+
+# # If you are installing from a "tarball", use this:
+# blaseRtemplates::install_one_package("/path/to/tarball.tar.gz")
+
 
 # load and attach packages ------------------------------------------------
 
@@ -32,10 +31,8 @@ library("conflicted")
 library("tidyverse")
 library("gert")
 
-# install and load data package if using ----------------------------------------------
+# load, install, and/or update the project data -----------------------------
 
-#
-# blaseRtemplates::bb_renv_datapkg(path = "<path to data package directory>")
-# lazyData::requireData("<data package name>")
-#
+# blaseRtemplates::project_data("<project.datapkg>")
+
 

@@ -287,7 +287,7 @@ rec_get_deps <-
 
   }
 #' @export
-get_new_library <- function(newest_or_hashes = "newest") {
+get_new_library <- function(newest_or_file = "newest") {
   catch_blasertemplates_root()
   cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
   project_library <- .libPaths()[1]
@@ -296,7 +296,7 @@ get_new_library <- function(newest_or_hashes = "newest") {
 
   # get the list of paths to link to
 
-  if (newest_or_hashes == "newest") {
+  if (newest_or_file == "newest") {
     cli::cli_alert_info("Linking to the newest versions of all available packages.")
     from <- pkg_cat |>
       dplyr::group_by(name) |>
@@ -305,12 +305,14 @@ get_new_library <- function(newest_or_hashes = "newest") {
       dplyr::select(binary_location, name)
     cant_install <- 0
   } else {
-    cli::cli_alert_info("Attempting to link to cached packages with the provided hashes.")
-    cant_install <- sum(newest_or_hashes %notin% pkg_cat$hash)
+    cli::cli_alert_info("Attempting to link to cached packages from the provided file.")
+    hashes <- readr::read_tsv(newest_or_file) |>
+      pull(hash)
+    cant_install <- sum(hashes %notin% pkg_cat$hash)
     not_installed <-
-      newest_or_hashes[newest_or_hashes %notin% pkg_cat$hash]
+      hashes[hashes %notin% pkg_cat$hash]
     from <- pkg_cat |>
-      dplyr::filter(hash %in% newest_or_hashes) |>
+      dplyr::filter(hash %in% hashes) |>
       dplyr::select(binary_location, name)
 
   }
@@ -502,7 +504,7 @@ install_one_package <-
           menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          pak::pkg_install(package, ask = FALSE)
+          pak::pkg_install(package, ask = FALSE, upgrade = TRUE)
           hash_n_cache()
         } else {
           link_one_new_package(package = package_name, version = which_version, hash = which_hash)
@@ -510,10 +512,7 @@ install_one_package <-
           cli::cli_alert_success("Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache.")
         }
       } else if (how == "new_or_update") {
-        tryCatch(pak::pkg_install(pkg = package, ask = FALSE, upgrade = TRUE),
-                 error = function(cond) {
-                   cli::cli_alert_info("{.emph {package}} is already up to date.}")
-                 })
+        pak::pkg_install(pkg = package, ask = FALSE, upgrade = TRUE)
         hash_n_cache()
       } else if (how == "link_from_cache") {
         link_one_new_package(package = package_name, version = which_version, hash = which_hash)
@@ -528,6 +527,103 @@ install_one_package <-
 
 
   }
+#' @export
+project_data <- function(path) {
+  catch_blasertemplates_root()
+  possibly_packageVersion <-
+    purrr::possibly(packageVersion, otherwise = "0.0.0.0000")
+  tryCatch(
+    expr = {
+      if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
+        cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
+        install_one_package(package = path)
+        hash_n_cache()
+        datapackage_stem <- fs::path_file(path) |>
+          stringr::str_remove("_.*")
+        lazyData::requireData(datapackage_stem)
+      } else {
+        latest_version <- file.info(list.files(path, full.names = T)) |>
+          tibble::as_tibble(rownames = "file") |>
+          dplyr::filter(stringr::str_detect(file, pattern = ".tar.gz")) |>
+          dplyr::arrange(desc(mtime)) |>
+          dplyr::slice(1) |>
+          dplyr::pull(file) |>
+          basename()
+        datapackage_stem <-
+          stringr::str_replace(latest_version, "_.*", "")
+        latest_version_number <-
+          stringr::str_replace(latest_version, "^.*_", "")
+        latest_version_number <-
+          stringr::str_replace(latest_version_number, ".tar.gz", "") |>
+          as.package_version()
+
+        # check if the newest version is available in blaseRtemplates cache
+        cat <- readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"))
+
+        latest_cached <- cat |>
+          dplyr::filter(package == datapackage_stem) |>
+          dplyr::arrange(desc(version), desc(modification_time)) |>
+          dplyr::slice_head(n = 1) |>
+          dplyr::pull(version)
+
+        in_cache <- FALSE
+        cache_up_to_date <- FALSE
+        project_up_to_date <- FALSE
+
+        if (length(latest_cached) > 0) in_cache <- TRUE
+        if (in_cache) {
+          if (latest_cached >= latest_version_number) cache_up_to_date <- TRUE
+        }
+        if (possibly_packageVersion(datapackage_stem) == latest_version_number) project_up_to_date <- TRUE
+
+        if (project_up_to_date) {
+          cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
+          lazyData::requireData(datapackage_stem)
+        } else {
+          # check to see if cache is up to date and install from there if so
+          if (cache_up_to_date) {
+            install_one_package(datapackage_stem, "link_from_cache")
+            lazyData::requireData(datapackage_stem)
+
+          } else {
+            cli::cli_alert_info("Installing the latest version of {datapackage_stem}.")
+            install_datapackage_2(path, latest_version)
+            lazyData::requireData(datapackage_stem)
+          }
+        }
 
 
+
+        }
+
+    }
+    ,
+    error = function(cond) {
+      message("Here's the original error message:\n\n")
+      message(cond)
+      message(
+        "\n\nThe most common reason for this function to err is that the path to the datapkg directory has changed.\nCheck this and retry.\n\n"
+      )
+      message(
+        "\n\nThe second most common reason for this function to err is you are disconnected from the OSUMC network drive.\n"
+      )
+      message(
+        "Try reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
+      )
+      message("You will have to enter your network password.  Then try running the function again.\n")
+    }
+  )
+}
+
+install_datapackage_2 <-
+  function(path, latest_version) {
+    if (stringr::str_sub(path, -1) == "/") {
+      install_one_package(paste0(path, latest_version))
+      hash_n_cache()
+    } else {
+      install_one_package(paste0(path, "/", latest_version))
+      hash_n_cache()
+    }
+
+}
 
