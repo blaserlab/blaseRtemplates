@@ -2,41 +2,15 @@
 % Please edit documentation in R/install_2.0.R
 \name{write_project_library_catalog}
 \alias{write_project_library_catalog}
-\title{FUNCTION_TITLE}
+\title{Write A New Project Library Catalog}
 \usage{
 write_project_library_catalog()
 }
-\arguments{
-\item{lib_loc}{PARAM_DESCRIPTION, Default: cache_paths$user_project}
-
-\item{cache_loc}{PARAM_DESCRIPTION, Default: cache_paths$library}
-
-\item{user}{PARAM_DESCRIPTION, Default: Sys.getenv()[\link{"USER"}]}
-
-\item{project}{PARAM_DESCRIPTION, Default: fs::path_file(usethis::proj_get())}
-}
 \value{
-OUTPUT_DESCRIPTION
+returns nothing
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[fs]{path_file}}, \code{\link[fs]{dir_ls}}, \code{\link[fs]{is_file}}, \code{\link[fs]{link_path}}, \code{\link[fs]{create}}, \code{\link[fs]{path}}
-\code{\link[usethis]{proj_utils}}
-\code{\link[purrr]{map}}
-\code{\link[tibble]{tibble}}
-\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{pull}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{case_when}}
-\code{\link[renv]{dependencies}}
-\code{\link[readr]{read_delim}}, \code{\link[readr]{write_delim}}
+In the current version of blaseRtemplates, the package library is cached at the location designated by the environment variable "BLASERTEMPLATES_CACHE_ROOT".  There is a single cache for all users and projects.  The cache holds the binary software used by each package.  The packages for each project are connected to the cache by symlinks. The cache is versioned so that different projects can use different versions if desired.  Use this function to write a tab-delimited file listing the packages used by each project.
+
+This file will be written to the "library_catalogs" directory within each project.  The filename incorporates the user name so everyone working on the project will have their own.  Use \code{get_new_library()} to adopt a new version of all packages
 }

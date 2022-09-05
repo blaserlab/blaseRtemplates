@@ -12,32 +12,17 @@ install_one_package(
 )
 }
 \arguments{
-\item{package}{PARAM_DESCRIPTION}
+\item{package}{Package name or path to tarball.  Prefix with "repo\/" for github source packages and "bioc::" for bioconductor.}
 
-\item{which_version}{PARAM_DESCRIPTION, Default: NULL}
+\item{which_version}{Package version to install, Default: NULL}
 
-\item{which_hash}{PARAM_DESCRIPTION, Default: NULL}
+\item{which_hash}{Package hash to install, Default: NULL}
 
-\item{how}{PARAM_DESCRIPTION, Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
+\item{how}{How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
 }
 \value{
-OUTPUT_DESCRIPTION
+nothing
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[cli]{cli_div}}, \code{\link[cli]{cli_alert}}
-\code{\link[stringr]{str_detect}}, \code{\link[stringr]{str_replace}}
-\code{\link[pak]{pkg_install}}
+Use this to install a new package.  Choosing "new_or_update" will go to the package repository and get the latest version of the software.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.
 }

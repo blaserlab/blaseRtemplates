@@ -2,10 +2,10 @@
 % Please edit documentation in R/install_2.0.R
 \name{update_package_catalog}
 \alias{update_package_catalog}
-\title{update the package catalog}
+\title{rewrite/update the package catalog}
 \usage{
 update_package_catalog()
 }
 \description{
-update the package catalog
+rewrite/update the package catalog
 }

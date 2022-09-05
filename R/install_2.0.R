@@ -27,9 +27,9 @@ hash_fun <- function(package) {
 
 
 #' @title get all package dependencies
+#' @importFrom fs path
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate
-#' @importFrom fs path
 #' @importFrom stringr str_split str_remove_all
 get_all_deps <- function(package) {
   package_desc <- fs::path(package, "DESCRIPTION")
@@ -51,10 +51,10 @@ get_all_deps <- function(package) {
 }
 
 
-#' @title cache a sinlge package
-#' @importFrom cli cli_div cli_alert_info
-#' @importFrom fs path_file path dir_exists dir_copy dir_delete link_create
+#' @title  cache a single package
 #' @importFrom tibble tibble
+#' @importFrom fs path path_file dir_exists dir_copy dir_delete link_create
+#' @importFrom cli cli_div cli_alert_info
 cache_fun <-
   function(package,
            cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
@@ -73,22 +73,13 @@ cache_fun <-
       fs::dir_delete(package)
       fs::link_create(path = to, new_path = package)
     }
-
-    deps <- get_all_deps(package)
-
-    dep_tbl <-
-      tibble::tibble(hashes = hash,
-                     name = name,
-                     dependencies = deps)
-    return(dep_tbl)
-
   }
 
 
-#' @title update the package catalog
-#' @importFrom fs path file_exists
-#' @importFrom readr read_tsv write_tsv
-#' @importFrom dplyr bind_rows group_by arrange slice_head ungroup
+#' @title rewrite/update the package catalog
+#' @importFrom fs dir_info path_file path_dir path
+#' @importFrom dplyr anti_join select mutate
+#' @importFrom readr write_tsv
 update_package_catalog <-
   function() {
     catch_blasertemplates_root()
@@ -137,86 +128,76 @@ update_package_catalog <-
   }
 
 #' @title update the dependency catalog
-#' @importFrom fs path file_exists
-#' @importFrom readr read_tsv write_tsv
-#' @importFrom dplyr bind_rows distinct
+#' @importFrom purrr map_dfr
+#' @importFrom fs path_dir dir_ls path path_file
+#' @importFrom tibble tibble
+#' @importFrom readr write_tsv
 update_dependency_catalog <-
-  function(dep_update) {
+  function() {
     catch_blasertemplates_root()
     cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-    dep_cat <- fs::path(cache_loc, "dependency_catalog.tsv")
-    if (fs::file_exists(dep_cat)) {
-      readr::read_tsv(dep_cat, col_types = readr::cols()) |>
-        dplyr::bind_rows(dep_update) |>
-        dplyr::distinct() |>
-        readr::write_tsv(fs::path(cache_loc, "dependency_catalog.tsv"))
+    purrr::map_dfr(.x = fs::path_dir(
+      fs::dir_ls(
+        path = fs::path(cache_loc, "library"),
+        recurse = 4,
+        regexp = "DESCRIPTION"
+      )
+    ),
+    .f = \(x) {
+      dependencies <- get_all_deps(x)
+      name <- fs::path_file(x)
+      hashes <- fs::path_file(fs::path_dir(x))
+      tibble::tibble(name = name,
+             hashes = hashes,
+             dependencies = dependencies)
+    }) |> readr::write_tsv(file = fs::path(cache_loc, "dependency_catalog.tsv"))
 
-    } else {
-      readr::write_tsv(dep_update,
-                       file = fs::path(cache_loc, "dependency_catalog.tsv"))
-    }
   }
 
 
+
+
+
+#' @title Make sure you are in a properly-formatted blaseRtemplates project.
+#' @importFrom cli cli_abort
 catch_blasertemplates_root <- function() {
   if (Sys.getenv("BLASERTEMPLATES_CACHE_ROOT") == "")
     cli::cli_abort(c("x" = "BLASERTEMPLATES_CACHE_ROOT must be set to use this function."))
 }
 
 #' @title hash one or more functions and then cache them and update the catalogs
-#' @importFrom purrr map_dfr
+#' @importFrom fs path
+#' @importFrom purrr walk
 hash_n_cache <- function() {
   catch_blasertemplates_root()
   lib_loc <- .libPaths()[1]
   cache_loc <-
     fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
   packages <- find_unlinked_packages(lib_path = lib_loc)
-  if (length(packages) > 1) {
-    pkg_dep <- purrr::map_dfr(.x = packages,
-                              .f = \(x, loc = cache_loc) {
-                                cache_fun(package = x, loc)
-                              })
-    update_package_catalog()
-    update_dependency_catalog(dep_update = pkg_dep)
-  } else if (length(packages) == 1) {
-    pkg_dep <- cache_fun(package = packages, cache_loc)
-    update_package_catalog()
-    update_dependency_catalog(dep_update = pkg_dep)
-  }
+  purrr::walk(.x = packages,
+              .f = \(x, loc = cache_loc) {
+                cache_fun(package = x, loc)
+              })
+  update_package_catalog()
+  update_dependency_catalog()
 }
 
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param lib_loc PARAM_DESCRIPTION, Default: cache_paths$user_project
-#' @param cache_loc PARAM_DESCRIPTION, Default: cache_paths$library
-#' @param user PARAM_DESCRIPTION, Default: Sys.getenv()[["USER"]]
-#' @param project PARAM_DESCRIPTION, Default: fs::path_file(usethis::proj_get())
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[fs]{path_file}}, \code{\link[fs]{dir_ls}}, \code{\link[fs]{is_file}}, \code{\link[fs]{link_path}}, \code{\link[fs]{create}}, \code{\link[fs]{path}}
-#'  \code{\link[usethis]{proj_utils}}
-#'  \code{\link[purrr]{map}}
-#'  \code{\link[tibble]{tibble}}
-#'  \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{pull}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{case_when}}
-#'  \code{\link[renv]{dependencies}}
-#'  \code{\link[readr]{read_delim}}, \code{\link[readr]{write_delim}}
+#' @title Write A New Project Library Catalog
+#' @description In the current version of blaseRtemplates, the package library is cached at the location designated by the environment variable "BLASERTEMPLATES_CACHE_ROOT".  There is a single cache for all users and projects.  The cache holds the binary software used by each package.  The packages for each project are connected to the cache by symlinks. The cache is versioned so that different projects can use different versions if desired.  Use this function to write a tab-delimited file listing the packages used by each project.
+#'
+#' This file will be written to the "library_catalogs" directory within each project.  The filename incorporates the user name so everyone working on the project will have their own.  Use `get_new_library()` to adopt a new version of all packages
+
+#' @return returns nothing
 #' @rdname write_project_library_catalog
 #' @export
-#' @importFrom fs path_file dir_ls is_link link_path path_dir dir_create path
+#' @importFrom fs path path_file dir_ls is_link link_path path_dir dir_create
 #' @importFrom usethis proj_get
 #' @importFrom purrr map_dfr
 #' @importFrom tibble tibble
 #' @importFrom dplyr mutate transmute pull filter case_when
 #' @importFrom renv dependencies
-#' @importFrom readr read_tsv write_tsv
+#' @importFrom readr read_tsv cols write_tsv
 write_project_library_catalog <-
   function() {
     catch_blasertemplates_root()
@@ -251,8 +232,10 @@ write_project_library_catalog <-
       readr::write_tsv(fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
   }
 
-# recursively get package dependencies
-
+#' @title recursively get package dependencies
+#' @importFrom fs path
+#' @importFrom readr read_tsv cols
+#' @importFrom dplyr filter pull
 rec_get_deps <-
   function(needed,
            checked = character(0),
@@ -286,7 +269,19 @@ rec_get_deps <-
     )
 
   }
+
+
+#' @title Get A New Project Library
+#' @description Use this to replace the current symlinked library with a new version.  By default, the function will link to the newest version of all packages available in the cache.  Alternatively, identify another project library catalog to replace the current version.
+#' @param newest_or_file Which set of packages to symlink, Default: 'newest'
+#' @return Uninstalled packages hashes.
+#' @rdname get_new_library
 #' @export
+#' @importFrom fs path link_create
+#' @importFrom readr read_tsv cols
+#' @importFrom cli cli_alert_info cli_alert_warning cli_alert_success
+#' @importFrom dplyr group_by arrange slice_head select filter
+#' @importFrom purrr walk2
 get_new_library <- function(newest_or_file = "newest") {
   catch_blasertemplates_root()
   cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
@@ -295,7 +290,6 @@ get_new_library <- function(newest_or_file = "newest") {
   pkg_cat <- readr::read_tsv(cache_catalog, col_types = readr::cols())
 
   # get the list of paths to link to
-
   if (newest_or_file == "newest") {
     cli::cli_alert_info("Linking to the newest versions of all available packages.")
     from <- pkg_cat |>
@@ -306,7 +300,7 @@ get_new_library <- function(newest_or_file = "newest") {
     cant_install <- 0
   } else {
     cli::cli_alert_info("Attempting to link to cached packages from the provided file.")
-    hashes <- readr::read_tsv(newest_or_file) |>
+    hashes <- readr::read_tsv(newest_or_file, col_types = readr::cols()) |>
       pull(hash)
     cant_install <- sum(hashes %notin% pkg_cat$hash)
     not_installed <-
@@ -338,6 +332,13 @@ get_new_library <- function(newest_or_file = "newest") {
 
 }
 
+
+#' @title link one new package
+#' @importFrom cli cli_div cli_alert_warning cli_alert_danger cli_alert_info
+#' @importFrom readr read_tsv cols
+#' @importFrom fs path link_exists link_delete link_create
+#' @importFrom pak pkg_install
+#' @importFrom dplyr filter pull arrange slice_head
 link_one_new_package <- function(package,
                              version = NULL,
                              hash = NULL) {
@@ -430,6 +431,12 @@ link_one_new_package <- function(package,
   }
 }
 
+#' @title link package dependencies
+#' @importFrom readr read_tsv cols
+#' @importFrom fs path path_file path_dir link_exists link_delete link_create
+#' @importFrom dplyr filter group_by arrange slice_head pull
+#' @importFrom purrr walk2
+#' @importFrom cli cli_alert_info
 link_deps <- function(package) {
   deps <- rec_get_deps(needed = package)
   dep_paths <-
@@ -458,23 +465,12 @@ link_deps <- function(package) {
 
 
 #' @title Install One Package
-#' @description FUNCTION_DESCRIPTION
-#' @param package PARAM_DESCRIPTION
-#' @param which_version PARAM_DESCRIPTION, Default: NULL
-#' @param which_hash PARAM_DESCRIPTION, Default: NULL
-#' @param how PARAM_DESCRIPTION, Default: c("ask", "new_or_update", "link_from_cache", "tarball")
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso
-#'  \code{\link[cli]{cli_div}}, \code{\link[cli]{cli_alert}}
-#'  \code{\link[stringr]{str_detect}}, \code{\link[stringr]{str_replace}}
-#'  \code{\link[pak]{pkg_install}}
+#' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository and get the latest version of the software.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.
+#' @param package Package name or path to tarball.  Prefix with "repo\/" for github source packages and "bioc::" for bioconductor.
+#' @param which_version Package version to install, Default: NULL
+#' @param which_hash Package hash to install, Default: NULL
+#' @param how How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")
+#' @return nothing
 #' @rdname install_one_package
 #' @export
 #' @importFrom cli cli_div cli_alert_info cli_alert_success
@@ -527,7 +523,24 @@ install_one_package <-
 
 
   }
+
+#' @title Activate Project Data
+#' @description Use this to update, install and/or load project data.  Usual practice is to provide the path to a directory holding data package tarballs.  This function will find the newest version, compare that to the versions in the cache and used in the package and give you the newest version.  Alternatively, provide the path to a specific .tar.gz file to install and activate that one.
+#'
+#' After installing, the package will be loaded into a hidden environment using `lazyData::requireData()`.  This loads the project into memory only when called.
+#'
+#' @param path Path to a directory containing a data package or to a specific data pacakge.
+#' @return none
+#' @rdname project_data
 #' @export
+#' @importFrom purrr possibly
+#' @importFrom stringr str_detect str_remove str_replace
+#' @importFrom cli cli_alert_warning cli_alert_success cli_alert_info
+#' @importFrom fs path_file path
+#' @importFrom lazyData requireData
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr filter arrange slice pull slice_head
+#' @importFrom readr read_tsv cols
 project_data <- function(path) {
   catch_blasertemplates_root()
   possibly_packageVersion <-
@@ -615,6 +628,8 @@ project_data <- function(path) {
   )
 }
 
+#' @title Install a data package
+#' @importFrom stringr str_sub
 install_datapackage_2 <-
   function(path, latest_version) {
     if (stringr::str_sub(path, -1) == "/") {

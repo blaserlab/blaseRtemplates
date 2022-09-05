@@ -4,7 +4,7 @@
 \alias{update_dependency_catalog}
 \title{update the dependency catalog}
 \usage{
-update_dependency_catalog(dep_update)
+update_dependency_catalog()
 }
 \description{
 update the dependency catalog

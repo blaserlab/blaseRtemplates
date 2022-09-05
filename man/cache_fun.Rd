@@ -2,7 +2,7 @@
 % Please edit documentation in R/install_2.0.R
 \name{cache_fun}
 \alias{cache_fun}
-\title{cache a sinlge package}
+\title{cache a single package}
 \usage{
 cache_fun(
   package,
@@ -10,5 +10,5 @@ cache_fun(
 )
 }
 \description{
-cache a sinlge package
+cache a single package
 }

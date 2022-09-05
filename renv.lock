@@ -3515,6 +3515,20 @@
       "Hash": "b64cdbb2b340437c4ee047a1f4c4377b",
       "Requirements": []
     },
+    "lazyData": {
+      "Package": "lazyData",
+      "Version": "1.1.0",
+      "Source": "CRAN",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lazyData",
+      "RemoteRef": "lazyData",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "source",
+      "RemoteSha": "1.1.0",
+      "Hash": "c73e3a2c3e2086606e25698038465bd8",
+      "Requirements": []
+    },
     "lazyeval": {
       "Package": "lazyeval",
       "Version": "0.2.2",
