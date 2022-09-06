@@ -31,7 +31,8 @@ Imports:
     pkgcache,
     digest,
     readr,
-    rjson
+    rjson,
+    lazyData
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
