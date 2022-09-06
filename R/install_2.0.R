@@ -478,9 +478,10 @@ link_deps <- function(package) {
 #' @importFrom pak pkg_install
 install_one_package <-
   function(package,
+           how = c("ask", "new_or_update", "link_from_cache", "tarball"),
            which_version = NULL,
-           which_hash = NULL,
-           how = c("ask", "new_or_update", "link_from_cache", "tarball")) {
+           which_hash = NULL
+           ) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     how <- match.arg(how)
