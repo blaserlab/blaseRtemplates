@@ -50,6 +50,10 @@ get_all_deps <- function(package) {
   deps
 }
 
+get_version <- function(path) {
+  desc <- read.dcf(fs::path(path, "DESCRIPTION"))
+  desc[,"Version"]
+}
 
 #' @title  cache a single package
 #' @importFrom tibble tibble
@@ -61,7 +65,7 @@ cache_fun <-
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     name <- fs::path_file(package)
-    version <- packageVersion(name)
+    version <- get_version(package)
     hash <- hash_fun(package)
     to <- fs::path(cache_loc, name, version, hash, name)
     if (fs::dir_exists(to)) {

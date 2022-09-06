@@ -32,7 +32,7 @@ upgrade_bt <-
     safe_file_delete <- purrr::safely(fs::file_delete)
     safe_dir_delete(fs::path(path, "renv"))
     safe_file_delete(fs::path(path, "renv.lock"))
-    safe_file_delete(fs::path(".Rprofile"))
+    safe_file_delete(fs::path(path, ".Rprofile"))
 
     # make the custom R profile
     cat(
