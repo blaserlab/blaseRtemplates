@@ -4,10 +4,7 @@
 \alias{upgrade_bt}
 \title{Upgrade a Project to Use the Latest Version of BlaseRtemplates}
 \usage{
-upgrade_bt(
-  path = fs::path_wd(),
-  path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-)
+upgrade_bt(path, path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
 }
 \arguments{
 \item{path}{path to the project to upgrade.  By default will upgrade the current project, Default: fs::path_wd()}

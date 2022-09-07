@@ -16,7 +16,7 @@
 #' @importFrom purrr safely
 #' @importFrom usethis with_project
 upgrade_bt <-
-  function(path = fs::path_wd(),
+  function(path,
            path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")) {
     if (path_to_cache_root == "") {
       cli::cli_alert_warning("No library cache was provided.")
@@ -26,7 +26,7 @@ upgrade_bt <-
 
 
     }
-    if (path == ".") path <- fs::path_wd()
+    # if (path == ".") path <- fs::path_wd()
 
     safe_dir_delete <- purrr::safely(fs::dir_delete)
     safe_file_delete <- purrr::safely(fs::file_delete)
