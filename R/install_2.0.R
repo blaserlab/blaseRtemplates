@@ -329,6 +329,7 @@ get_new_library <- function(newest_or_file = "newest") {
           fs::link_create(path = x,
                           new_path = fs::path(project_library, y))
         })
+  write_project_library_catalog()
 
   if (cant_install > 0) {
     cli::cli_alert_warning(

@@ -88,7 +88,6 @@ upgrade_bt <-
     usethis::with_project(path, code = {
       source(".Rprofile")
       get_new_library()
-      write_project_library_catalog()
     })
 
 
