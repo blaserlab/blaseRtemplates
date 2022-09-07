@@ -298,7 +298,7 @@ get_new_library <- function(newest_or_file = "newest") {
     cli::cli_alert_info("Linking to the newest versions of all available packages.")
     from <- pkg_cat |>
       dplyr::group_by(name) |>
-      dplyr::arrange(version, date_time, .by_group = TRUE) |>
+      dplyr::arrange(desc(version), desc(date_time), .by_group = TRUE) |>
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
     cant_install <- 0

@@ -128,7 +128,7 @@ initialize_project <- function(path,
     usethis::with_project(path, code = {
       source(".Rprofile")
       install.packages("pak")
-      pak::pkg_install("blaseRtemplates")
+      pak::pkg_install("blaserlab/blaseRtemplates")
       get_new_library()
       write_project_library_catalog()
     })
@@ -175,14 +175,7 @@ initialize_package <- function(path,
                                check_name = TRUE,
                                open = rlang::is_interactive()) {
   path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-  if (path_to_cache_root == "") {
-    cli::cli_alert_warning("No library cache is available.")
-    path_to_cache_root <-
-      readline(prompt = "Enter a valid path to build a new library cache:  ")
-    fs::dir_create(fs::path(path_to_cache_root, "library"))
-
-
-  }
+  catch_blasertemplates_root()
 
   path <- usethis:::user_path_prep(path)
   usethis:::check_path_is_directory(fs::path_dir(path))

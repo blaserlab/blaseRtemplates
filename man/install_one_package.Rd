@@ -6,19 +6,19 @@
 \usage{
 install_one_package(
   package,
+  how = c("ask", "new_or_update", "link_from_cache", "tarball"),
   which_version = NULL,
-  which_hash = NULL,
-  how = c("ask", "new_or_update", "link_from_cache", "tarball")
+  which_hash = NULL
 )
 }
 \arguments{
 \item{package}{Package name or path to tarball.  Prefix with "repo\/" for github source packages and "bioc::" for bioconductor.}
 
+\item{how}{How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
+
 \item{which_version}{Package version to install, Default: NULL}
 
 \item{which_hash}{Package hash to install, Default: NULL}
-
-\item{how}{How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
 }
 \value{
 nothing
