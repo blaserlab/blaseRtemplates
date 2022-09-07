@@ -94,7 +94,7 @@ upgrade_bt <-
       usethis::use_template(
         template = "git_ignore",
         package = "blaseRtemplates",
-        save_as = fs::path(path, ".gitignore")
+        save_as =".gitignore"
       )
     })
 
