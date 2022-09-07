@@ -4,5 +4,5 @@
 .httr-oauth
 .DS_Store
 */git_commands.R
-
+.Rprofile
 docs

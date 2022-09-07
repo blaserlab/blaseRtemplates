@@ -141,8 +141,22 @@ This function:
 
 This function should be executed together with all library calls for your project.  See dependencies.R.
 
+## Upgrade a project
 
-<!-- badges: start -->
-  [![R-CMD-check](https://github.com/blaserlab/blaseRtemplates/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/blaserlab/blaseRtemplates/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
+You may wish to convert an existing project to a project that uses the new blaseRtemplates cache.
+
+To do this, run:
+
+``` r
+blaseRtemplates::upgrade_bt("/path/to/project")
+```
+This should will remove teh renv documents, create a new user_project folder and give you all of the newest versions available of all packages.  
+
+In order to avoid conflicts, you need to stop tracking your .Rprofile document.  Activate the project, go to the terminal and run this command:
+
+```
+git rm --cached .Rprofile
+```
+
+
 
