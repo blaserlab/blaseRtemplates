@@ -142,5 +142,7 @@ This function:
 This function should be executed together with all library calls for your project.  See dependencies.R.
 
 
-
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/blaserlab/blaseRtemplates/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/blaserlab/blaseRtemplates/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
