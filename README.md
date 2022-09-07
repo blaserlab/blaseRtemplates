@@ -156,6 +156,8 @@ In order to avoid conflicts, you need to stop tracking your .Rprofile document. 
 
 ```
 git rm --cached .Rprofile
+git add .gitignore
+git commit -m "edited gitignore"
 ```
 
 
