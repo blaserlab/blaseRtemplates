@@ -33,6 +33,7 @@ upgrade_bt <-
     safe_dir_delete(fs::path(path, "renv"))
     safe_file_delete(fs::path(path, "renv.lock"))
     safe_file_delete(fs::path(path, ".Rprofile"))
+    safe_file_delete(fs::path(path, ".gitignore"))
 
     # make the custom R profile
     cat(
@@ -89,6 +90,11 @@ upgrade_bt <-
       source(".Rprofile")
       get_new_library()
     })
+
+    # replace the gitignore
+    usethis::use_template(template = "git_ignore",
+                          package = "blaseRtemplates",
+                          save_as = fs::path(path, ".gitignore"))
 
 
   }

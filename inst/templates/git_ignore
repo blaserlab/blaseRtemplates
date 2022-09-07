@@ -9,3 +9,4 @@ R/git_commands.R
 R/regenerated_git_commands.R
 inst/data-raw/git_commands.R
 inst/data-raw/regenerated_git_commands.R
+.Rprofile
