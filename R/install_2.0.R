@@ -323,7 +323,7 @@ get_new_library <- function(newest_or_file = "newest") {
         .f = \(x, y, proj_lib = project_library) {
 
           # first delete the exisitng link
-          fs::link_delete(fs:path(project_library, y))
+          fs::link_delete(fs::path(project_library, y))
 
           # now create the new link
           fs::link_create(path = x,
