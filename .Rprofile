@@ -8,8 +8,6 @@ Sys.setenv("BLASERTEMPLATES_CACHE_ROOT" = "/workspace/rst/cache_R_4_2")
 options(usethis.protocol  = "https")
 
 
-# copy the git credential store pat to the environment variable so they are in sync
-Sys.setenv(GITHUB_PAT = gitcreds::gitcreds_get(use_cache = FALSE)$password)
 
 # Enable universe(s) by blaserlab
 options(repos = c(
