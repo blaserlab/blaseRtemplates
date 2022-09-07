@@ -16,10 +16,10 @@ options(Biostrings.coloring = FALSE)
 
 # make the R prompt show the active git branch
 # suppressMessages(if (!require("prompt")) install.packages("prompt"))
-if (prompt::is_git_dir()) prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
+# if (prompt::is_git_dir()) prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
 
 # copy the git credential store pat to the environment variable so they are in sync
-Sys.setenv(GITHUB_PAT = gitcreds::gitcreds_get(use_cache = FALSE)$password)
+# Sys.setenv(GITHUB_PAT = gitcreds::gitcreds_get(use_cache = FALSE)$password)
 
 # Enable universe(s) by blaserlab
 options(repos = c(
