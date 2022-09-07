@@ -288,6 +288,9 @@ rec_get_deps <-
 #' @importFrom purrr walk2
 get_new_library <- function(newest_or_file = "newest") {
   catch_blasertemplates_root()
+  # make sure the library is hashed
+  hash_n_cache()
+
   cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
   project_library <- .libPaths()[1]
   # load the catalog
@@ -318,6 +321,11 @@ get_new_library <- function(newest_or_file = "newest") {
   purrr::walk2(.x = from$binary_location,
         .y = from$name,
         .f = \(x, y, proj_lib = project_library) {
+
+          # first delete the exisitng link
+          fs::link_delete(fs:path(project_library, y))
+
+          # now create the new link
           fs::link_create(path = x,
                           new_path = fs::path(project_library, y))
         })
