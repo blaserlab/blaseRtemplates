@@ -58,7 +58,7 @@ This is how you install a single package:
 ``` r
 # install a new package or get the latest version from a repository
 
-blaseRtemplates::install_one_package(package = "<package_name>", how = "new_or_update)
+blaseRtemplates::install_one_package(package = "<package_name>", how = "new_or_update")
 
 # get a fresh link to the newest version available in the cache
 
@@ -122,6 +122,25 @@ my_lib <- readr::read_tsv()
 their_lib <- readr::read_tsv()
 anti_join(my_lib, their_lib, by = c("name", "version")))
 ```
+## Project Data Packages
+
+BlaseRtemplates handles project data in slightly differnt way than regular packages.  Run this function to install, update, and load package data:
+
+``` r
+blaseRtemplates::project_data("/path/to/directory/containing/data_package")
+```
+
+This function:
+
+1. Goes to the supplied directory.
+2. Checks for the latest version of the package according to the standard version numbering scheme.
+3. Compares this version to the installed version in the cache and in the project library.
+4. Updates cache and/or project library to the newest version if and only if necessary.
+5. If a specific version of the data package is supplied, e.g. *1.0.1.tar.gz, it will install and load that one.  This allows installation of old versions of data.  Note however, it may be faster in this case to install from the cache if it is present there using ```install_one_package()```.
+6. Loads the package into a hidden environment as a pointer, from where it is loaded into memory only when called.  
+
+This function should be executed together with all library calls for your project.  See dependencies.R.
+
 
 
 
