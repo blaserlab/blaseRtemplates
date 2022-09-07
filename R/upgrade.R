@@ -86,15 +86,18 @@ upgrade_bt <-
                    "user_project",
                    Sys.getenv("USER"),
                    fs::path_file(path))
+
     usethis::with_project(path, code = {
       source(".Rprofile")
       get_new_library()
+      # replace the gitignore
+      usethis::use_template(
+        template = "git_ignore",
+        package = "blaseRtemplates",
+        save_as = fs::path(path, ".gitignore")
+      )
     })
 
-    # replace the gitignore
-    usethis::use_template(template = "git_ignore",
-                          package = "blaseRtemplates",
-                          save_as = fs::path(path, ".gitignore"))
 
 
   }
