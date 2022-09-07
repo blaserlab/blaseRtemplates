@@ -15,7 +15,7 @@ options(editor="nano")
 options(Biostrings.coloring = FALSE)
 
 # make the R prompt show the active git branch
-suppressMessages(if (!require("prompt")) install.packages("prompt"))
+# suppressMessages(if (!require("prompt")) install.packages("prompt"))
 if (prompt::is_git_dir()) prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
 
 # copy the git credential store pat to the environment variable so they are in sync
