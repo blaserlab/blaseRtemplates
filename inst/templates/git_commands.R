@@ -21,6 +21,7 @@ break                                                                     #
 ###########################################################################
 
 # gert::git_status()
+# blaseRtemplates::write_project_library_catalog()
 # gert::git_add("*")
 # gert::git_commit("<commit message>")
 # blaseRtemplates::git_push_all()
@@ -53,6 +54,7 @@ break                                                                     #
 # blaseRtemplates::git_easy_branch(branch = "user_working")
 
 # # save, add and commit your work but don't push
+# blaseRtemplates::write_project_library_catalog()
 # gert::git_add("*")
 # gert::git_commit("<commit message>")
 

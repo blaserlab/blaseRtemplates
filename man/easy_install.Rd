@@ -10,7 +10,7 @@ easy_install(
 )
 }
 \arguments{
-\item{package}{Package you wish to install.  "<package name>" will attempt to install from CRAN.  "bioc::<package name>" will attempt to install from bioconductor.  "<github repo owner>/<package>" will attempt to install from github.  Providing a file path to a tarball(.tar.gz) will move that package to the source cache and attempt to install from there.}
+\item{package}{Package you wish to install.  "package name" will attempt to install from CRAN.  "bioc::package_name" will attempt to install from bioconductor.  "github repo owner/package" will attempt to install from github.  Providing a file path to a tarball(.tar.gz) will move that package to the source cache and attempt to install from there.}
 
 \item{how}{installation method.  If nothing is chosen the default is to "ask", Default: c("ask", "new_or_update", "link_from_cache", "tarball")}
 }
