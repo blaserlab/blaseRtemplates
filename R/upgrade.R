@@ -35,9 +35,15 @@ upgrade_bt <-
     safe_file_delete(fs::path(path, ".Rprofile"))
     safe_file_delete(fs::path(path, ".gitignore"))
 
-    usethis::use_template(template = "R_profile.R",
-                        save_as = fs::path(path, ".Rprofile"),
-                        package = "blaseRtemplates")
+    usethis::with_project(path, code = {
+      usethis::use_template(template = "R_profile.R",
+                            save_as = ".Rprofile",
+                            package = "blaseRtemplates")
+      usethis::use_template(template = "git_ignore",
+                            save_as = ".gitignore",
+                            package = "blaseRtemplates")
+
+    })
 
     # make the new project library
     fs::dir_create(path_to_cache_root,
