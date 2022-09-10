@@ -35,51 +35,9 @@ upgrade_bt <-
     safe_file_delete(fs::path(path, ".Rprofile"))
     safe_file_delete(fs::path(path, ".gitignore"))
 
-    # make the custom R profile
-    cat(
-      "# Set the blaseRtemplates cache as an environment variable.\n",
-      file = fs::path(path, ".Rprofile")
-    )
-    cat(
-      paste0(
-        'Sys.setenv("BLASERTEMPLATES_CACHE_ROOT" = "',
-        path_to_cache_root,
-        '")'
-      ),
-      file = fs::path(path, ".Rprofile"),
-      sep = "\n",
-      append = T
-    )
-    cat(
-      "\n# Set the project libraries.",
-      file = fs::path(path, ".Rprofile"),
-      sep = "\n",
-      append = T
-    )
-    cat(
-      paste0(
-        '.libPaths(c("',
-        fs::path(
-          path_to_cache_root,
-          "user_project",
-          Sys.getenv("USER"),
-          fs::path_file(path)
-        ),
-        '", .libPaths()[2]))'
-
-      ),
-      file = fs::path(path, ".Rprofile"),
-      sep = "\n",
-      append = T
-    )
-    cat(
-      readLines(
-        fs::path_package("blaseRtemplates", "templates", "R_profile.R")
-      ),
-      file = fs::path(path, ".Rprofile"),
-      sep = "\n",
-      append = T
-    )
+    usethis::use_template(template = "R_profile.R",
+                        save_as = fs::path(path, ".Rprofile"),
+                        package = "blaseRtemplates")
 
     # make the new project library
     fs::dir_create(path_to_cache_root,
@@ -90,12 +48,6 @@ upgrade_bt <-
     usethis::with_project(path, code = {
       source(".Rprofile")
       get_new_library()
-      # replace the gitignore
-      usethis::use_template(
-        template = "git_ignore",
-        package = "blaseRtemplates",
-        save_as =".gitignore"
-      )
     })
 
 

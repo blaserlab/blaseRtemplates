@@ -32,4 +32,3 @@ options(repos = c(
   CRAN = 'https://cloud.r-project.org'))
 
 if (file.exists("~/.Rprofile")) source("~/.Rprofile")
-

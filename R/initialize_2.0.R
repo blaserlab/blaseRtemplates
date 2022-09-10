@@ -62,52 +62,10 @@ initialize_project <- function(path,
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
                         package = "blaseRtemplates")
+  usethis::use_template(template = "R_profile.R",
+                        save_as = ".Rprofile",
+                        package = "blaseRtemplates")
 
-  # make the custom R profile
-  cat(
-    "# Set the blaseRtemplates cache as an environment variable.\n",
-    file = fs::path(path, ".Rprofile")
-  )
-  cat(
-    paste0(
-      'Sys.setenv("BLASERTEMPLATES_CACHE_ROOT" = "',
-      path_to_cache_root,
-      '")'
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    "\n# Set the project libraries.",
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    paste0(
-      '.libPaths(c("',
-      fs::path(
-        path_to_cache_root,
-        "user_project",
-        Sys.getenv("USER"),
-        fs::path_file(path)
-      ),
-      '", .libPaths()[2]))'
-
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    readLines(
-      fs::path_package("blaseRtemplates", "templates", "R_profile.R")
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
 
   usethis::use_rstudio()
 
@@ -116,7 +74,8 @@ initialize_project <- function(path,
                  "user_project",
                  Sys.getenv("USER"),
                  fs::path_file(path))
-  if ("blaseRtemplates" %in% fs::dir_ls(fs::path(path_to_cache_root, "library"))) {
+
+  if ("blaseRtemplates" %in% fs::path_file(fs::dir_ls(fs::path(path_to_cache_root, "library")))) {
     usethis::with_project(path, code = {
       source(".Rprofile")
       get_new_library()
@@ -202,58 +161,16 @@ initialize_package <- function(path,
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
                         package = "blaseRtemplates")
-
-  # make the custom R profile
-  cat(
-    "# Set the blaseRtemplates cache as an environment variable.\n",
-    file = fs::path(path, ".Rprofile")
-  )
-  cat(
-    paste0(
-      'Sys.setenv("BLASERTEMPLATES_CACHE_ROOT" = "',
-      path_to_cache_root,
-      '")'
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    "\n# Set the project libraries.",
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    paste0(
-      '.libPaths(c("',
-      fs::path(
-        path_to_cache_root,
-        "user_project",
-        Sys.getenv("USER"),
-        fs::path_file(path)
-      ),
-      '", .libPaths()[2]))'
-
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
-  cat(
-    readLines(
-      fs::path_package("blaseRtemplates", "templates", "R_profile.R")
-    ),
-    file = fs::path(path, ".Rprofile"),
-    sep = "\n",
-    append = T
-  )
+  usethis::use_template(template = "R_profile.R",
+                        save_as = ".Rprofile",
+                        package = "blaseRtemplates")
 
   # make the new project library
   fs::dir_create(path_to_cache_root,
                  "user_project",
                  Sys.getenv("USER"),
                  fs::path_file(path))
+
   usethis::with_project(path, code = {
     source(".Rprofile")
     get_new_library()
