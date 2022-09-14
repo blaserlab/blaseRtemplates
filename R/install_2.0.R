@@ -501,7 +501,7 @@ install_one_package <-
     how <- match.arg(how)
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cli::cli_alert_info("Installing tarball")
-      pak::pkg_install(package)
+      pak::pkg_install(package, ask = FALSE)
       hash_n_cache()
     } else {
       package_name <-
