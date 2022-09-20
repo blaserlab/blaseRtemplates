@@ -77,8 +77,12 @@ cache_fun <-
       fs::dir_delete(package)
       fs::link_create(path = to, new_path = package)
     }
-  }
+    # make sure the new entry has permissions 774
+    fs::dir_walk(path = fs::path(cache_loc, name),
+                 fun = \(x) fs::file_chmod(path = x, mode = "774"),
+                 recurse = TRUE)
 
+  }
 
 #' @title rewrite/update the package catalog
 #' @importFrom fs dir_info path_file path_dir path
