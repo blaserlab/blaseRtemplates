@@ -191,3 +191,62 @@ initialize_package <- function(path,
   }
   invisible(usethis::proj_get())
 }
+
+#' @title Initialize A Project By Forking A Github Repo
+#' @description This function wraps usethis::create_from_github, making some useful default choices and building the user project library compatible with the blaseRtemplates R system.  Because this function forks the project, git will set up the originator as an upstream remote.  Using blaseRtemplates::git_push_all will push to both the originator and the collaborator's github.
+#' @param repo The repo to clone.  Must be in the form of github_user/repo_name.  If private, you must be a collaborator and have permission to fork the repo from the owner.
+#' @param dest Destination directory.  This directory will become the parent directory for the project you are forking.
+#' @param library Optional blaseRtemplates library catalog to use when making the project package library.  If nothing is entered, the newest available versions will be installed.  Otherwise, enter a library catalog file in the form of "library_catalogs/user_repo_name.tsv.  Of course replace user and repo_name.  This file will have to exist in the project you are forking., Default: 'newest'
+#' @param open Whether to open the forked project, Default: FALSE
+#' @return nothing
+#' @seealso
+#'  \code{\link[stringr]{str_remove}}
+#'  \code{\link[cli]{cli_abort}}
+#'  \code{\link[usethis]{create_from_github}}, \code{\link[usethis]{proj_utils}}, \code{\link[usethis]{proj_activate}}
+#'  \code{\link[fs]{create}}, \code{\link[fs]{path}}
+#'  \code{\link[withr]{defer}}
+#' @rdname initialize_github
+#' @export
+#' @importFrom stringr str_remove
+#' @importFrom cli cli_abort
+#' @importFrom usethis create_from_github with_project proj_activate proj_get
+#' @importFrom fs dir_create path
+#' @importFrom withr deferred_clear
+initialize_github <- function(repo,
+                              dest,
+                              library = "newest",
+                              open = FALSE) {
+  repo_owner <- stringr::str_remove(repo, "/.*")
+  repo_name <- stringr::str_remove(repo, ".*/")
+  if (repo_owner == repo_name)
+    cli::cli_abort("You must enter repo in the form repo_owner/repo_name.")
+
+  usethis::create_from_github(
+    repo_spec = repo,
+    destdir = dest,
+    fork = TRUE,
+    open = FALSE
+  )
+  # make the user project library
+  fs::dir_create(fs::path(
+    Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+    "user_project",
+    Sys.getenv("USER"),
+    repo_name
+  ))
+
+  # populate the user project library
+  usethis::with_project(fs::path(dest, repo_name), code = {
+    source(".Rprofile")
+    get_new_library(newest_or_file = library)
+    write_project_library_catalog()
+  })
+
+  if (open) {
+    if (usethis::proj_activate(usethis::proj_get())) {
+      withr::deferred_clear()
+    }
+  }
+
+
+}

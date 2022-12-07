@@ -179,3 +179,7 @@
 * fixed bug where init deletes your project library if there is a trailing comma in dependencies
 * catches the case where you try to init with a package not in your cache; will install if this happens
 * also fixed same bug in restore
+
+# blaseRtemplates 0.0.0.9145
+
+* added initialize_github function
