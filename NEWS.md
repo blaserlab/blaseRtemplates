@@ -183,3 +183,7 @@
 # blaseRtemplates 0.0.0.9145
 
 * added initialize_github function
+
+# blaseRtemplates 0.0.0.9146
+
+* removed old install functions
