@@ -7,7 +7,8 @@
 initialize_project(
   path,
   rstudio = rstudioapi::isAvailable(),
-  open = rlang::is_interactive()
+  open = rlang::is_interactive(),
+  fresh_install = FALSE
 )
 }
 \arguments{

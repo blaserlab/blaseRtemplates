@@ -4,7 +4,10 @@
 \alias{hash_n_cache}
 \title{hash one or more functions and then cache them and update the catalogs}
 \usage{
-hash_n_cache()
+hash_n_cache(
+  lib_loc = .libPaths()[1],
+  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+)
 }
 \description{
 hash one or more functions and then cache them and update the catalogs

@@ -1,0 +1,5 @@
+R_PROFILE_USER=<>
+R_PKG_CACHE_DIR=<>
+BLASERTEMPLATES_CACHE_ROOT=<>
+BLASERTEMPLATES_PROJECTS=<>
+GITHUB_PAT=gitcreds::gitcreds_get(use_cache = FALSE)$password

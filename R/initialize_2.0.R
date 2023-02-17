@@ -27,7 +27,8 @@
 #' @export
 initialize_project <- function(path,
                                rstudio = rstudioapi::isAvailable(),
-                               open = rlang::is_interactive()) {
+                               open = rlang::is_interactive(),
+                               fresh_install = FALSE) {
   path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
   if (path_to_cache_root == "") {
     cli::cli_abort("You must first set the BLASERTEMPLATES_CACHE_ROOT environmental variable.")
@@ -50,9 +51,9 @@ initialize_project <- function(path,
   usethis::use_template(template = "configs.R",
                         save_as = "R/configs.R",
                         package = "blaseRtemplates")
-  usethis::use_template(template = "local_configs.R",
-                        save_as = "R/local_configs.R",
-                        package = "blaseRtemplates")
+  # usethis::use_template(template = "local_configs.R",
+  #                       save_as = "R/local_configs.R",
+  #                       package = "blaseRtemplates")
   usethis::use_template(template = "initialization.R",
                         save_as = "R/initialization.R",
                         package = "blaseRtemplates")
@@ -62,9 +63,9 @@ initialize_project <- function(path,
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
                         package = "blaseRtemplates")
-  usethis::use_template(template = "R_profile.R",
-                        save_as = ".Rprofile",
-                        package = "blaseRtemplates")
+  # usethis::use_template(template = "R_profile.R",
+  #                       save_as = ".Rprofile",
+  #                       package = "blaseRtemplates")
 
 
   usethis::use_rstudio()
@@ -75,24 +76,42 @@ initialize_project <- function(path,
                  Sys.getenv("USER"),
                  fs::path_file(path))
 
-  if ("blaseRtemplates" %in% fs::path_file(fs::dir_ls(fs::path(path_to_cache_root, "library")))) {
-    usethis::with_project(path, code = {
-      source(".Rprofile")
-      get_new_library()
-      write_project_library_catalog()
-    })
+  if (!fresh_install) {
+    if ("blaseRtemplates" %in% fs::path_file(fs::dir_ls(fs::path(path_to_cache_root, "library")))) {
+      usethis::with_project(path, code = {
+        .libPaths(c(
+          file.path(
+            Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+            "user_project",
+            Sys.getenv("USER"),
+            basename(getwd())
+          ),
+          .libPaths()[2]
+        ))
+        get_new_library()
+        write_project_library_catalog()
+      })
 
 
-  } else {
-    usethis::with_project(path, code = {
-      source(".Rprofile")
-      install.packages("pak")
-      pak::pkg_install("blaserlab/blaseRtemplates")
-      get_new_library()
-      write_project_library_catalog()
-    })
+    } else {
+      usethis::with_project(path, code = {
+        .libPaths(c(
+          file.path(
+            Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+            "user_project",
+            Sys.getenv("USER"),
+            basename(getwd())
+          ),
+          .libPaths()[2]
+        ))
+        install.packages("pak")
+        pak::pkg_install("blaserlab/blaseRtemplates")
+        get_new_library()
+        write_project_library_catalog()
+      })
 
 
+    }
   }
 
   if (open) {

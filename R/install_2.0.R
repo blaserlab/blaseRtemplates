@@ -92,9 +92,9 @@ update_package_catalog <-
   function() {
     catch_blasertemplates_root()
     cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-    fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 3) |>
+    fs::dir_info(fs::path(cache_loc, "library"), recurse = 3) |>
       dplyr::anti_join(
-        fs::dir_info("/workspace/rst/cache_R_4_2/library", recurse = 2),
+        fs::dir_info(fs::path(cache_loc, "library"), recurse = 2),
         by = c(
           "path",
           "type",
@@ -176,11 +176,10 @@ catch_blasertemplates_root <- function() {
 #' @title hash one or more functions and then cache them and update the catalogs
 #' @importFrom fs path
 #' @importFrom purrr walk
-hash_n_cache <- function() {
+#' @export
+hash_n_cache <- function(lib_loc = .libPaths()[1],
+                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
   catch_blasertemplates_root()
-  lib_loc <- .libPaths()[1]
-  cache_loc <-
-    fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
   packages <- find_unlinked_packages(lib_path = lib_loc)
   purrr::walk(.x = packages,
               .f = \(x, loc = cache_loc) {
@@ -189,6 +188,7 @@ hash_n_cache <- function() {
   update_package_catalog()
   update_dependency_catalog()
 }
+
 
 
 #' @title Write A New Project Library Catalog

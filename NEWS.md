@@ -187,3 +187,7 @@
 # blaseRtemplates 0.0.0.9146
 
 * removed old install functions
+
+# blaseRtemplates 0.0.0.9147
+
+* added establish functions
