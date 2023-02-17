@@ -61,7 +61,8 @@ get_version <- function(path) {
 #' @importFrom cli cli_div cli_alert_info
 cache_fun <-
   function(package,
-           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
+           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+           ) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     name <- fs::path_file(package)
@@ -178,9 +179,9 @@ catch_blasertemplates_root <- function() {
 #' @importFrom purrr walk
 #' @export
 hash_n_cache <- function(lib_loc = .libPaths()[1],
-                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
-                         safe = TRUE) {
-  if (safe) catch_blasertemplates_root()
+                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+                         ) {
+  catch_blasertemplates_root()
   packages <- find_unlinked_packages(lib_path = lib_loc)
   purrr::walk(.x = packages,
               .f = \(x, loc = cache_loc) {

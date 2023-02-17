@@ -6,8 +6,7 @@
 \usage{
 hash_n_cache(
   lib_loc = .libPaths()[1],
-  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
-  safe = TRUE
+  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
 )
 }
 \description{

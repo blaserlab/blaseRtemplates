@@ -133,6 +133,7 @@ establish_new_bt <- function(cache_path, project_path) {
     })
 
     usethis::with_project(fs::path(project_path, "baseproject"), code = {
+      Sys.setenv(BLASERTEMPLATES_CACHE_ROOT = cache_path)
       hash_n_cache(
         lib_loc = fs::path(
           cache_path,
@@ -140,8 +141,7 @@ establish_new_bt <- function(cache_path, project_path) {
           Sys.getenv("USER"),
           "baseproject"
         ),
-        cache_loc = fs::path(cache_path, "library"),
-        safe = FALSE
+        cache_loc = fs::path(cache_path, "library")
       )
 
     })
