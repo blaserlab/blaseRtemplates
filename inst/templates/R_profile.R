@@ -94,7 +94,7 @@ if (interactive()) {
       .libPaths(fs::path(
                          Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
 			 "user_project",
-			 Sys.getenv("USER")
+			 Sys.getenv("USER"),
 			 "baseproject"), 
 		.libPaths())
       usethis::proj_activate(fs::path(
