@@ -34,9 +34,7 @@ establish_new_bt <- function(cache_path, project_path) {
   )
   cat("1. Create a new directory in the supplied path holding the cache.\n")
   cat("2. Create a new directory in the supplied path holding for R projects.\n")
-  cat(
-    "3. Modify/add the user-level .Renviron file in your home directory.\n"
-  )
+  cat("3. Modify/add the user-level .Renviron file in your home directory.\n")
   cat("4. Create a new baseproject in the projects directory.\n\n")
   cli::cli_alert_warning("You should not proceed unless you are aware of what this means.")
   answer <-  menu(c("Yes", "No"), title = "Do you wish to proceed?")
@@ -49,8 +47,10 @@ establish_new_bt <- function(cache_path, project_path) {
     fs::dir_create(project_path)
 
     # write in some templates
-    fs::file_copy(path = fs::path_package("templates", "R_profile.R", package = "blaseRtemplates"),
-                  new_path = fs::path(cache_path, ".Rprofile"))
+    fs::file_copy(
+      path = fs::path_package("templates", "R_profile.R", package = "blaseRtemplates"),
+      new_path = fs::path(cache_path, ".Rprofile")
+    )
 
     # modify the bt r environ and append to home r environ
     if (fs::file_exists(fs::path(Sys.getenv("HOME"), ".Renviron"))) {
@@ -61,15 +61,30 @@ establish_new_bt <- function(cache_path, project_path) {
     }
 
     if (any(stringr::str_detect(home_renviron, "BLASERTEMPLATES"))) {
-      cli::cli_alert_info("\nA .Renviron file in your home directory has already been modified for blaseRtemplates installation.\nThis function will overwrite those specific configurations and leave others unmodified.\n")
-      home_renviron <- home_renviron[stringr::str_detect(home_renviron, "BLASERTEMPLATES|GITHUB_PAT|R_PKG_CACHE|R_PROFILE_USER", negate = TRUE)]
+      cli::cli_alert_info(
+        "\nA .Renviron file in your home directory has already been modified for blaseRtemplates installation.\nThis function will overwrite those specific configurations and leave others unmodified.\n"
+      )
+      home_renviron <-
+        home_renviron[stringr::str_detect(
+          home_renviron,
+          "BLASERTEMPLATES|GITHUB_PAT|R_PKG_CACHE|R_PROFILE_USER|PATH",
+          negate = TRUE
+        )]
 
-      }
+    }
+
+    bt_renviron_path <- ifelse(
+      Sys.info()[["sysname"]] == "Windows",
+      fs::path_package(package = "blaseRtemplates",
+                       "templates",
+                       "Renviron_home_win"),
+      fs::path_package(package = "blaseRtemplates",
+                       "templates",
+                       "Renviron_home")
+    )
 
     bt_renviron <-
-      readLines(fs::path_package(package = "blaseRtemplates",
-                                 "templates" ,
-                                 "Renviron_home")) |>
+      readLines(bt_renviron_path) |>
       stringr::str_replace("R_PKG_CACHE_DIR=<>",
                            paste0("R_PKG_CACHE_DIR=",
                                   fs::path(cache_path, "source"))) |>
@@ -83,11 +98,10 @@ establish_new_bt <- function(cache_path, project_path) {
         paste0("BLASERTEMPLATES_PROJECTS=",
                fs::path(project_path))
       ) |>
-      stringr::str_replace(
-        "R_PROFILE_USER=<>",
-        paste0("R_PROFILE_USER=",
-               fs::path(cache_path))
-      )
+      stringr::str_replace("R_PROFILE_USER=<>",
+                           paste0("R_PROFILE_USER=",
+                                  fs::path(cache_path,
+                                           ".Rprofile")))
     writeLines(c(home_renviron, bt_renviron),
                con = fs::path(Sys.getenv("HOME"), ".Renviron"))
 
@@ -119,9 +133,16 @@ establish_new_bt <- function(cache_path, project_path) {
     })
 
     usethis::with_project(fs::path(project_path, "baseproject"), code = {
-      hash_n_cache(lib_loc = fs::path(cache_path, "user_project", Sys.getenv("USER"), "baseproject"),
-                   cache_loc = fs::path(cache_path, "library"),
-                   safe = FALSE)
+      hash_n_cache(
+        lib_loc = fs::path(
+          cache_path,
+          "user_project",
+          Sys.getenv("USER"),
+          "baseproject"
+        ),
+        cache_loc = fs::path(cache_path, "library"),
+        safe = FALSE
+      )
 
     })
 
@@ -159,12 +180,14 @@ establish_new_bt <- function(cache_path, project_path) {
         fs::path_dir(path)
       )))) |>
       dplyr::mutate(R_version = paste0(R.version$major, ".", R.version$minor)) |>
-      dplyr::select(R_version,
-                    name,
-                    version,
-                    date_time = birth_time,
-                    hash,
-                    binary_location = path) |>
+      dplyr::select(
+        R_version,
+        name,
+        version,
+        date_time = birth_time,
+        hash,
+        binary_location = path
+      ) |>
       readr::write_tsv(file = fs::path(cache_path, "package_catalog.tsv"))
 
     # create the dependency catalog
@@ -180,8 +203,8 @@ establish_new_bt <- function(cache_path, project_path) {
       name <- fs::path_file(x)
       hashes <- fs::path_file(fs::path_dir(x))
       tibble::tibble(name = name,
-             hashes = hashes,
-             dependencies = dependencies)
+                     hashes = hashes,
+                     dependencies = dependencies)
     }) |> readr::write_tsv(file = fs::path(cache_path, "dependency_catalog.tsv"))
 
 
@@ -206,7 +229,9 @@ establish_new_bt <- function(cache_path, project_path) {
 #' @importFrom stringr str_detect str_replace
 regenerate_bt_configs <- function(cache_path, project_path) {
   if (fs::file_exists(fs::path(cache_path, ".Rprofile"))) {
-    cli::cli_abort("Delete the existing .Rprofile at {fs::path(cache_path, '.Rprofile')} and try again.")
+    cli::cli_abort(
+      "Delete the existing .Rprofile at {fs::path(cache_path, '.Rprofile')} and try again."
+    )
   }
 
   fs::file_copy(
@@ -227,16 +252,25 @@ regenerate_bt_configs <- function(cache_path, project_path) {
       "\nA .Renviron file in your home directory has already been modified for blaseRtemplates installation.\nThis function will overwrite those specific configurations and leave others unmodified.\n"
     )
     home_renviron <-
-      home_renviron[stringr::str_detect(home_renviron,
-                                        "BLASERTEMPLATES|GITHUB_PAT|R_PKG_CACHE",
-                                        negate = TRUE)]
+      home_renviron[stringr::str_detect(
+        home_renviron,
+        "BLASERTEMPLATES|GITHUB_PAT|R_PKG_CACHE|R_PROFILE_USER|PATH",
+        negate = TRUE
+      )]
 
   }
+  bt_renviron_path <- ifelse(
+    Sys.info()[["sysname"]] == "Windows",
+    fs::path_package(package = "blaseRtemplates",
+                     "templates",
+                     "Renviron_home_win"),
+    fs::path_package(package = "blaseRtemplates",
+                     "templates",
+                     "Renviron_home")
+  )
 
   bt_renviron <-
-    readLines(fs::path_package(package = "blaseRtemplates",
-                               "templates" ,
-                               "Renviron_home")) |>
+    readLines(bt_renviron_path) |>
     stringr::str_replace("R_PKG_CACHE_DIR=<>",
                          paste0("R_PKG_CACHE_DIR=",
                                 fs::path(cache_path, "source"))) |>
@@ -247,7 +281,13 @@ regenerate_bt_configs <- function(cache_path, project_path) {
     ) |>
     stringr::str_replace("BLASERTEMPLATES_PROJECTS=<>",
                          paste0("BLASERTEMPLATES_PROJECTS=",
-                                fs::path(project_path)))
+                                fs::path(project_path))) |>
+    stringr::str_replace("R_PROFILE_USER=<>",
+                         paste0("R_PROFILE_USER=",
+                                fs::path(cache_path,
+                                         ".Rprofile")))
+
+
   writeLines(c(home_renviron, bt_renviron),
              con = fs::path(Sys.getenv("HOME"), ".Renviron"))
 
