@@ -188,7 +188,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	bitops	1.0.7	2022-09-06T19:24:58Z	e6fc0f7ac365fba85a0c97f78ba32c29	/workspace/rst/cache_R_4_2/library/bitops/1.0-7/e6fc0f7ac365fba85a0c97f78ba32c29/bitops	available
 4.2.0	blaseRdata	0.0.0.9009	2022-09-06T22:00:07Z	aa04ed5553186d87e33d1dc8a8850183	/workspace/rst/cache_R_4_2/library/blaseRdata/0.0.0.9009/aa04ed5553186d87e33d1dc8a8850183/blaseRdata	active
 4.2.0	blaseRextras	0.0.0.9003	2022-09-07T01:41:49Z	ecf57cf8414b5e464732571a5714ab4b	/workspace/rst/cache_R_4_2/library/blaseRextras/0.0.0.9003/ecf57cf8414b5e464732571a5714ab4b/blaseRextras	available
-4.2.0	blaseRtemplates	0.0.0.9148	2023-02-17T11:02:35Z	029b3995f63548870996dc4717f36ef4	/workspace/rst/cache_R_4_2/library/blaseRtemplates/0.0.0.9148/029b3995f63548870996dc4717f36ef4/blaseRtemplates	active
+4.2.0	blaseRtemplates	0.0.0.9149	2023-02-17T11:38:58Z	e229d0d1672fe58602f87ef082b95b95	/workspace/rst/cache_R_4_2/library/blaseRtemplates/0.0.0.9149/e229d0d1672fe58602f87ef082b95b95/blaseRtemplates	active
 4.2.0	blaseRtools	0.0.0.9080	2022-09-06T22:09:21Z	e95cfbb6f1c42cad811bfed3622f8f9f	/workspace/rst/cache_R_4_2/library/blaseRtools/0.0.0.9080/e95cfbb6f1c42cad811bfed3622f8f9f/blaseRtools	available
 4.2.0	blob	1.2.3	2022-09-06T19:24:58Z	e047d9fb9396d3b7a13647b473c19189	/workspace/rst/cache_R_4_2/library/blob/1.2.3/e047d9fb9396d3b7a13647b473c19189/blob	available
 4.2.0	brew	1.0.8	2022-10-01T13:41:50Z	7063b72b9180bcee5e2ceb9442fd0663	/workspace/rst/cache_R_4_2/library/brew/1.0-8/7063b72b9180bcee5e2ceb9442fd0663/brew	available
@@ -238,7 +238,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	curl	5.0.0	2023-02-14T12:32:47Z	b25371d53ff664c43c7d75bcff3d290d	/workspace/rst/cache_R_4_2/library/curl/5.0.0/b25371d53ff664c43c7d75bcff3d290d/curl	available
 4.2.0	cytolib	2.8.0	2022-09-06T22:20:15Z	20b8513f50a704bb3605ed1e4b921a1c	/workspace/rst/cache_R_4_2/library/cytolib/2.8.0/20b8513f50a704bb3605ed1e4b921a1c/cytolib	available
 4.2.0	data.table	1.14.2	2022-09-06T19:25:56Z	6dd7bce8101c3bfc2a9fe7c9765abc72	/workspace/rst/cache_R_4_2/library/data.table/1.14.2/6dd7bce8101c3bfc2a9fe7c9765abc72/data.table	available
-4.2.0	datascience.curriculum	0.0.0.9000	2022-09-06T22:20:20Z	e212d832428c39b959f09209e78ce0ff	/workspace/rst/cache_R_4_2/library/datascience.curriculum/0.0.0.9000/e212d832428c39b959f09209e78ce0ff/datascience.curriculum	available
+4.2.0	datascience.curriculum	0.0.0.9000	2022-09-06T22:20:20Z	e212d832428c39b959f09209e78ce0ff	/workspace/rst/cache_R_4_2/library/datascience.curriculum/0.0.0.9000/e212d832428c39b959f09209e78ce0ff/datascience.curriculum	active
 4.2.0	datawizard	0.5.1	2022-09-06T21:58:01Z	2f00d214277ae2f94b95a618c6956075	/workspace/rst/cache_R_4_2/library/datawizard/0.5.1/2f00d214277ae2f94b95a618c6956075/datawizard	available
 4.2.0	date	1.2.39	2022-09-06T22:20:29Z	6964919a851c007fe9c4adec18411241	/workspace/rst/cache_R_4_2/library/date/1.2-39/6964919a851c007fe9c4adec18411241/date	available
 4.2.0	dbplyr	2.2.1	2022-09-06T19:24:58Z	dd6779b3ae0632c37a25af12966b07a4	/workspace/rst/cache_R_4_2/library/dbplyr/2.2.1/dd6779b3ae0632c37a25af12966b07a4/dbplyr	available
@@ -423,7 +423,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	jquerylib	0.1.4	2022-09-06T19:11:15Z	da87094b4dc1b970fc7fb617aa69c9e9	/workspace/rst/cache_R_4_2/library/jquerylib/0.1.4/da87094b4dc1b970fc7fb617aa69c9e9/jquerylib	available
 4.2.0	jsonlite	1.8.4	2023-02-14T12:32:48Z	bc7a8490a7622f990b223a7a1370ca43	/workspace/rst/cache_R_4_2/library/jsonlite/1.8.4/bc7a8490a7622f990b223a7a1370ca43/jsonlite	available
 4.2.0	kernlab	0.9.31	2022-09-06T22:33:28Z	938d78d0cbed7d0a0f4770e2502edd23	/workspace/rst/cache_R_4_2/library/kernlab/0.9-31/938d78d0cbed7d0a0f4770e2502edd23/kernlab	available
-4.2.0	knitr	1.42	2023-02-14T12:32:48Z	50deeb6518e1c3e221f9e4fdcf9f1cb0	/workspace/rst/cache_R_4_2/library/knitr/1.42/50deeb6518e1c3e221f9e4fdcf9f1cb0/knitr	available
+4.2.0	knitr	1.42	2023-02-14T12:32:48Z	50deeb6518e1c3e221f9e4fdcf9f1cb0	/workspace/rst/cache_R_4_2/library/knitr/1.42/50deeb6518e1c3e221f9e4fdcf9f1cb0/knitr	active
 4.2.0	ks	1.13.5	2022-09-06T22:33:28Z	00d63a32c5738b6c930a2e64f8784504	/workspace/rst/cache_R_4_2/library/ks/1.13.5/00d63a32c5738b6c930a2e64f8784504/ks	available
 4.2.0	labeling	0.4.2	2022-09-06T19:24:59Z	59f67ebe9a92593eb19132a9354df2a4	/workspace/rst/cache_R_4_2/library/labeling/0.4.2/59f67ebe9a92593eb19132a9354df2a4/labeling	available
 4.2.0	lambda.r	1.2.4	2022-09-06T19:24:59Z	a3cd001f61ad1c94d69d7c5243a33a0f	/workspace/rst/cache_R_4_2/library/lambda.r/1.2.4/a3cd001f61ad1c94d69d7c5243a33a0f/lambda.r	available
@@ -532,7 +532,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	pkgbuild	1.4.0	2023-02-14T12:32:50Z	5a6a84aedddb518fd32fe775dbdcecc0	/workspace/rst/cache_R_4_2/library/pkgbuild/1.4.0/5a6a84aedddb518fd32fe775dbdcecc0/pkgbuild	available
 4.2.0	pkgcache	2.0.4	2023-02-14T12:32:50Z	82a58f5c47a92c3dbde75af0e9d89d5f	/workspace/rst/cache_R_4_2/library/pkgcache/2.0.4/82a58f5c47a92c3dbde75af0e9d89d5f/pkgcache	active
 4.2.0	pkgconfig	2.0.3	2022-09-06T19:11:16Z	6faa888650080a04e457a20a9307d4ae	/workspace/rst/cache_R_4_2/library/pkgconfig/2.0.3/6faa888650080a04e457a20a9307d4ae/pkgconfig	available
-4.2.0	pkgdown	2.0.7	2023-02-14T12:32:50Z	e9135e96c19739b9bffeb56a33b62f13	/workspace/rst/cache_R_4_2/library/pkgdown/2.0.7/e9135e96c19739b9bffeb56a33b62f13/pkgdown	available
+4.2.0	pkgdown	2.0.7	2023-02-14T12:32:50Z	e9135e96c19739b9bffeb56a33b62f13	/workspace/rst/cache_R_4_2/library/pkgdown/2.0.7/e9135e96c19739b9bffeb56a33b62f13/pkgdown	active
 4.2.0	pkgload	1.3.2	2023-02-14T12:32:51Z	83bf2626f55e4cf9b2a8159af0fa3e1c	/workspace/rst/cache_R_4_2/library/pkgload/1.3.2/83bf2626f55e4cf9b2a8159af0fa3e1c/pkgload	available
 4.2.0	pkgmaker	0.32.2	2022-09-06T19:39:20Z	4bb630b393ff536135810168aeaaa3e5	/workspace/rst/cache_R_4_2/library/pkgmaker/0.32.2/4bb630b393ff536135810168aeaaa3e5/pkgmaker	available
 4.2.0	plogr	0.2.0	2022-09-06T19:25:00Z	ecf66889b0d579ab4a0434d36a52dd67	/workspace/rst/cache_R_4_2/library/plogr/0.2.0/ecf66889b0d579ab4a0434d36a52dd67/plogr	available
@@ -605,7 +605,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	rjson	0.2.21	2022-09-06T19:11:18Z	556405e72c48c03ec931b31511a95d35	/workspace/rst/cache_R_4_2/library/rjson/0.2.21/556405e72c48c03ec931b31511a95d35/rjson	active
 4.2.0	rlang	1.0.6	2022-11-01T16:49:38Z	604e24a245353aa0d86564ee34476bb5	/workspace/rst/cache_R_4_2/library/rlang/1.0.6/604e24a245353aa0d86564ee34476bb5/rlang	active
 4.2.0	rlecuyer	0.3.5	2022-09-07T00:30:04Z	4f74c0316055612683ba1a6402cb40c2	/workspace/rst/cache_R_4_2/library/rlecuyer/0.3-5/4f74c0316055612683ba1a6402cb40c2/rlecuyer	available
-4.2.0	rmarkdown	2.20	2023-02-14T12:32:52Z	4b60bbd3040634068d959cbcf735caef	/workspace/rst/cache_R_4_2/library/rmarkdown/2.20/4b60bbd3040634068d959cbcf735caef/rmarkdown	available
+4.2.0	rmarkdown	2.20	2023-02-14T12:32:52Z	4b60bbd3040634068d959cbcf735caef	/workspace/rst/cache_R_4_2/library/rmarkdown/2.20/4b60bbd3040634068d959cbcf735caef/rmarkdown	active
 4.2.0	rmsfact	0.0.3	2022-09-06T22:17:35Z	854550d920477fa453a57f6a5555b422	/workspace/rst/cache_R_4_2/library/rmsfact/0.0.3/854550d920477fa453a57f6a5555b422/rmsfact	available
 4.2.0	rnaturalearth	0.1.0	2022-09-07T00:30:17Z	75f36f432e387f7d59dad3a84db853ba	/workspace/rst/cache_R_4_2/library/rnaturalearth/0.1.0/75f36f432e387f7d59dad3a84db853ba/rnaturalearth	available
 4.2.0	rngtools	1.5.2	2022-09-06T19:39:21Z	699c96d57a54a68fb9251642da169c8a	/workspace/rst/cache_R_4_2/library/rngtools/1.5.2/699c96d57a54a68fb9251642da169c8a/rngtools	available

@@ -35,9 +35,9 @@ establish_new_bt <- function(cache_path, project_path) {
   cat("1. Create a new directory in the supplied path holding the cache.\n")
   cat("2. Create a new directory in the supplied path holding for R projects.\n")
   cat(
-    "3. Modify/add the user-level .Renviron file in your home directory.\n\n"
+    "3. Modify/add the user-level .Renviron file in your home directory.\n"
   )
-  cat("4. Create a new baseproject in the projects directory.")
+  cat("4. Create a new baseproject in the projects directory.\n\n")
   cli::cli_alert_warning("You should not proceed unless you are aware of what this means.")
   answer <-  menu(c("Yes", "No"), title = "Do you wish to proceed?")
   if (answer == 1) {
@@ -95,7 +95,8 @@ establish_new_bt <- function(cache_path, project_path) {
     initialize_project(
       path = fs::path(project_path, "baseproject"),
       open = FALSE,
-      fresh_install = TRUE
+      fresh_install = TRUE,
+      path_to_cache_root = cache_path
     )
 
     # populate the cache from the base library

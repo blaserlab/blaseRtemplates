@@ -8,7 +8,8 @@ initialize_project(
   path,
   rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive(),
-  fresh_install = FALSE
+  fresh_install = FALSE,
+  path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
 )
 }
 \arguments{

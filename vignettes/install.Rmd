@@ -1,0 +1,340 @@
+---
+title: "Week 1:  Setting Up"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Week 1:  Setting Up}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(datascience.curriculum)
+```
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction
+
+This course will focus on what I believe are the essential skills necessary for a laboratory-based scientist to use R and Rstudio in an effective way.  There are many other detailed resources out there for you.  
+
+* [Software carpentry](https://software-carpentry.org/lessons/previous/) has very good tutorials for R, python, git and working with the command line.  
+* [R for data science](https://r4ds.had.co.nz/) is a book written by Hadley Wickham who wrote much of the software we use in R
+* [Modern dive](https://moderndive.com/) is focused on modeling if you are interested in more clinical data sets 
+
+These and many others are good resources if you want to extend your knowledge beyond what we cover here.    
+
+Learning R at times will seem like learning a foreign language.  You will make errors.  **Always remember that you will never be the first person to encounter an error.  Learn how to google the error message and 99% of the time you will find your answer in the first 3 hits**.  This is how you learn. 
+
+## R and Rstudio
+
+R is a statistical programming language.  It is like the engine for an automobile.  RStudio is like the rest of the automobile.  Rstudio is known as an integrated development environment or IDE.  
+
+Rstudio provides two main ways of interacting with R:  directly via the R Console and via R scripts.
+
+* R console:  you type in commands and output is usually returned to the console.  The commands are logged in a history file if you really need them, but this is inconvenient.  A better option is to use scripts.  
+  
+  **Warning and Error messages will appear in the console.  Always pay attention to what they are saying.** 
+
+* R scripts:  these are text files.  When you run 1 or more lines, Rstudio feeds them into the console and R follows the commands.  This is good because you always have a plain text record of what you did.  So when you build up a multi-step analysis it is easy to see how you got the end product.  Better than running the whole file is "sourcing" the file.  You can do this by typing Ctrl+Shift+S or clicking the "Source" button in the upper right corner of the source pane (usually top-left) in Rstudio.  Why is this better?  Let's say you left an error in your script.  Maybe the presence of this error changes the final output you are trying to produce.  If you run all of the lines, R will notify you of the error and then keep going.  Easy to miss if this is the only error.  If you source the file, it will stop completely on errors so you don't end up with errors you aren't aware of.
+
+  **You always want your programs to error in obvious ways so you don't carry on with incorrect data.**
+
+Rstudio provides a number of standard panes that display useful information.  We will review these in class or you can explore them on your own.
+
+## Packages
+
+Packages are chunks of code and/or data that people have written and made available to us to use. The main reason we use R is that there is a large library of useful packages for the biological sciences that we can build our work on, all of which are free to use. 
+
+Packages are most often stored and distributed as compressed binary files via standard repositories.  The two most common are [CRAN](https://cran.r-project.org/) and [Bioconductor](https://www.bioconductor.org/).  Packages can also be distributed as source code (text based files), usually via github. 
+
+**What happens when we "install" packages?**
+
+R downloads the compressed file and then unpacks it in a library directory on your computer or server.  Then the functions and data are available for you to use in your R project.  A manual for each object in the package is generated and can be viewed in the help panel. Access these with ```?<object name>``` e.g. ```?mean```.  Vignettes may also be available.  Vignettes are tutorials that show you how to use the functions in a package, often with example data.  These are best accessed by navigating through the package menu.  Click on the package name and near the top you will see any available vignettes.  
+
+```{r eval=FALSE}
+# the base function you use to install packages is...
+install.packages("<package name>")
+
+# install the renv package which is a more versatile installer 
+install.packages("renv")
+
+# install the blaseRtemplates package which we will use in this lecture
+renv::install("blaserlab/blaseRtemplates")
+
+```
+
+
+The base install function is most useful for official CRAN packages.  Using install from Renv will handle CRAN, bioconductor (prefix package name with bioc::), github, and local sources pretty easily, so this is the recommended approach.
+
+**If you ever get an error that says a function or package is unavailable, the first thing you want to do is make sure the package is installed.**  You may not recognize what it is but it may be required by another package you wish to use.  This is called a dependency.
+
+Once you have installed a package its functions are available to be called using the package name followed by 2 colons such as ```dplyr::filter(mtcars, cyl == 6)```. But this is not always the best way to go.  
+
+To make all of the functions from a package available, you need to run ```library("<package name>")```.  This will attach all of the functions from that package to your session.   
+
+Beware of attaching more packages than you actually need though because there could be "namespace conflicts".  This happens when the same term applies to two different functions from two different packages.  R picks one and goes with it without clearly indicating that it is doing so.  This is a common source of errors.
+
+Later on we will see how to use the "conflicted" package to help warn us of those errors before they cause a problem. 
+
+## Projects
+
+A project is a self-contained group of files for your R data analysis.  This should align conceptually with your experiments.  If you have a set of single cell data and imaging data related to the same scientific concept or paper then it can all go in the same project.
+
+Projects automatically define their working directory to be the root of the projects.  That means you can reference any file in the root directory by typing its name like so: "file.R".  If that file was one directory down, it would be "directory/file.R". There is almost no reason ever to change this behavior.
+
+You always want to be working in a project.
+
+### Setting up a project
+
+The best way to do this is through automated commands, rather than through the program menus.  This way the packages are set up in a consisten manner, every time.  Then when you have to revisit a project after months and months, it is easy to navigate.
+
+I wrote a small package, called "blaseRtemplates" to skeletonize my R projects.  You can also use the "usethis" package.  The function ```blaseRtemplates::initialize_project()``` is very similar to a core function from usethis with a few extra features.  Once the project is initialized we switch over to "usethis" functions.
+
+```{r eval=FALSE}
+# create a project called rclass_example in your home directory
+blaseRtemplates::initialize_project("~/rclass_example")
+```
+
+That function will create the skeletonized project, activate it and restart your session within it.
+
+The following lines are taken directly from one of files created, "R/inititialization.R":
+
+```{r eval=FALSE}
+# after running the initialization command, run these lines once to set up
+# your project in a consistent manner.
+# private github repos can be made public via the web interface
+
+# make a software license
+usethis::use_mit_license("<your name here>")
+
+# generate a readme file to explain your work
+usethis::use_readme_md(open = FALSE)
+
+# *** Only if developing a package ***
+# uncomment and run to generate a news file to document updates.
+# usethis::use_news_md()
+
+# initialize git
+usethis::use_git()
+
+# initialize github
+usethis::use_github(private = TRUE)
+
+
+### Delete this file after initializing the project! ###
+```
+
+After you run this script, you should delete it.  See below for setting up git and github for the first time.
+
+Rstudio keeps track of your recent projectrs; you can open or close projects by selecting from the dropdown menu in the top right of Rstudio. 
+
+Be aware: any time you close or switch projects, the R session is restarted and you will lose all objects not saved to disk, for example your Global Environment.
+
+## Global Environment
+
+Environment is a very overloaded word in R, by which I mean it is used to name too many separate concepts, and so is difficult to learn.  It is also referred to as "workspace" which is a much better term.
+
+The global environment is like short-term memory.  It holds values and the names we give to these values in order to reference them.  You may think of the names as "variables".  Values can be data or code (functions).  Fundamentally, the global environment is a set of name-value relationships.
+
+R maintains many different environments concurrently.  Each package you attach with the ```library``` command gets its own environment.  The term "global" is even more confusing because it is not really global in the sense that it encompasses all other environments.  Rather, it is the highest priority environment.  If you enter a variable name into R, it always looks in the global environment first and then goes down the line until it hits the package:base environment.  So if I write a function in my R script called "mean" that for some reason calculates the median of a set of numbers (not a great idea), R will store that in the global environment.  Later on if I ask R to use the "mean" function, it will use the version from the global environment and not the version from the base environment.  It will calculate the median instead of the mean in this case.
+
+```{r}
+# produce a list of all environments
+search()
+```
+
+Since the global environment gets wiped out every time you change projects or restart R, you have to have a way to save what you want in permanent storage and to recreate the rest as needed from code.  We will discuss this more when we talk about building packages. 
+
+## Renv environment
+
+The Renv environment refers to a version-controlled set of R packages that are specifically installed in an R project.  It is analogous to a conda environment in Python.
+
+Why do you want to deal with another environment concept??
+
+On occasion you will write an R script that depends on a specific version of a package, but breaks if you were to update that package to a newer version.
+
+Or perhaps you want to share the project with a collaborator who has a different set of packages installed on their system which may produce errors or different results than the packages you are working with.
+
+The way around this is to use Renv to control package versions.  This can cause some headaches but is generally worth the trouble.
+
+What happens is Renv discovers all of the packages you use in your code and copies or newly installs those pieces of software into a cache directory on your system.  This is usually difficult to find but this is not a problem because Renv knows how to find it.  Then Renv puts links to the cache into your project, rather than the software itself.  This keeps the disk-space footprint of the project very small.  Finally it maintains a list, called a lockfile, of all the versions of all the packages being used by the project.  Each project will have its own library of Renv links and its own lockfile.
+
+
+```{r eval=FALSE}
+# renv --------------------------------------------------------------------
+
+# set up the renv from scratch
+
+# renv::init(bioconductor = TRUE)
+
+# restore the renv from the lockfile
+
+# renv::restore()
+
+
+
+# package installation ----------------------------------------------------
+
+# # Try this first...it's faster:
+# blaseRtemplates::easy_install("<package name>", how = "link_from_cache")
+
+# # If you need a new package or an update, try this:
+# blaseRtemplates::easy_install("<package name>", how = "new_or_update")
+
+# # If you are installing from a "tarball", use this:
+# blaseRtemplates::easy_install("/path/to/tarball.tar.gz")
+
+# # use "bioc::<package name>" for bioconductor packages
+# # use "<repo/package name>" for github source packages
+
+# load and attach packages ------------------------------------------------
+
+library("blaseRtemplates")
+library("conflicted")
+library("tidyverse")
+library("gert")
+
+```
+
+* tip:  When you run renv::init(), anything inside ```library()``` will get installed into your project.  So if you have packages you use all the time, add them in there.
+
+## Project organization
+
+I keep all of my R scripts in a directory called "R".  If you initialized your project with ```blaseRtemplates::initialize_project()```, in addition to ```initialize.R```, you will have scripts labeled:  
+
+
+* ```dependencies.R```:  use this for installing packages into your renv environment and attaching them to your session
+* ```configs.R```:  use this for setting graphical and aesthetic parameters.  I also use this for resolving function name conflicts.
+* ```local_configs.R```: only necessary if you are collaborating via git (optional).  If so, each collaborator may wish to have personal configuration settings which are not shared.  A common example is for figure and table output to personal directories.  Leave blank if working on your own.
+* ```git_commands.R```:  only necessary if you are using git (recommended).  The commands here will allow you to handle 99% of git interactions via R in a scripted way.
+
+In addition to this, the main analysis scripts for the project will go in the R folder and may go in subdirectories if there are a lot of them.  Other file types, such as *.Rmd, would go in their own folder named Rmd/.  This arrangement is very flexible for simple data analysis projects; the rules become more strict when we build packages.
+
+## Extra credit:  Basic git operation for the single user
+
+You want to try to use git and github.  There is a vast array of resources for you to read about git and troubleshoot issues.  Briefly, it is a program that tracks changes to text files.  Since all of the code you will write is text-based this is a great resource for you to keep track of your progress on your work.
+
+Git tracks changes to files in a group of files known as a repository.  The way we are using it here, your project is the repository.  Github is simply a website that hosts a copy of your repository on the web.  This is how you will share your work with journal reviewers and editors and others.
+
+
+```{r eval = FALSE}
+## Setting up git and github from R
+# You should only need to run these commands once.
+#
+# make sure you have a github account
+# https://github.com/join
+
+# install git
+## Windows ->  https://git-scm.com/download/win
+## Mac     ->  https://git-scm.com/download/mac
+## Linux   ->  https://git-scm.com/download/linux
+
+# configure git in Rstudio
+usethis::use_git_config(user.name = "YourName", user.email = "your@mail.com")
+
+# create a personal access token at the github website
+# set the expiration date as desired
+# permissions should be set automatically
+usethis::create_github_token()
+
+# run this and enter your token at the prompt
+blaseRtemplates::gitcreds_set()
+
+# if you have trouble accessing github, you may need to edit the .Renviron file
+# this is the third usage of the term environment (sorry)
+# to edit this file, run
+usethis::edit_r_environ()
+# if there is a line there starting GITHUB_PAT=xxx,
+# it may be interfering with your credentials.  Delete it.
+# press enter to generate a new line and then save
+# restart R
+
+```
+
+You may also want to run this line in the terminal to set the default editor to "nano".  
+
+```git config --global core.editor "nano -w"```
+
+At some point, git will open a text editor and ask you to make some edits.  Unless you prefer Vim or emacs you should start with nano.
+
+The necessary permissions should be set automatically by these commands.  By default, the token expires after 30 days, but you can override this.  
+
+Assuming the commands above have run properly you should be ready to use git and github.  You can interact with git in at least 4 different ways:
+
+* via scripted commands on ```R/git_commands.R```
+* using the Git pane in Rstudio
+* using the terminal
+* using a third-party git client such as [git kraken](https://www.gitkraken.com/) or [sourcetree](https://www.sourcetreeapp.com/)
+
+My recommended approach for new users is to use the scripted git commands to control what is happening and to use the Git pane to monitor the status of your repository.  Just remember to hit the refresh icon if things look strange in the Git panel.
+
+At times you will need to use the terminal to fix conflicts, but this should only happen if you are collaborating with git.
+
+Many people use third-party apps, but these have their own learning curve.
+
+The basic process for using Git as a single user is this:
+
+* save all of your open files
+* check the status of your repository so you know what files have changed
+* add them to the Git index of files
+* commit them to create a save point for all of the files in your project
+* push the commit to the remote repository (github)
+
+Here are the commands from ```git_commands.R```
+
+```{r eval = FALSE}
+# basic everyday commands for all git users -------------------------------
+ 
+gert::git_status()
+gert::git_add("*")
+gert::git_commit("a short comment describing the changes made")
+blaseRtemplates::git_push_all()
+
+```
+
+That is it!
+
+If you run into problems, the error messages are usually informative.  If you have trouble understanding an error or it isn't helpful, just google it.
+
+One common use-case for git for the single user is to "un-delete" files.  You can do this as long as the files were previously committed.  To go back in time and recover the previously committed version, in the terminal run ```git log``` to review your commit history.  Add and commit any outstanding changes to your repository as outlined above.  Then run ```git checkout <commit id>``` to rewind the state of your repository to the desired commit.  Copy the file(s) you want to resurrect to a location external to the repository. Run ```git switch -``` to go back to your latest commit.  Make your changes and go from there.
+
+Here is a way that is even easier and doesn't require using the terminal:  go to your github site for that repo.  Click on clock icon labled "commits" (which helpfully includes a "back in time" arrow).  Then select from the list of commits (versions).  Click browse files and find what you were looking for.  You can even click on the raw version to copy and paste directly back into R studio.
+
+Here's a more complicated situation most of us can relate to:
+
+* You submit your beautiful manuscript to Journal A
+* Journal A bounces it right back to you
+* You reformat all of the figures for your paper in R and submit it to Journal B
+* Journal B is more interested, and they send it out for review and 6 weeks later reject it.
+* You decide to submit to Journal C which has similar figure formatting as does Journal A.
+* What do you do? 
+
+```{r}
+# run these commands to rewind to a prior "good" commit ----------------------
+
+# make sure git status is "clean" (all changes committed) before rewinding
+# gert::git_log() #find the id of the good commit
+# blaseRtemplates::git_rewind_to(commit = "<good commit id>")
+
+```
+
+Hopefully you have a commit in your git log with the message "submitted to Journal A".  You select that id (the long character string) and provide it to the ```blaseRtemplates::git_rewind_to()``` function.  This function will generate a new commit that reverses all of your changes from present, back to the indicated commit.  Nothing is lost or overwritten in the process of going back in time.  The only thing that happens is that inverse changes are applied.  So if you need to go to Journal D (which is formatted like Journal B) you can always do that later.  
+
+## Exercises
+
+1.  Use the code blocks from this vignette to make a new R project on your system.  Modify as necessary.  If you have trouble with the git commands omit them for now.
+
+2.  Explore the scripts in the R directory. 
+
+3.  Try running the code in dependencies.R to install some recommended packages.
+
+4.  Try adding the line ```blaseRtemplates::easy_install("blaserlab/blaseRtools", how = "new_or_update")``` and installing this package.  Warning:  it has a lot of dependencies and may take a long time to finish.
+
+5.  Extra credit:  save your work, then add, commit, and push to your github site.

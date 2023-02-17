@@ -28,8 +28,8 @@
 initialize_project <- function(path,
                                rstudio = rstudioapi::isAvailable(),
                                open = rlang::is_interactive(),
-                               fresh_install = FALSE) {
-  path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
+                               fresh_install = FALSE,
+                               path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")) {
   if (path_to_cache_root == "") {
     cli::cli_abort("You must first set the BLASERTEMPLATES_CACHE_ROOT environmental variable.")
 
