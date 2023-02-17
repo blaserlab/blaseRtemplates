@@ -120,7 +120,8 @@ establish_new_bt <- function(cache_path, project_path) {
 
     usethis::with_project(fs::path(project_path, "baseproject"), code = {
       hash_n_cache(lib_loc = fs::path(cache_path, "user_project", Sys.getenv("USER"), "baseproject"),
-                   cache_loc = fs::path(cache_path, "library"))
+                   cache_loc = fs::path(cache_path, "library"),
+                   safe = FALSE)
 
     })
 

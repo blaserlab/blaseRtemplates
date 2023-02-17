@@ -1,8 +1,8 @@
 ---
-title: "Installing Packages"
+title: "Initialize a blaseRtemplates Project"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Installing Packages}
+  %\VignetteIndexEntry{Initialize a blaseRtemplates Project}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
