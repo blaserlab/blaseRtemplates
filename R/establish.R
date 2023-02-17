@@ -42,17 +42,13 @@ establish_new_bt <- function(cache_path, project_path) {
   answer <-  menu(c("Yes", "No"), title = "Do you wish to proceed?")
   if (answer == 1) {
     # make the directory tree we will need
-    fs::dir_create(cache_path, "library", )
+    fs::dir_create(cache_path, "library")
     fs::dir_create(cache_path, "user_project", Sys.getenv("USER"))
     fs::dir_create(cache_path, "source")
     fs::dir_create(cache_path, "logs")
     fs::dir_create(project_path)
 
     # write in some templates
-    fs::file_copy(path = fs::path_package("templates", "dependency_catalog.tsv", package = "blaseRtemplates"),
-                  new_path = fs::path(cache_path, "dependency_catalog.tsv"))
-    fs::file_copy(path = fs::path_package("templates", "package_catalog.tsv", package = "blaseRtemplates"),
-                  new_path = fs::path(cache_path, "package_catalog.tsv"))
     fs::file_copy(path = fs::path_package("templates", "R_profile.R", package = "blaseRtemplates"),
                   new_path = fs::path(cache_path, ".Rprofile"))
 
@@ -127,14 +123,71 @@ establish_new_bt <- function(cache_path, project_path) {
 
     })
 
+    # create the package catalog
+    fs::dir_info(fs::path(cache_path, "library"), recurse = 3) |>
+      dplyr::anti_join(
+        fs::dir_info(fs::path(cache_path, "library"), recurse = 2),
+        by = c(
+          "path",
+          "type",
+          "size",
+          "permissions",
+          "modification_time",
+          "user",
+          "group",
+          "device_id",
+          "hard_links",
+          "special_device_id",
+          "inode",
+          "block_size",
+          "blocks",
+          "flags",
+          "generation",
+          "access_time",
+          "change_time",
+          "birth_time"
+        )
+      ) |>
+      dplyr::select(path, birth_time) |>
+      dplyr::mutate(hash = fs::path_file(fs::path_dir(path))) |>
+      dplyr::mutate(version = as.package_version(fs::path_file(fs::path_dir(
+        fs::path_dir(path)
+      )))) |>
+      dplyr::mutate(name = fs::path_file(fs::path_dir(fs::path_dir(
+        fs::path_dir(path)
+      )))) |>
+      dplyr::mutate(R_version = paste0(R.version$major, ".", R.version$minor)) |>
+      dplyr::select(R_version,
+                    name,
+                    version,
+                    date_time = birth_time,
+                    hash,
+                    binary_location = path) |>
+      readr::write_tsv(file = fs::path(cache_path, "package_catalog.tsv"))
 
+    # create the dependency catalog
+    purrr::map_dfr(.x = fs::path_dir(
+      fs::dir_ls(
+        path = fs::path(cache_path, "library"),
+        recurse = 4,
+        regexp = "DESCRIPTION"
+      )
+    ),
+    .f = \(x) {
+      dependencies <- get_all_deps(x)
+      name <- fs::path_file(x)
+      hashes <- fs::path_file(fs::path_dir(x))
+      tibble::tibble(name = name,
+             hashes = hashes,
+             dependencies = dependencies)
+    }) |> readr::write_tsv(file = fs::path(cache_path, "dependency_catalog.tsv"))
 
-
-    # wrap up
 
 
   }
 }
+
+
 #' @title Regenerate .Rprofile and .Renviron Files
 #' @description If you have deleted or otherwise broken your .Rprofile or .Renviron files, you may have difficulty connecting to the package cache.  This function will regenerate both for you.  The existing .Rprofile must be deleted manually.  You can choose to archive the old version if you wish.  It will be replaced with the standard .Rprofile from blaseRtemplates.  The .Renviron file will be modified by removing the damaged lines and replacing them with the correct ones.  You must supply the correct file path locations to your cache directory and project directory, otherwise your R installation will be configured incorrectly.
 #' @param cache_path path to the cache directory
