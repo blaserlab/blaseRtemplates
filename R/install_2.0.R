@@ -93,30 +93,13 @@ update_package_catalog <-
   function() {
     catch_blasertemplates_root()
     cache_loc <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
-    fs::dir_info(fs::path(cache_loc, "library"), recurse = 3) |>
-      dplyr::anti_join(
-        fs::dir_info(fs::path(cache_loc, "library"), recurse = 2),
-        by = c(
-          "path",
-          "type",
-          "size",
-          "permissions",
-          "modification_time",
-          "user",
-          "group",
-          "device_id",
-          "hard_links",
-          "special_device_id",
-          "inode",
-          "block_size",
-          "blocks",
-          "flags",
-          "generation",
-          "access_time",
-          "change_time",
-          "birth_time"
-        )
-      ) |>
+    lib_path <- fs::path(cache_loc, "library")
+    package_paths <- fs::dir_ls(lib_path,
+                                recurse = 2)[fs::dir_ls(lib_path,
+                                                        recurse = 2) %notin% fs::dir_ls(lib_path,
+                                                                                        recurse = 1)]
+
+    fs::dir_info(package_paths, recurse = FALSE) |>
       dplyr::select(path, birth_time) |>
       dplyr::mutate(hash = fs::path_file(fs::path_dir(path))) |>
       dplyr::mutate(version = as.package_version(fs::path_file(fs::path_dir(
@@ -126,13 +109,16 @@ update_package_catalog <-
         fs::path_dir(path)
       )))) |>
       dplyr::mutate(R_version = paste0(R.version$major, ".", R.version$minor)) |>
-      dplyr::select(R_version,
-                    name,
-                    version,
-                    date_time = birth_time,
-                    hash,
-                    binary_location = path) |>
+      dplyr::select(
+        R_version,
+        name,
+        version,
+        date_time = birth_time,
+        hash,
+        binary_location = path
+      ) |>
       readr::write_tsv(file = fs::path(cache_loc, "package_catalog.tsv"))
+
 
   }
 
