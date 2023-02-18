@@ -147,30 +147,15 @@ establish_new_bt <- function(cache_path, project_path) {
     })
 
     # create the package catalog
-    fs::dir_info(fs::path(cache_path, "library"), recurse = 3) |>
-      dplyr::anti_join(
-        fs::dir_info(fs::path(cache_path, "library"), recurse = 2),
-        by = c(
-          "path",
-          "type",
-          "size",
-          "permissions",
-          "modification_time",
-          "user",
-          "group",
-          "device_id",
-          "hard_links",
-          "special_device_id",
-          "inode",
-          "block_size",
-          "blocks",
-          "flags",
-          "generation",
-          "access_time",
-          "change_time",
-          "birth_time"
-        )
-      ) |>
+    `%notin%` <- Negate(`%in%`)
+
+    lib_path <- fs::path(cache_path, "library")
+    package_paths <- fs::dir_ls(lib_path,
+                                recurse = 2)[fs::dir_ls(lib_path,
+                                                        recurse = 2) %notin% fs::dir_ls(lib_path,
+                                                                                        recurse = 1)]
+
+    fs::dir_info(package_paths, recurse = FALSE) |>
       dplyr::select(path, birth_time) |>
       dplyr::mutate(hash = fs::path_file(fs::path_dir(path))) |>
       dplyr::mutate(version = as.package_version(fs::path_file(fs::path_dir(
