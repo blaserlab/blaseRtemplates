@@ -199,7 +199,7 @@ write_project_library_catalog <-
     catch_blasertemplates_root()
     lib_loc <- .libPaths()[1]
     cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
-    user <- Sys.getenv()[["USER"]]
+    user <- Sys.info()[["user"]]
     project <- fs::path_file(usethis::proj_get())
     lib_pkg_hashes <- purrr::map_dfr(.x = fs::dir_ls(lib_loc),
                                      .f = \(x) {
