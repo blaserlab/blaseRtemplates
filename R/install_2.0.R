@@ -328,11 +328,13 @@ get_new_library <- function(newest_or_file = "newest") {
     cli::cli_alert_warning(
       paste0(
         cant_install,
-        " hashes could not be found in the cache catalog and may be invalid."
+        " packages could not be found in the catalog.  Attempting to install these versions from the accessible repositories."
       )
+
     )
-    return(not_installed)
-  } else {
+
+
+    } else {
     cli::cli_alert_success("Success!")
   }
 
@@ -433,6 +435,7 @@ link_one_new_package <- function(package,
       fs::link_delete(fs::path(.libPaths()[1], package))
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
+    link_deps(package = package)
 
   }
 }
@@ -512,14 +515,14 @@ install_one_package <-
           hash_n_cache()
         } else {
           link_one_new_package(package = package_name, version = which_version, hash = which_hash)
-          link_deps(package = package_name)
+          # link_deps(package = package_name)
         }
       } else if (how == "new_or_update") {
         pak::pkg_install(pkg = package, ask = FALSE, upgrade = TRUE)
         hash_n_cache()
       } else if (how == "link_from_cache") {
         link_one_new_package(package = package_name, version = which_version, hash = which_hash)
-        link_deps(package = package_name)
+        # link_deps(package = package_name)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 
