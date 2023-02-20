@@ -171,6 +171,13 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
                          cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
   catch_blasertemplates_root()
   packages <- find_unlinked_packages(lib_path = lib_loc)
+
+  if (length(packages) > 0) {
+    cli::cli_alert_info("Cacheing {length(packages)} package(s).")
+
+  } else {
+    cli::cli_alert_info("The library is cached.")
+  }
   purrr::walk(.x = packages,
               .f = \(x, loc = cache_loc) {
                 cache_fun(package = x, loc)
