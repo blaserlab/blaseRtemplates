@@ -77,9 +77,10 @@ cache_fun <-
       fs::dir_copy(path = package,
                    new_path = to,
                    overwrite = FALSE)
-      fs::dir_delete(package)
-      fs::link_create(path = to, new_path = package)
     }
+    fs::dir_delete(package)
+    fs::link_create(path = to, new_path = package)
+
     # make sure the new entry has permissions 777
     fs::dir_walk(
       path = to,
@@ -291,6 +292,7 @@ get_new_library <- function(newest_or_file = "newest") {
   hash_n_cache()
   failed_all <-
     tibble::tibble(name = character(0), version = character(0))
+
 
   cache_catalog <-
     fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
