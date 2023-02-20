@@ -20,8 +20,11 @@ hash_fun <- function(package) {
     dplyr::filter(type == "file") |>
     dplyr::pull(path)
   hashlist <- purrr::map(.x  = files,
-      .f = \(x) digest::digest(object = x, algo = "md5", file = TRUE)
-      )
+                         .f = \(x) digest::digest(
+                           object = x,
+                           algo = "md5",
+                           file = TRUE
+                         ))
   digest::digest(object = hashlist, algo = "md5")
 }
 
@@ -35,11 +38,11 @@ get_all_deps <- function(package) {
   package_desc <- fs::path(package, "DESCRIPTION")
   desc <- read.dcf(package_desc)
   desc <- tibble::as_tibble(desc)
-  if("Depends" %notin% colnames(desc))
+  if ("Depends" %notin% colnames(desc))
     desc <- dplyr::mutate(desc, Depends = "")
-  if("Imports" %notin% colnames(desc))
+  if ("Imports" %notin% colnames(desc))
     desc <- dplyr::mutate(desc, Imports = "")
-  deps <- c(desc[,"Imports"], desc[,"Depends"]) |>
+  deps <- c(desc[, "Imports"], desc[, "Depends"]) |>
     stringr::str_split(pattern = ",") |>
     unlist() |>
     stringr::str_remove_all(" ") |>
@@ -52,7 +55,7 @@ get_all_deps <- function(package) {
 
 get_version <- function(path) {
   desc <- read.dcf(fs::path(path, "DESCRIPTION"))
-  desc[,"Version"]
+  desc[, "Version"]
 }
 
 #' @title  cache a single package
@@ -61,8 +64,7 @@ get_version <- function(path) {
 #' @importFrom cli cli_div cli_alert_info
 cache_fun <-
   function(package,
-           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
-           ) {
+           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     name <- fs::path_file(package)
@@ -79,9 +81,11 @@ cache_fun <-
       fs::link_create(path = to, new_path = package)
     }
     # make sure the new entry has permissions 777
-    fs::dir_walk(path = to,
-                 fun = \(x) fs::file_chmod(path = x, mode = "777"),
-                 recurse = TRUE)
+    fs::dir_walk(
+      path = to,
+      fun = \(x) fs::file_chmod(path = x, mode = "777"),
+      recurse = TRUE
+    )
 
   }
 
@@ -109,14 +113,12 @@ update_package_catalog <-
         fs::path_dir(path)
       )))) |>
       dplyr::mutate(R_version = paste0(R.version$major, ".", R.version$minor)) |>
-      dplyr::select(
-        R_version,
-        name,
-        version,
-        date_time = birth_time,
-        hash,
-        binary_location = path
-      ) |>
+      dplyr::select(R_version,
+                    name,
+                    version,
+                    date_time = birth_time,
+                    hash,
+                    binary_location = path) |>
       readr::write_tsv(file = fs::path(cache_loc, "package_catalog.tsv"))
 
 
@@ -143,8 +145,8 @@ update_dependency_catalog <-
       name <- fs::path_file(x)
       hashes <- fs::path_file(fs::path_dir(x))
       tibble::tibble(name = name,
-             hashes = hashes,
-             dependencies = dependencies)
+                     hashes = hashes,
+                     dependencies = dependencies)
     }) |> readr::write_tsv(file = fs::path(cache_loc, "dependency_catalog.tsv"))
 
   }
@@ -165,8 +167,7 @@ catch_blasertemplates_root <- function() {
 #' @importFrom purrr walk
 #' @export
 hash_n_cache <- function(lib_loc = .libPaths()[1],
-                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
-                         ) {
+                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
   catch_blasertemplates_root()
   packages <- find_unlinked_packages(lib_path = lib_loc)
   purrr::walk(.x = packages,
@@ -197,6 +198,7 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
 write_project_library_catalog <-
   function() {
     catch_blasertemplates_root()
+    hash_n_cache()
     lib_loc <- .libPaths()[1]
     cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
     user <- Sys.info()[["user"]]
@@ -214,7 +216,8 @@ write_project_library_catalog <-
 
     fs::dir_create("library_catalogs")
 
-    readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"), col_types = readr::cols()) |>
+    readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"),
+                    col_types = readr::cols()) |>
       dplyr::mutate(version = as.package_version(version)) |>
       dplyr::filter(hash %in% lib_pkg_hashes$hash) |>
       dplyr::mutate(
@@ -236,7 +239,8 @@ rec_get_deps <-
   function(needed,
            checked = character(0),
            deps = character(0),
-           catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")) {
+           catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+                              "dependency_catalog.tsv")) {
     # base case
     catalog <- readr::read_tsv(catalog, col_types = readr::cols())
     if (length(deps) == 0) {
@@ -261,7 +265,10 @@ rec_get_deps <-
       needed = needed,
       checked = checked,
       deps = deps,
-      catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv")
+      catalog = fs::path(
+        Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+        "dependency_catalog.tsv"
+      )
     )
 
   }
@@ -283,10 +290,13 @@ get_new_library <- function(newest_or_file = "newest") {
   # make sure the library is hashed
   hash_n_cache()
 
-  cache_catalog <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv")
+  cache_catalog <-
+    fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+             "package_catalog.tsv")
   project_library <- .libPaths()[1]
   # load the catalog
-  pkg_cat <- readr::read_tsv(cache_catalog, col_types = readr::cols())
+  pkg_cat <-
+    readr::read_tsv(cache_catalog, col_types = readr::cols())
 
   # get the list of paths to link to
   if (newest_or_file == "newest") {
@@ -297,46 +307,92 @@ get_new_library <- function(newest_or_file = "newest") {
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
     cant_install <- 0
+    failed_all <-
+      tibble::tibble(name = character(0), version = character(0))
   } else {
     cli::cli_alert_info("Attempting to link to cached packages from the provided file.")
-    hashes <- readr::read_tsv(newest_or_file, col_types = readr::cols()) |>
-      pull(hash)
-    cant_install <- sum(hashes %notin% pkg_cat$hash)
-    not_installed <-
-      hashes[hashes %notin% pkg_cat$hash]
+    to_install <-
+      readr::read_tsv(newest_or_file, col_types = readr::cols()) |>
+      dplyr::select(name, version, status)
+    cant_install <-
+      dplyr::anti_join(to_install, pkg_cat, by = c("name", "version"))
+
     from <- pkg_cat |>
-      dplyr::filter(hash %in% hashes) |>
+      dplyr::filter(name %in% to_install$name) |>
+      dplyr::filter(version %in% to_install$version) |>
+      dplyr::group_by(name) |>
+      dplyr::arrange(desc(date_time), .by_group = TRUE) |>
+      dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
 
-  }
 
-  purrr::walk2(.x = from$binary_location,
-        .y = from$name,
-        .f = \(x, y, proj_lib = project_library) {
+    purrr::walk2(.x = from$binary_location,
+                 .y = from$name,
+                 .f = \(x, y, proj_lib = project_library) {
+                   # first delete the exisitng link
+                   if (fs::link_exists(fs::path(project_library, y)))
+                     fs::link_delete(fs::path(project_library, y))
 
-          # first delete the exisitng link
-          if (fs::link_exists(fs::path(project_library, y)))
-            fs::link_delete(fs::path(project_library, y))
+                   # now create the new link
+                   fs::link_create(path = x,
+                                   new_path = fs::path(project_library, y))
+                 })
 
-          # now create the new link
-          fs::link_create(path = x,
-                          new_path = fs::path(project_library, y))
-        })
-  write_project_library_catalog()
-
-  if (cant_install > 0) {
-    cli::cli_alert_warning(
-      paste0(
-        cant_install,
-        " packages could not be found in the catalog.  Attempting to install these versions from the accessible repositories."
+    if (nrow(cant_install) > 0) {
+      cli::cli_alert_warning(
+        '{nrow(cant_install)} packages could not be found in the catalog.\nOf these, only {nrow(dplyr::filter(cant_install, status == "active"))} are actively used by the project.\nYou can install all packages or only the active packages'
       )
+      answer <-
+        menu(c("active only", "all"), title = "How do you wish to proceed?")
+      if (answer == 1)
+        cant_install <- dplyr::filter(cant_install, status == "active")
+      cli::cli_alert_info("Attempting to install these packages from the accessible repositories.")
+      failed_cran <- purrr::map2_dfr(.x = cant_install$name,
+                                     .y = cant_install$version,
+                                     .f = \(x, y) {
+                                       tryCatch(
+                                         expr = pak_plus(pkg = x, ver = y),
+                                         error = function(cond)
+                                           return(tibble::tibble(
+                                             name = x, version = y
+                                           ))
+                                       )
 
+                                     })
+      failed_all <-
+        purrr::map_dfr(.x = paste0("bioc::", failed_cran$name),
+                       .f = \(x) {
+                         tryCatch(
+                           expr = pak_plus(pkg = x, ver = NULL)
+                         )
+                       })
+      # TODO use pak::pkg_install("cran/package@version") here
+      # wrap safely
+    }
+
+
+  }
+  write_project_library_catalog()
+  if (nrow(failed_all) > 0) {
+    dt_stamp <- stringr::str_remove_all(Sys.time(), "\\D")
+    cli::cli_alert_info(
+      "{nrow(failed_all)} packages could not be installed.  Writing these to library_catalogs/uninstalled_packages_{dt_stamp}.tsv"
+    )
+    readr::write_tsv(
+      failed_all,
+      file = fs::file_path(
+        "library_catalogs",
+        "uninstalled_packages_",
+        dt_stamp,
+        ".tsv"
+      )
     )
 
-
-    } else {
+  } else {
     cli::cli_alert_success("Success!")
+
   }
+
 
 }
 
@@ -348,8 +404,8 @@ get_new_library <- function(newest_or_file = "newest") {
 #' @importFrom pak pkg_install
 #' @importFrom dplyr filter pull arrange slice_head
 link_one_new_package <- function(package,
-                             version = NULL,
-                             hash = NULL) {
+                                 version = NULL,
+                                 hash = NULL) {
   cli::cli_div(theme = list(span.emph = list(color = "orange")))
   catch_blasertemplates_root()
   stopifnot("You can only install 1 package at a time with this function." = length(package) == 1)
@@ -362,13 +418,17 @@ link_one_new_package <- function(package,
   # first check to be sure the package exists in the cache
   # if not, then install it from the repository
   pkg_cat <-
-    readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols())
+    readr::read_tsv(fs::path(
+      Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+      "package_catalog.tsv"
+    ),
+    col_types = readr::cols())
   ok <- package %in% pkg_cat$name
 
   if (!ok) {
     cli::cli_alert_warning("{.emph {package}} is not in your cache.\nAttempting a new installation ")
     tryCatch({
-      pak::pkg_install(package, ask = FALSE)
+      pak_plus(pkg = package, ver = version)
       hash_n_cache()
 
     }, error = function(cond) {
@@ -385,7 +445,7 @@ link_one_new_package <- function(package,
       ok <- version %in% available_versions
 
       if (!ok) {
-        cli::cli_alert_warning("The requested package is not available.")
+        cli::cli_alert_warning("The requested version of {.emph {package}} is not available in the cache.")
         method <- "install.latest"
 
       } else {
@@ -403,7 +463,7 @@ link_one_new_package <- function(package,
       ok <- hash %in% pkg_cat$hash
 
       if (!ok) {
-        cli::cli_alert_warning("The requested package is not available.")
+        cli::cli_alert_warning("The requested hash of {.emph {package}} is not available.")
         method <- "install.latest"
 
       } else {
@@ -431,7 +491,7 @@ link_one_new_package <- function(package,
       dplyr::filter(hash == hash_to_link) |>
       dplyr::pull(binary_location)
 
-    if(fs::link_exists(fs::path(.libPaths()[1], package)))
+    if (fs::link_exists(fs::path(.libPaths()[1], package)))
       fs::link_delete(fs::path(.libPaths()[1], package))
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
@@ -470,9 +530,45 @@ link_deps <- function(package) {
                  fs::link_create(path = x,
                                  new_path = fs::path(.libPaths()[1], y))
                })
-  cli::cli_alert_success("Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache.")
+  cli::cli_alert_success(
+    "Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache."
+  )
 }
 
+#' @importFrom cli cli_alert_warning
+#' @importFrom pak pkg_install
+#' @importFrom stringr str_detect
+pak_plus <- function(pkg, ver) {
+  # check if bioc
+  bioc <- stringr::str_detect(pkg, "bioc")
+  if (bioc & !is.null(ver)) {
+    cli::cli_alert_warning("Installing versioned bioconductor packages is not supported.")
+    pak::pkg_install(pkg, ask = FALSE, upgrade = TRUE)
+  } else if (bioc & is.null(ver)) {
+    pak::pkg_install(pkg, ask = FALSE, upgrade = TRUE)
+  } else if (!is.null(ver)) {
+    install_string <- paste0("cran/", pkg, "@", ver)
+    tryCatch(
+      expr = pak::pkg_install(install_string, ask = FALSE, upgrade = TRUE),
+      error = function(cond) {
+        cli::cli_alert_warning("The requested version of {.emph {pkg}} is not available on CRAN.")
+        cli::cli_alert_warning("Attempting to install the latest version.")
+        pak::pkg_install(pkg, ask = FALSE, upgrade = TRUE)
+      }
+    )
+
+  } else {
+    pak::pkg_install(pkg, ask = FALSE, upgrade = TRUE)
+  }
+
+
+
+
+
+
+
+
+}
 
 #' @title Install One Package
 #' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository and get the latest version of the software.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.
@@ -488,10 +584,9 @@ link_deps <- function(package) {
 #' @importFrom pak pkg_install
 install_one_package <-
   function(package,
-           how = c("ask", "new_or_update", "link_from_cache", "tarball"),
+           how = c("ask", "repo", "cache", "tarball"),
            which_version = NULL,
-           which_hash = NULL
-           ) {
+           which_hash = NULL) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     how <- match.arg(how)
@@ -504,24 +599,28 @@ install_one_package <-
         stringr::str_replace(package, "bioc::|.*/", "")
 
       if (how == "ask") {
-        cat("Do you want to update or install a new package from a repository?\n")
-        cat("Or do you want to link to a new version in the package cache?\n")
-        cat("Linking is faster if the package is available\n")
+        cat("Do you want to update or install or update from a repository?\n")
+        cat("Or do you want to link to a different version in the package cache?\n")
+        cat("Linking is faster if the package is available in the cache.\n")
         answer <-
-          menu(c("New/Update", "Link from cache"), title = "How do you wish to proceed?")
+          menu(c("repo", "cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
-          pak::pkg_install(package, ask = FALSE, upgrade = TRUE)
+          pak_plus(pkg = package, ver = which_version)
           hash_n_cache()
         } else {
-          link_one_new_package(package = package_name, version = which_version, hash = which_hash)
+          link_one_new_package(package = package_name,
+                               version = which_version,
+                               hash = which_hash)
           # link_deps(package = package_name)
         }
-      } else if (how == "new_or_update") {
-        pak::pkg_install(pkg = package, ask = FALSE, upgrade = TRUE)
+      } else if (how == "repo") {
+        pak_plus(pkg = package, ver = which_version)
         hash_n_cache()
-      } else if (how == "link_from_cache") {
-        link_one_new_package(package = package_name, version = which_version, hash = which_hash)
+      } else if (how == "cache") {
+        link_one_new_package(package = package_name,
+                             version = which_version,
+                             hash = which_hash)
         # link_deps(package = package_name)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
@@ -580,7 +679,12 @@ project_data <- function(path) {
           as.package_version()
 
         # check if the newest version is available in blaseRtemplates cache
-        cat <- readr::read_tsv(fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "package_catalog.tsv"), col_types = readr::cols())
+        cat <-
+          readr::read_tsv(fs::path(
+            Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+            "package_catalog.tsv"
+          ),
+          col_types = readr::cols())
 
         latest_cached <- cat |>
           dplyr::filter(name == datapackage_stem) |>
@@ -592,11 +696,14 @@ project_data <- function(path) {
         cache_up_to_date <- FALSE
         project_up_to_date <- FALSE
 
-        if (length(latest_cached) > 0) in_cache <- TRUE
+        if (length(latest_cached) > 0)
+          in_cache <- TRUE
         if (in_cache) {
-          if (latest_cached >= latest_version_number) cache_up_to_date <- TRUE
+          if (latest_cached >= latest_version_number)
+            cache_up_to_date <- TRUE
         }
-        if (possibly_packageVersion(datapackage_stem) == latest_version_number) project_up_to_date <- TRUE
+        if (possibly_packageVersion(datapackage_stem) == latest_version_number)
+          project_up_to_date <- TRUE
 
         if (project_up_to_date) {
           cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
@@ -616,7 +723,7 @@ project_data <- function(path) {
 
 
 
-        }
+      }
 
     }
     ,
@@ -649,5 +756,4 @@ install_datapackage_2 <-
       hash_n_cache()
     }
 
-}
-
+  }

@@ -442,7 +442,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.2.0	lexicon	1.2.1	2022-09-06T23:22:09Z	90a845246defa90f4ca99e774bee14c2	/workspace/rst/cache_R_4_2/library/lexicon/1.2.1/90a845246defa90f4ca99e774bee14c2/lexicon	available
 4.2.0	lhs	1.1.5	2022-09-06T20:33:06Z	553460cd419b6ad0377987b517e538f4	/workspace/rst/cache_R_4_2/library/lhs/1.1.5/553460cd419b6ad0377987b517e538f4/lhs	available
 4.2.0	lifecycle	1.0.3	2022-11-01T16:49:36Z	9d9d21c048afd6bffb1e8c662076ac10	/workspace/rst/cache_R_4_2/library/lifecycle/1.0.3/9d9d21c048afd6bffb1e8c662076ac10/lifecycle	available
-4.2.0	limma	3.52.2	2022-09-06T19:24:59Z	49e5cd4c654d9bbdbaa1cba16dbd525a	/workspace/rst/cache_R_4_2/library/limma/3.52.2/49e5cd4c654d9bbdbaa1cba16dbd525a/limma	available
+4.2.0	limma	3.54.1	2023-02-20T10:09:33Z	0837c59498e8880038bab84fdce7cfa3	/workspace/rst/cache_R_4_2/library/limma/3.54.1/0837c59498e8880038bab84fdce7cfa3/limma	available
 4.2.0	listenv	0.8.0	2022-09-06T19:39:20Z	86a22de1bdc102507f71acdc56977783	/workspace/rst/cache_R_4_2/library/listenv/0.8.0/86a22de1bdc102507f71acdc56977783/listenv	available
 4.2.0	lme4	1.1.30	2022-09-06T19:39:20Z	954074570a9cd951d2e6a2dda7066e96	/workspace/rst/cache_R_4_2/library/lme4/1.1-30/954074570a9cd951d2e6a2dda7066e96/lme4	available
 4.2.0	lmodel2	1.7.3	2022-09-06T22:54:08Z	8f5471dfb26e3b59421c86d84d200709	/workspace/rst/cache_R_4_2/library/lmodel2/1.7-3/8f5471dfb26e3b59421c86d84d200709/lmodel2	available
