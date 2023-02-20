@@ -73,7 +73,7 @@ initialize_project <- function(path,
   # make the new project library
   fs::dir_create(path_to_cache_root,
                  "user_project",
-                 Sys.getenv("USER"),
+                 Sys.info()[["user"]],
                  fs::path_file(path))
 
   if (!fresh_install) {
@@ -83,7 +83,7 @@ initialize_project <- function(path,
           file.path(
             Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
             "user_project",
-            Sys.getenv("USER"),
+            Sys.info()[["user"]],
             basename(getwd())
           ),
           .libPaths()[2]
@@ -99,7 +99,7 @@ initialize_project <- function(path,
           file.path(
             Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
             "user_project",
-            Sys.getenv("USER"),
+            Sys.info()[["user"]],
             basename(getwd())
           ),
           .libPaths()[2]
@@ -187,7 +187,7 @@ initialize_package <- function(path,
   # make the new project library
   fs::dir_create(path_to_cache_root,
                  "user_project",
-                 Sys.getenv("USER"),
+                 Sys.info()[["user"]],
                  fs::path_file(path))
 
   usethis::with_project(path, code = {
@@ -250,7 +250,7 @@ initialize_github <- function(repo,
   fs::dir_create(fs::path(
     Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
     "user_project",
-    Sys.getenv("USER"),
+    Sys.info()[["user"]],
     repo_name
   ))
 
