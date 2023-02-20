@@ -123,7 +123,7 @@ establish_new_bt <- function(cache_path, project_path) {
           new_path = fs::path(
             cache_path,
             "user_project",
-            Sys.getenv("USER"),
+            Sys.info()[["user"]],
             "baseproject",
             fs::path_file(x)
           )
@@ -138,7 +138,7 @@ establish_new_bt <- function(cache_path, project_path) {
         lib_loc = fs::path(
           cache_path,
           "user_project",
-          Sys.getenv("USER"),
+          Sys.info()[["user"]],
           "baseproject"
         ),
         cache_loc = fs::path(cache_path, "library")
