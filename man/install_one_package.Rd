@@ -6,7 +6,7 @@
 \usage{
 install_one_package(
   package,
-  how = c("ask", "repo", "cache", "tarball"),
+  how = c("ask", "new_or_update", "link_from_cache", "tarball"),
   which_version = NULL,
   which_hash = NULL
 )

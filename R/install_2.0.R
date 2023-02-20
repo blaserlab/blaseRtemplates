@@ -598,7 +598,7 @@ pak_plus <- function(pkg, ver) {
 #' @importFrom pak pkg_install
 install_one_package <-
   function(package,
-           how = c("ask", "repo", "cache", "tarball"),
+           how = c("ask", "new_or_update", "link_from_cache", "tarball"),
            which_version = NULL,
            which_hash = NULL) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
@@ -617,7 +617,7 @@ install_one_package <-
         cat("Or do you want to link to a different version in the package cache?\n")
         cat("Linking is faster if the package is available in the cache.\n")
         answer <-
-          menu(c("repo", "cache"), title = "How do you wish to proceed?")
+          menu(c("new_or_update", "link_from_cache"), title = "How do you wish to proceed?")
 
         if (answer == 1) {
           pak_plus(pkg = package, ver = which_version)
@@ -628,10 +628,10 @@ install_one_package <-
                                hash = which_hash)
           # link_deps(package = package_name)
         }
-      } else if (how == "repo") {
+      } else if (how == "new_or_update") {
         pak_plus(pkg = package, ver = which_version)
         hash_n_cache()
-      } else if (how == "cache") {
+      } else if (how == "link_from_cache") {
         link_one_new_package(package = package_name,
                              version = which_version,
                              hash = which_hash)
