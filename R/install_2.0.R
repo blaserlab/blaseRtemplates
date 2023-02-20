@@ -394,7 +394,7 @@ get_new_library <- function(newest_or_file = "newest") {
     )
     readr::write_tsv(
       failed_all,
-      file = fs::file_path(
+      file = fs::path(
         "library_catalogs",
         "uninstalled_packages_",
         dt_stamp,
