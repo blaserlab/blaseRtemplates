@@ -373,7 +373,7 @@ get_new_library <- function(newest_or_file = "newest") {
                 expr = pak_plus(pkg = x, ver = NULL),
                 error = function(cond)
                   return(tibble::tibble(
-                    name = x,
+                    name = stringr::str_remove(x, "bioc::"),
                     version = y
                   ))
               )
@@ -390,15 +390,15 @@ get_new_library <- function(newest_or_file = "newest") {
   if (nrow(failed_all) > 0) {
     dt_stamp <- stringr::str_remove_all(Sys.time(), "\\D")
     cli::cli_alert_info(
-      "{nrow(failed_all)} packages could not be installed.  Writing these to library_catalogs/uninstalled_packages_{dt_stamp}.tsv"
+      "{nrow(failed_all)} package(s) could not be installed.  Writing these to library_catalogs/uninstalled_packages_{dt_stamp}.tsv"
     )
     readr::write_tsv(
       failed_all,
-      file = paste0(
+      file = fs::path(
         "library_catalogs",
-        "uninstalled_packages_",
+        paste0("uninstalled_packages_",
         dt_stamp,
-        ".tsv"
+        ".tsv")
       )
     )
 
