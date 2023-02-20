@@ -289,6 +289,8 @@ get_new_library <- function(newest_or_file = "newest") {
   catch_blasertemplates_root()
   # make sure the library is hashed
   hash_n_cache()
+  failed_all <-
+    tibble::tibble(name = character(0), version = character(0))
 
   cache_catalog <-
     fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
@@ -307,8 +309,6 @@ get_new_library <- function(newest_or_file = "newest") {
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
     cant_install <- 0
-    failed_all <-
-      tibble::tibble(name = character(0), version = character(0))
   } else {
     cli::cli_alert_info("Attempting to link to cached packages from the provided file.")
     to_install <-
@@ -345,7 +345,8 @@ get_new_library <- function(newest_or_file = "newest") {
       answer <-
         menu(c("active only", "all"), title = "How do you wish to proceed?")
       if (answer == 1)
-        cant_install <- dplyr::filter(cant_install, status == "active")
+        cant_install <-
+        dplyr::filter(cant_install, status == "active")
       cli::cli_alert_info("Attempting to install these packages from the accessible repositories.")
       failed_cran <- purrr::map2_dfr(.x = cant_install$name,
                                      .y = cant_install$version,
@@ -359,19 +360,30 @@ get_new_library <- function(newest_or_file = "newest") {
                                        )
 
                                      })
-      failed_all <-
-        purrr::map_dfr(.x = paste0("bioc::", failed_cran$name),
-                       .f = \(x) {
-                         tryCatch(
-                           expr = pak_plus(pkg = x, ver = NULL)
-                         )
-                       })
-      # TODO use pak::pkg_install("cran/package@version") here
-      # wrap safely
+      failed_cran <- filter(failed_cran, !is.na(name))
+      if (nrow(failed_cran) > 0) {
+        failed_all <-
+          purrr::map2_dfr(
+            .x = paste0("bioc::", failed_cran$name),
+            .y = failed_cran$version,
+            .f = \(x, y) {
+              tryCatch(
+                expr = pak_plus(pkg = x, ver = NULL),
+                error = function(cond)
+                  return(tibble::tibble(
+                    name = x,
+                    version = y
+                  ))
+              )
+            }
+          )
+
+      }
     }
 
 
   }
+  hash_n_cache()
   write_project_library_catalog()
   if (nrow(failed_all) > 0) {
     dt_stamp <- stringr::str_remove_all(Sys.time(), "\\D")
