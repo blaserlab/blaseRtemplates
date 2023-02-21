@@ -184,6 +184,7 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
               })
   update_package_catalog()
   update_dependency_catalog()
+  cli::cli_alert_success("Done.")
 }
 
 
