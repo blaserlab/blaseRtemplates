@@ -124,21 +124,30 @@ establish_new_bt <- function(cache_path, project_path) {
     fs::dir_walk(c(base_libraries), fun = \(x) {
       if (stringr::str_detect(x, "_cache", negate = TRUE)) {
         package <- fs::path_file(x)
-        tryCatch(expr = {
-            fs::dir_copy(path = x,
-          new_path = fs::path(
-            cache_path,
-            "user_project",
-            Sys.info()[["user"]],
-            "baseproject",
-            package
-          )
-        )
-        }, error = function(cond){
+        if (fs::link_exists(x)) {
           cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
-        }, finally = cli::cli_alert_info("Copied {.emph {package}}.")
-        )
+        } else {
+          tryCatch(
+            expr = {
+              fs::dir_copy(
+                path = x,
+                new_path = fs::path(
+                  cache_path,
+                  "user_project",
+                  Sys.info()[["user"]],
+                  "baseproject",
+                  package
+                )
+              )
+            },
+            error = function(cond) {
+              cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
+            },
+            finally = cli::cli_alert_info("Copied {.emph {package}}.")
+          )
 
+
+        }
       }
     })
 
@@ -203,7 +212,9 @@ establish_new_bt <- function(cache_path, project_path) {
     cli::cli_alert_success("A new blaseRtemplates installation has been created at {cache_path}.")
     cli::cli_alert_success("A new R baseproject has been created within {project_path}.")
     cli::cli_alert_info("You should now switch to the baseproject.")
-    cli::cli_alert_info("See https://blaserlab.github.io/blaseRtemplates/articles/establish.html for more information.")
+    cli::cli_alert_info(
+      "See https://blaserlab.github.io/blaseRtemplates/articles/establish.html for more information."
+    )
   }
 }
 
