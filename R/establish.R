@@ -132,19 +132,15 @@ establish_new_bt <- function(cache_path, project_path) {
       }
     })
 
-    usethis::with_project(fs::path(project_path, "baseproject"), code = {
-      Sys.setenv(BLASERTEMPLATES_CACHE_ROOT = cache_path)
-      hash_n_cache(
-        lib_loc = fs::path(
-          cache_path,
-          "user_project",
-          Sys.info()[["user"]],
-          "baseproject"
-        ),
-        cache_loc = fs::path(cache_path, "library")
-      )
+    Sys.setenv(BLASERTEMPLATES_CACHE_ROOT = cache_path)
+    hash_n_cache(
+      lib_loc = fs::path(cache_path,
+                         "user_project",
+                         Sys.info()[["user"]],
+                         "baseproject"),
+      cache_loc = fs::path(cache_path, "library")
+    )
 
-    })
 
     # create the package catalog
     `%notin%` <- Negate(`%in%`)
