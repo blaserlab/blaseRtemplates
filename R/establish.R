@@ -135,8 +135,8 @@ establish_new_bt <- function(cache_path, project_path) {
           )
         )
         }, error = function(cond){
-          cli::cli_alert_danger("Unable to copy {.emph {package}.  Skipping.")
-        }, finally = cli::cli_alert_info("Copied {.emph {package}.")
+          cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
+        }, finally = cli::cli_alert_info("Copied {.emph {package}}.")
         )
 
       }
