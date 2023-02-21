@@ -1,8 +1,8 @@
 ---
-title: "Upgrading a Project to use blaseRtemplates"
+title: "Using Git"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Upgrading a Project to use blaseRtemplates}
+  %\VignetteIndexEntry{Using Git}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
