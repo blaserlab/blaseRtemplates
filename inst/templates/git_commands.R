@@ -128,15 +128,6 @@ break                                                                     #
 # # run this and enter your token at the prompt
 # blaseRtemplates::gitcreds_set()
 
-# # if you have trouble accessing github,
-# # you may need to edit the .Renviron file
-# # to edit this file, run
-# usethis::edit_r_environ()
-# # if there is a line there starting GITHUB_PAT=xxx,
-# # it may be interfering with your credentials.  Delete it.
-# # press enter to generate a new line and then save
-# # restart R
-
 # # Run the following once per user to collaborate smoothly
 # blaseRtemplates::setup_git_collab()
 

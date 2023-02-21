@@ -33,6 +33,7 @@ upgrade_bt <-
     safe_dir_delete(fs::path(path, "renv"))
     safe_file_delete(fs::path(path, "renv.lock"))
     safe_file_delete(fs::path(path, ".Rprofile"))
+    safe_file_delete(fs::path(path, ".Renviron"))
     safe_file_delete(fs::path(path, ".gitignore"))
 
     usethis::with_project(path, code = {
