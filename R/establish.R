@@ -135,8 +135,8 @@ establish_new_bt <- function(cache_path, project_path) {
           )
         )
         }, error = function(cond){
-          cli::cli_alert_danger("Unable to copy {.emph {fs::path_file(x)}}.  Skipping.")
-        }, finally = cli::cli_alert_success("Done.")
+          cli::cli_alert_danger("Unable to copy {.emph {package}.  Skipping.")
+        }, finally = cli::cli_alert_info("Copied {.emph {package}.")
         )
 
       }
@@ -144,7 +144,6 @@ establish_new_bt <- function(cache_path, project_path) {
 
     Sys.setenv(BLASERTEMPLATES_CACHE_ROOT = cache_path)
 
-    cli::cli_alert_info("Hashing and cacheing the packages.")
     hash_n_cache(
       lib_loc = fs::path(cache_path,
                          "user_project",
