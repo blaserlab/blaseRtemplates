@@ -318,7 +318,7 @@ get_new_library <- function(newest_or_file = "newest") {
       dplyr::arrange(desc(version), desc(date_time), .by_group = TRUE) |>
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
-    cant_install <- 0
+    cant_install <- tibble::tibble(name = character(0), version = character(0), status = character(0))
   } else {
     cli::cli_alert_info("Attempting to link to cached packages from the provided file.")
     to_install <-
@@ -334,7 +334,7 @@ get_new_library <- function(newest_or_file = "newest") {
       dplyr::arrange(desc(date_time), .by_group = TRUE) |>
       dplyr::slice_head(n = 1) |>
       dplyr::select(binary_location, name)
-
+  }
 
     purrr::walk2(.x = from$binary_location,
                  .y = from$name,
@@ -392,7 +392,6 @@ get_new_library <- function(newest_or_file = "newest") {
     }
 
 
-  }
   hash_n_cache()
   write_project_library_catalog()
   if (nrow(failed_all) > 0) {
