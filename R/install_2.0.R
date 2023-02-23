@@ -687,7 +687,7 @@ project_data <- function(path) {
       if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
         # check if the requested version is available
         requested_version <-
-          path |>
+          fs::path_file(path) |>
           stringr::str_extract("_.*") |>
           stringr::str_remove(".tar.gz") |>
           stringr::str_remove("_")
@@ -699,8 +699,9 @@ project_data <- function(path) {
           stringr::str_detect(requested_version) |>
           any()
 
+
         if (in_cache) {
-          cli::cli_alert_warning("Linking to {.emph {datapackage_stem}}, version {.emph {requested_version}} in the cache.")
+          cli::cli_alert_warning("{.emph {datapackage_stem}}, version {.emph {requested_version}} was found in the cache.")
           cli::cli_alert_warning("Newer versions may be available.")
           install_one_package(package = datapackage_stem, how = "link_from_cache", which_version = requested_version)
           lazyData::requireData(datapackage_stem, character.only = TRUE)
