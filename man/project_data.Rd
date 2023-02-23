@@ -15,5 +15,7 @@ none
 \description{
 Use this to update, install and/or load project data.  Usual practice is to provide the path to a directory holding data package tarballs.  This function will find the newest version, compare that to the versions in the cache and used in the package and give you the newest version.  Alternatively, provide the path to a specific .tar.gz file to install and activate that one.
 
+If a specific version is requested, i.e. a specific .tar.gz file, and this version is already cached, it will be linked and not reinstalled.  If for some reason there are multiple hashes with the same version number (usually because a package was rebuilt without incrementing the version), then the latest hash of that version will be linked.
+
 After installing, the package will be loaded into a hidden environment using \code{lazyData::requireData()}.  This loads the project into memory only when called.
 }

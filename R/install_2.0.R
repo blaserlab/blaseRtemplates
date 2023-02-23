@@ -656,6 +656,8 @@ install_one_package <-
 #' @title Activate Project Data
 #' @description Use this to update, install and/or load project data.  Usual practice is to provide the path to a directory holding data package tarballs.  This function will find the newest version, compare that to the versions in the cache and used in the package and give you the newest version.  Alternatively, provide the path to a specific .tar.gz file to install and activate that one.
 #'
+#' If a specific version is requested, i.e. a specific .tar.gz file, and this version is already cached, it will be linked and not reinstalled.  If for some reason there are multiple hashes with the same version number (usually because a package was rebuilt without incrementing the version), then the latest hash of that version will be linked.
+#'
 #' After installing, the package will be loaded into a hidden environment using `lazyData::requireData()`.  This loads the project into memory only when called.
 #'
 #' @param path Path to a directory containing a data package or to a specific data pacakge.
@@ -663,7 +665,7 @@ install_one_package <-
 #' @rdname project_data
 #' @export
 #' @importFrom purrr possibly
-#' @importFrom stringr str_detect str_remove str_replace
+#' @importFrom stringr str_detect str_remove str_replace str_extract
 #' @importFrom cli cli_alert_warning cli_alert_success cli_alert_info
 #' @importFrom fs path_file path
 #' @importFrom lazyData requireData
@@ -676,13 +678,41 @@ project_data <- function(path) {
     purrr::possibly(packageVersion, otherwise = "0.0.0.0000")
   tryCatch(
     expr = {
+      cat <-
+        readr::read_tsv(fs::path(
+          Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+          "package_catalog.tsv"
+        ),
+        col_types = readr::cols())
       if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
-        cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
-        install_one_package(package = path)
-        hash_n_cache()
+        # check if the requested version is available
+        requested_version <-
+          path |>
+          stringr::str_extract("_.*") |>
+          stringr::str_remove(".tar.gz") |>
+          stringr::str_remove("_")
         datapackage_stem <- fs::path_file(path) |>
           stringr::str_remove("_.*")
-        lazyData::requireData(datapackage_stem, character.only = TRUE)
+        in_cache <- cat |>
+          dplyr::filter(name == datapackage_stem) |>
+          dplyr::pull(version) |>
+          stringr::str_detect(requested_version) |>
+          any()
+
+        if (in_cache) {
+          cli::cli_alert_warning("Linking to {.emph {datapackage_stem}}, version {.emph {requested_version}} in the cache.")
+          cli::cli_alert_warning("Newer versions may be available.")
+          install_one_package(package = datapackage_stem, how = "link_from_cache", which_version = requested_version)
+          lazyData::requireData(datapackage_stem, character.only = TRUE)
+        } else {
+          cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
+          install_one_package(package = path)
+          hash_n_cache()
+          lazyData::requireData(datapackage_stem, character.only = TRUE)
+        }
+
+
+
       } else {
         latest_version <- file.info(list.files(path, full.names = T)) |>
           tibble::as_tibble(rownames = "file") |>
@@ -700,12 +730,6 @@ project_data <- function(path) {
           as.package_version()
 
         # check if the newest version is available in blaseRtemplates cache
-        cat <-
-          readr::read_tsv(fs::path(
-            Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-            "package_catalog.tsv"
-          ),
-          col_types = readr::cols())
 
         latest_cached <- cat |>
           dplyr::filter(name == datapackage_stem) |>
@@ -749,18 +773,18 @@ project_data <- function(path) {
     }
     ,
     error = function(cond) {
-      message("Here's the original error message:\n\n")
-      message(cond)
-      message(
+      cli::cli_alert_danger("Here's the original error message:\n\n")
+      cli::cli_text(cond)
+      cli::cli_alert_info(
         "\n\nThe most common reason for this function to err is that the path to the datapkg directory has changed.\nCheck this and retry.\n\n"
       )
-      message(
+      cli::cli_alert_info(
         "\n\nThe second most common reason for this function to err is you are disconnected from the OSUMC network drive.\n"
       )
-      message(
+      cli::cli_alert_info(
         "Try reconnecting to the network by going to the Terminal tab and entering cccnetmount at the prompt.\n"
       )
-      message("You will have to enter your network password.  Then try running the function again.\n")
+      cli::cli_alert_info("You will have to enter your network password.  Then try running the function again.\n")
     }
   )
 }
