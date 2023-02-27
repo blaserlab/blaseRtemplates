@@ -37,9 +37,6 @@ upgrade_bt <-
     safe_file_delete(fs::path(path, ".gitignore"))
 
     usethis::with_project(path, code = {
-      usethis::use_template(template = "R_profile.R",
-                            save_as = ".Rprofile",
-                            package = "blaseRtemplates")
       usethis::use_template(template = "git_ignore",
                             save_as = ".gitignore",
                             package = "blaseRtemplates")
@@ -53,7 +50,6 @@ upgrade_bt <-
                    fs::path_file(path))
 
     usethis::with_project(path, code = {
-      source(".Rprofile")
       get_new_library()
     })
 
