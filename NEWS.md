@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9180
+
+* validate packages before copying
+
 ## blaseRtemplates 0.0.0.9179
 
 * removed rprofile from upgrade function

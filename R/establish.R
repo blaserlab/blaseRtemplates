@@ -126,6 +126,8 @@ establish_new_bt <- function(cache_path, project_path) {
         package <- fs::path_file(x)
         if (fs::link_exists(x)) {
           cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
+        } else if (stringr::str_detect(fs::path_file(fs::dir_ls(x)), "DESCRIPTION", negate = TRUE)) {
+          cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
         } else {
           tryCatch(
             expr = {
@@ -139,11 +141,11 @@ establish_new_bt <- function(cache_path, project_path) {
                   package
                 )
               )
+            cli::cli_alert_info("Copied {.emph {package}}.")
             },
             error = function(cond) {
               cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
-            },
-            finally = cli::cli_alert_info("Copied {.emph {package}}.")
+            }
           )
 
 
