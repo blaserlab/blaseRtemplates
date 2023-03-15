@@ -168,7 +168,8 @@ catch_blasertemplates_root <- function() {
 #' @importFrom purrr walk
 #' @export
 hash_n_cache <- function(lib_loc = .libPaths()[1],
-                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
+                         cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
+                         verbose = TRUE) {
   catch_blasertemplates_root()
   packages <- find_unlinked_packages(lib_path = lib_loc)
 
@@ -176,7 +177,7 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
     cli::cli_alert_info("Cacheing {length(packages)} package(s).")
 
   } else {
-    cli::cli_alert_info("The library is cached.")
+    if (verbose) cli::cli_alert_info("The library is cached.")
   }
   purrr::walk(.x = packages,
               .f = \(x, loc = cache_loc) {
@@ -297,7 +298,7 @@ rec_get_deps <-
 get_new_library <- function(newest_or_file = "newest") {
   catch_blasertemplates_root()
   # make sure the library is hashed
-  hash_n_cache()
+  hash_n_cache(verbose = FALSE)
   failed_all <-
     tibble::tibble(name = character(0), version = character(0))
 
@@ -392,7 +393,7 @@ get_new_library <- function(newest_or_file = "newest") {
     }
 
 
-  hash_n_cache()
+  hash_n_cache(verbose = FALSE)
   write_project_library_catalog()
   if (nrow(failed_all) > 0) {
     dt_stamp <- stringr::str_remove_all(Sys.time(), "\\D")

@@ -4,25 +4,18 @@
 \alias{initialize_package}
 \title{Initialize a Package Using a Standard Template}
 \usage{
-initialize_package(
-  path,
-  fields = list(),
-  rstudio = rstudioapi::isAvailable(),
-  roxygen = TRUE,
-  check_name = TRUE,
-  open = rlang::is_interactive()
-)
+initialize_package(path, fields = list(), roxygen = TRUE, check_name = TRUE)
 }
 \arguments{
 \item{path}{path/name for the new package.  It should include letters and "." only to be CRAN-compliant.}
 
 \item{fields}{named list of fields in addition to/overriding defaults for the DESCRIPTION file, Default: list()}
 
-\item{rstudio}{makes an Rstudio project, default is true}
-
 \item{roxygen}{do you plan to use roxygen2 to document package?, Default: TRUE}
 
 \item{check_name}{check if name is CRAN-compliant, Default: TRUE}
+
+\item{rstudio}{makes an Rstudio project, default is true}
 
 \item{open}{to open or not, Default: rlang::is_interactive()}
 }

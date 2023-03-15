@@ -148,10 +148,9 @@ initialize_project <- function(path,
 #' @import usethis fs
 initialize_package <- function(path,
                                fields = list(),
-                               rstudio = rstudioapi::isAvailable(),
                                roxygen = TRUE,
-                               check_name = TRUE,
-                               open = rlang::is_interactive()) {
+                               check_name = TRUE
+                               ) {
   path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
   catch_blasertemplates_root()
 
@@ -180,9 +179,9 @@ initialize_package <- function(path,
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
                         package = "blaseRtemplates")
-  usethis::use_template(template = "R_profile.R",
-                        save_as = ".Rprofile",
-                        package = "blaseRtemplates")
+  # usethis::use_template(template = "R_profile.R",
+  #                       save_as = ".Rprofile",
+  #                       package = "blaseRtemplates")
 
   # make the new project library
   fs::dir_create(path_to_cache_root,
@@ -191,7 +190,7 @@ initialize_package <- function(path,
                  fs::path_file(path))
 
   usethis::with_project(path, code = {
-    source(".Rprofile")
+    # source(".Rprofile")
     get_new_library()
     write_project_library_catalog()
   })
@@ -200,15 +199,6 @@ initialize_package <- function(path,
   fs::file_create("R/data.R")
 
 
-  if (rstudio) {
-    usethis::use_rstudio()
-  }
-  if (open) {
-    if (usethis::proj_activate(usethis::proj_get())) {
-      withr::deferred_clear()
-    }
-  }
-  invisible(usethis::proj_get())
 }
 
 #' @title Initialize A Project By Forking A Github Repo
