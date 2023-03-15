@@ -1,4 +1,4 @@
-## blaseRtemplates 0.0.0.9180-1
+## blaseRtemplates 0.0.0.9182-3
 
 * fixed initialize project
 

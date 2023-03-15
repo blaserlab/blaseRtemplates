@@ -4,7 +4,14 @@
 \alias{initialize_package}
 \title{Initialize a Package Using a Standard Template}
 \usage{
-initialize_package(path, fields = list(), roxygen = TRUE, check_name = TRUE)
+initialize_package(
+  path,
+  fields = list(),
+  roxygen = TRUE,
+  check_name = TRUE,
+  open = rlang::is_interactive(),
+  rstudio = rstudioapi::isAvailable()
+)
 }
 \arguments{
 \item{path}{path/name for the new package.  It should include letters and "." only to be CRAN-compliant.}
@@ -15,9 +22,9 @@ initialize_package(path, fields = list(), roxygen = TRUE, check_name = TRUE)
 
 \item{check_name}{check if name is CRAN-compliant, Default: TRUE}
 
-\item{rstudio}{makes an Rstudio project, default is true}
-
 \item{open}{to open or not, Default: rlang::is_interactive()}
+
+\item{rstudio}{makes an Rstudio project, default is true}
 }
 \description{
 This wraps \code{usethis::create_package()} and adds a few additional templates.

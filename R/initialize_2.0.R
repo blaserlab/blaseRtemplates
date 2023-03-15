@@ -149,7 +149,9 @@ initialize_project <- function(path,
 initialize_package <- function(path,
                                fields = list(),
                                roxygen = TRUE,
-                               check_name = TRUE
+                               check_name = TRUE,
+                               open = rlang::is_interactive(),
+                               rstudio = rstudioapi::isAvailable()
                                ) {
   path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
   catch_blasertemplates_root()
@@ -197,6 +199,16 @@ initialize_package <- function(path,
 
   fs::dir_create("data/")
   fs::file_create("R/data.R")
+
+  if (open) {
+    if (usethis::proj_activate(proj_get())) {
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
+    }
+  }
+
+  # invisible(usethis:::proj_get())
 
 
 }
