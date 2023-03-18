@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9184
+
+* fixed establish by making absolute paths
+
 ## blaseRtemplates 0.0.0.9182-3
 
 * fixed initialize project

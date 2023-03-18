@@ -29,6 +29,8 @@
 #' @importFrom stringr str_detect str_replace
 #' @importFrom usethis with_project
 establish_new_bt <- function(cache_path, project_path) {
+  project_path <- fs::path_abs(project_path)
+  cache_path <- fs::path_abs(cache_path)
   cli::cli_alert_warning(
     "This function will establish a new installation of R compatible with current blaseRtemplates functions.\nIt will:  "
   )

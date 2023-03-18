@@ -35,8 +35,9 @@ initialize_project <- function(path,
 
   }
 
-  path <- usethis:::user_path_prep(path)
-  name <- path_file(path_abs(path))
+  # path <- usethis:::user_path_prep(path)
+  path <- fs::path_abs(path)
+  name <- fs::path_file(path)
   usethis:::challenge_nested_project(path_dir(path), name)
   usethis:::challenge_home_directory(path)
 
@@ -155,10 +156,9 @@ initialize_package <- function(path,
                                ) {
   path_to_cache_root <- Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
   catch_blasertemplates_root()
-
-  path <- usethis:::user_path_prep(path)
+  path <- fs::path_abs(path)
+  name <- fs::path_file(path)
   usethis:::check_path_is_directory(fs::path_dir(path))
-  name <- fs::path_file(fs::path_abs(path))
   if (check_name) {
     usethis:::check_package_name(name)
   }
