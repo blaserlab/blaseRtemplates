@@ -1,7 +1,3 @@
-# after running the initialization command, run these lines once to set up
-# your project in a consistent manner.
-# private github repos can be made public via the web interface
-
 # make a software license
 usethis::use_mit_license("<your name here>")
 

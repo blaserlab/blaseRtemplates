@@ -122,7 +122,7 @@ break                                                                     #
 
 # # create a personal access token at the github website
 # # set the expiration date as desired (no expiration date)
-# # permissions should be set automatically.  Then run:
+# # permissions should be set automatically.
 # usethis::create_github_token()
 
 # # run this and enter your token at the prompt

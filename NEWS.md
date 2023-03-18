@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9185
+
+* minor edits to templates
+
 ## blaseRtemplates 0.0.0.9184
 
 * fixed establish by making absolute paths
