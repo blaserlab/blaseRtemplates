@@ -55,9 +55,9 @@ establish_new_bt <- function(cache_path, project_path) {
     )
 
     # modify the bt r environ and append to home r environ
-    if (fs::file_exists(fs::path(Sys.getenv("HOME"), ".Renviron"))) {
+    if (fs::file_exists(fs::path(fs::path_home(), ".Renviron"))) {
       home_renviron <-
-        readLines(fs::path(Sys.getenv("HOME"), ".Renviron"))
+        readLines(fs::path(fs::path_home(), ".Renviron"))
     } else {
       home_renviron <- character(0)
     }
@@ -105,7 +105,7 @@ establish_new_bt <- function(cache_path, project_path) {
                                   fs::path(cache_path,
                                            ".Rprofile")))
     writeLines(c(home_renviron, bt_renviron),
-               con = fs::path(Sys.getenv("HOME"), ".Renviron"))
+               con = fs::path(fs::path_home(), ".Renviron"))
 
     # make a base project
     initialize_project(

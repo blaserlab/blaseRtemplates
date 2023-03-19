@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9186
+
+* fixed an issue where home was being incorrectly assigned on windows
+
 ## blaseRtemplates 0.0.0.9185
 
 * minor edits to templates
