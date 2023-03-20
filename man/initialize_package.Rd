@@ -9,8 +9,10 @@ initialize_package(
   fields = list(),
   roxygen = TRUE,
   check_name = TRUE,
+  rstudio = rstudioapi::isAvailable(),
   open = rlang::is_interactive(),
-  rstudio = rstudioapi::isAvailable()
+  fresh_install = FALSE,
+  path_to_cache_root = Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
 )
 }
 \arguments{
@@ -22,9 +24,9 @@ initialize_package(
 
 \item{check_name}{check if name is CRAN-compliant, Default: TRUE}
 
-\item{open}{to open or not, Default: rlang::is_interactive()}
-
 \item{rstudio}{makes an Rstudio project, default is true}
+
+\item{open}{to open or not, Default: rlang::is_interactive()}
 }
 \description{
 This wraps \code{usethis::create_package()} and adds a few additional templates.

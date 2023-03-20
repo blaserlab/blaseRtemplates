@@ -1,3 +1,8 @@
+## blaseRtemplates 0.0.0.9187
+
+* rewrote initialize package
+* created fix a library function
+
 ## blaseRtemplates 0.0.0.9186
 
 * fixed an issue where home was being incorrectly assigned on windows
