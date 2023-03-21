@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9188
+
+* edited R profile template to auto-update pkgcache
+
 ## blaseRtemplates 0.0.0.9187
 
 * rewrote initialize package
