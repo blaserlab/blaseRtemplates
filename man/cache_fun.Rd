@@ -6,7 +6,8 @@
 \usage{
 cache_fun(
   package,
-  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")
+  cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
+  permissions
 )
 }
 \description{
