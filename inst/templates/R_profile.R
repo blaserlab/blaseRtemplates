@@ -7,13 +7,13 @@ options(
 # Check if the user project library exits
 # if not then create it
 upl <-
-  fs::path(
+  file.path(
     Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
     "user_project",
     Sys.info()[["user"]],
-    fs::path_file(getwd())
+    basename(getwd())
   )
-if (!fs::dir_exists(upl)) {
+if (!file.exists(upl)) {
   cli::cli_alert("This project does not have a package library. Creating one now....")
   fs::dir_create(upl)
   # now populate it with the newest library
@@ -92,9 +92,6 @@ if (interactive()) {
                      }))
   })
   cat("\n\n")
-
-  pkgcache::meta_cache_update()
-  cat("\n")
 
   utils::rc.settings(ipck = TRUE)
 

@@ -1,3 +1,8 @@
+## blaseRtemplates 0.0.0.9189
+
+* edited R profile template to fix an issue where rlang was loaded early from the home R library and causing issues.
+* added multiuser vignette
+
 ## blaseRtemplates 0.0.0.9188
 
 * edited R profile template to auto-update pkgcache
