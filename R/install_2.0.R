@@ -64,7 +64,8 @@ get_version <- function(path) {
 #' @importFrom cli cli_div cli_alert_info
 cache_fun <-
   function(package,
-           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library")) {
+           cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
+           permissions) {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     name <- fs::path_file(package)
@@ -82,11 +83,10 @@ cache_fun <-
     fs::link_create(path = to, new_path = package)
 
     # make sure the new entry has permissions 777
-    fs::dir_walk(
-      path = to,
-      fun = \(x) fs::file_chmod(path = x, mode = "777"),
-      recurse = TRUE
-    )
+    newfiles <- fs::dir_info(fs::path(cache_loc, name, version, hash, name), recurse = TRUE)
+    fs::file_chmod(newfiles$path, mode = permissions)
+
+
 
   }
 
@@ -163,13 +163,14 @@ catch_blasertemplates_root <- function() {
     cli::cli_abort(c("x" = "BLASERTEMPLATES_CACHE_ROOT must be set to use this function."))
 }
 
-#' @title hash one or more functions and then cache them and update the catalogs
+#' @title hash one or more functions and then cache them and update the catalogs.  Default permissions are set to 777.
 #' @importFrom fs path
 #' @importFrom purrr walk
 #' @export
 hash_n_cache <- function(lib_loc = .libPaths()[1],
                          cache_loc = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "library"),
-                         verbose = TRUE) {
+                         verbose = TRUE,
+                         permissions = "777") {
   catch_blasertemplates_root()
   packages <- find_unlinked_packages(lib_path = lib_loc)
 
@@ -180,8 +181,8 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
     if (verbose) cli::cli_alert_info("The library is cached.")
   }
   purrr::walk(.x = packages,
-              .f = \(x, loc = cache_loc) {
-                cache_fun(package = x, loc)
+              .f = \(x, loc = cache_loc, perm = permissions) {
+                cache_fun(package = x, cache_loc = loc, permissions = perm)
               })
   update_package_catalog()
   update_dependency_catalog()
@@ -593,11 +594,12 @@ pak_plus <- function(pkg, ver) {
 }
 
 #' @title Install One Package
-#' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository and get the latest version of the software.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.
+#' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository, get the latest version of the software, install into your cache and link to your project library.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.  When installing via "new_or_update" it is possible to specify the permissions for the cached package.  Default for this is 777.
 #' @param package Package name or path to tarball.  Prefix with "repo\/" for github source packages and "bioc::" for bioconductor.
 #' @param which_version Package version to install, Default: NULL
 #' @param which_hash Package hash to install, Default: NULL
 #' @param how How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")
+#' @param permissions Permissions for the package if installing a new version in the cahce.  Default:  777
 #' @return nothing
 #' @rdname install_one_package
 #' @export
@@ -608,14 +610,15 @@ install_one_package <-
   function(package,
            how = c("ask", "new_or_update", "link_from_cache", "tarball"),
            which_version = NULL,
-           which_hash = NULL) {
+           which_hash = NULL,
+           permissions = "777") {
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     how <- match.arg(how)
     if (stringr::str_detect(package, "\\.tar\\.gz")) {
       cli::cli_alert_info("Installing tarball")
       pak::pkg_install(package, ask = FALSE)
-      hash_n_cache()
+      hash_n_cache(permissions = permissions)
     } else {
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
@@ -629,7 +632,7 @@ install_one_package <-
 
         if (answer == 1) {
           pak_plus(pkg = package, ver = which_version)
-          hash_n_cache()
+          hash_n_cache(permissions = permissions)
         } else {
           link_one_new_package(package = package_name,
                                version = which_version,
@@ -638,7 +641,7 @@ install_one_package <-
         }
       } else if (how == "new_or_update") {
         pak_plus(pkg = package, ver = which_version)
-        hash_n_cache()
+        hash_n_cache(permissions = permissions)
       } else if (how == "link_from_cache") {
         link_one_new_package(package = package_name,
                              version = which_version,

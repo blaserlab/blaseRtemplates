@@ -1,3 +1,7 @@
+## pending changes:
+
+permissions to hash_n_cache()
+
 ## blaseRtemplates 0.0.0.9188
 
 * edited R profile template to auto-update pkgcache
