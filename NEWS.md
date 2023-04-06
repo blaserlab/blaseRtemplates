@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9192
+
+* added in pkgcache update to rprofile
+
 ## blaseRtemplates 0.0.0.9191
 
 * fixed an issue on windows where establish did not recognize links when copying packages

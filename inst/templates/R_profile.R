@@ -93,6 +93,9 @@ if (interactive()) {
   })
   cat("\n\n")
 
+  pkgcache::meta_cache_update()
+  cat("\n")
+
   utils::rc.settings(ipck = TRUE)
 
   # fancy quotes are annoying and lead to
