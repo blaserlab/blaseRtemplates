@@ -35,13 +35,13 @@ tryCatch({
   cat("\n")
 },
 error = function(cond) {
-  .libPaths(fs::path(
+  .libPaths(c(fs::path(
     Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
     "user_project",
     Sys.getenv("USER"),
     "baseproject"
   ),
-  .libPaths())
+  .libPaths()))
   usethis::proj_activate("/path/to/baseproject")
   cat("\n")
 })
