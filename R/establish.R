@@ -105,7 +105,7 @@ establish_new_bt <- function(cache_path, project_path) {
                                   fs::path(cache_path,
                                            ".Rprofile")))
     writeLines(c(home_renviron, bt_renviron),
-               con = fs::path(fs::path_home(), ".Renviron"))
+               con = fs::path(Sys.getenv("HOME"), ".Renviron"))
 
     # make a base project
     initialize_project(
@@ -126,7 +126,7 @@ establish_new_bt <- function(cache_path, project_path) {
     fs::dir_walk(c(base_libraries), fun = \(x) {
       if (stringr::str_detect(x, "_cache", negate = TRUE)) {
         package <- fs::path_file(x)
-        if (fs::link_exists(x)) {
+        if (!fs::is_dir(x)) {
           cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")
         } else if (!any(stringr::str_detect(fs::path_file(fs::dir_ls(x)), "DESCRIPTION"))) {
           cli::cli_alert_danger("Unable to copy {.emph {package}}.  Skipping.")

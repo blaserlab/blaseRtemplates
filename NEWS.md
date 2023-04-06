@@ -1,3 +1,8 @@
+## blaseRtemplates 0.0.0.9191
+
+* fixed an issue on windows where establish did not recognize links when copying packages
+* fixed an issue on windows where fs::path_home() identified the wrong home directory when writing .Renviron
+
 ## blaseRtemplates 0.0.0.9189
 
 * edited R profile template to fix an issue where rlang was loaded early from the home R library and causing issues.
