@@ -93,8 +93,6 @@ if (interactive()) {
   })
   cat("\n\n")
 
-  pkgcache::meta_cache_update()
-  cat("\n")
 
   utils::rc.settings(ipck = TRUE)
 
@@ -116,6 +114,8 @@ if (interactive()) {
     # always be working within a project
     tryCatch({
       usethis::proj_activate(usethis::proj_get())
+      pkgcache::meta_cache_update()
+      cat("\n")
       cat("\n")
     },
     error = function(cond) {

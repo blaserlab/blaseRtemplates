@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9193
+
+* moved pkgcache down r profile
+
 ## blaseRtemplates 0.0.0.9192
 
 * added in pkgcache update to rprofile
