@@ -6,49 +6,55 @@ options(
 
 # Check if the user project library exits
 # if not then create it
-upl <-
-  file.path(
-    Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-    "user_project",
-    Sys.info()[["user"]],
-    basename(getwd())
-  )
-if (!file.exists(upl)) {
-  cli::cli_alert("This project does not have a package library. Creating one now....")
-  fs::dir_create(upl)
-  # now populate it with the newest library
-  from <-
-    readr::read_tsv(fs::path(
+if(interactive()) {
+  upl <-
+    file.path(
       Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-      "package_catalog.tsv"
-    ),
-    col_types = readr::cols()) |>
-    dplyr::group_by(name) |>
-    dplyr::arrange(desc(version), desc(date_time), .by_group = TRUE) |>
-    dplyr::slice_head(n = 1) |>
-    dplyr::select(binary_location, name)
-  purrr::walk2(.x = from$binary_location,
-               .y = from$name,
-               .f = \(x, y, proj_lib = upl) {
-                 # first delete the exisitng link
-                 if (fs::link_exists(fs::path(proj_lib, y)))
-                   fs::link_delete(fs::path(proj_lib, y))
-                 # now create the new link
-                 fs::link_create(path = x,
-                                 new_path = fs::path(proj_lib, y))
-               })
-  cli::cli_alert_success("Created a new project library from the newest package versions available in the cache.")
-  cli::cli_alert_info(
-    'If instead you wish to install a specific package set, next run blaseRtemplates::get_new_library("library_catalogs/<file>.tsv")'
-  )
+      "user_project",
+      Sys.info()[["user"]],
+      basename(getwd())
+    )
+  if (!file.exists(upl)) {
+    cli::cli_alert("This project does not have a package library. Creating one now....")
+    fs::dir_create(upl)
+    # now populate it with the newest library
+    from <-
+      readr::read_tsv(fs::path(
+        Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+        "package_catalog.tsv"
+      ),
+      col_types = readr::cols()) |>
+      dplyr::group_by(name) |>
+      dplyr::arrange(desc(version), desc(date_time), .by_group = TRUE) |>
+      dplyr::slice_head(n = 1) |>
+      dplyr::select(binary_location, name)
+    purrr::walk2(.x = from$binary_location,
+                 .y = from$name,
+                 .f = \(x, y, proj_lib = upl) {
+                   # first delete the exisitng link
+                   if (fs::link_exists(fs::path(proj_lib, y)))
+                     fs::link_delete(fs::path(proj_lib, y))
+                   # now create the new link
+                   fs::link_create(path = x,
+                                   new_path = fs::path(proj_lib, y))
+                 })
+    cli::cli_alert_success(
+      "Created a new project library from the newest package versions available in the cache."
+    )
+    cli::cli_alert_info(
+      'If instead you wish to install a specific package set, next run blaseRtemplates::get_new_library("library_catalogs/<file>.tsv")'
+    )
+  }
+
+
+  # Set the project libraries.
+  .libPaths(c(upl,
+              .libPaths()))
+
+  rm(upl)
+
 }
 
-
-# Set the project libraries.
-.libPaths(c(upl,
-            .libPaths()))
-
-rm(upl)
 
 # set default git protocol to https
 options(usethis.protocol  = "https")

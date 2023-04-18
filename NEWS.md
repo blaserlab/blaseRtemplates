@@ -1,5 +1,10 @@
 ## blaseRtemplates 0.0.0.9193
 
+* fixed bug in r profile where base install packages made new user_project directory
+* the problem was solved by only making these directories in interactive sessions
+
+## blaseRtemplates 0.0.0.9193
+
 * moved pkgcache down r profile
 
 ## blaseRtemplates 0.0.0.9192
