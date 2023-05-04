@@ -1,4 +1,8 @@
-## blaseRtemplates 0.0.0.9193
+## blaseRtemplates 0.0.0.9195
+
+* edited load_process.R to use bb_load_tenx_h5
+
+## blaseRtemplates 0.0.0.9193-4
 
 * fixed bug in r profile where base install packages made new user_project directory
 * the problem was solved by only making these directories in interactive sessions

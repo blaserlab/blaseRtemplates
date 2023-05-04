@@ -1,9 +1,12 @@
 # this is a general template for loading and processing 10X scrnaseq data
 # modify as necessary
+library("blaseRtools")
+library("monocle3")
+library("Seurat")
+library("tidyverse")
 
 # read in the config file -------------------------------------------------
-analysis_configs <- read_csv("/path/to/analysis_configs.csv")
-
+analysis_configs <- read_csv("path/to/configuration_file.csv")
 
 # generate sequencing qc table --------------------------------------------
 seq_qc <- map_dfr(.x = analysis_configs$sample,
@@ -40,22 +43,19 @@ cds_list <- map(.x = analysis_configs$sample,
                 .f = \(x, conf = analysis_configs) {
                   conf_filtered <- conf |>
                     filter(sample == x)
-                  targz <- list.files(
+                  h5 <- list.files(
                     conf_filtered$pipestance_path,
-                    pattern = "filtered_feature_bc_matrix.tar.gz",
+                    pattern = "filtered_feature_bc_matrix.h5",
                     recursive = T,
                     full.names = T
                   )
-                  cds <- bb_load_tenx_targz(targz_file = targz,
-                                            sample_metadata_tbl = conf_filtered |>
-                                              select(-c(sample, pipestance_path)))
-                  if ("Antibody Capture" %in% bb_rowmeta(cds)$data_type) {
-                    cds <- bb_split_citeseq(cds)
-                  }
+                  cds <- bb_load_tenx_h5(filename = h5,
+                                         sample_metadata_tbl = conf_filtered |>
+                                           select(-c(sample, pipestance_path)))
                   return(cds)
-                }) %>%
+                }) |>
   set_names(nm = analysis_configs$sample)
-
+cds_list
 
 # generate a list of qc results for individual CDS objects ---------------
 ind_qc_res <- pmap(.l = list(
