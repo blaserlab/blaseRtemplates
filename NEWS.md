@@ -1,3 +1,7 @@
+## blaseRtemplates 0.0.0.9196
+
+* removed upgrade function and webpage
+
 ## blaseRtemplates 0.0.0.9195
 
 * edited load_process.R to use bb_load_tenx_h5

@@ -34,9 +34,9 @@ blaseRtemplates::initialize_project(path = "../project_name")
 
 See linked articles on:
 
--   [establishing a new installation of blaseRtemplates](https://blaserlab.github.io/blaseRtemplates/articles/establish.html)
+-   [establishing a new installation of blaseRtemplates for a single user](https://blaserlab.github.io/blaseRtemplates/articles/establish.html)
+-   [establishing a multi-user blaseRtemplates installation](https://blaserlab.github.io/blaseRtemplates/articles/multiuser.html)
 -   [initializing projects (de novo and from github)](https://blaserlab.github.io/blaseRtemplates/articles/initialize.html)
--   [upgrading a project to use blaseRtemplates](https://blaserlab.github.io/blaseRtemplates/articles/upgrade_project.htm)
 -   [installing packages](https://blaserlab.github.io/blaseRtemplates/articles/install.html)
 -   [managing project data](https://blaserlab.github.io/blaseRtemplates/articles/project_data.html)
 -   [using git](https://blaserlab.github.io/blaseRtemplates/articles/using_git.html)
