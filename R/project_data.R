@@ -223,9 +223,9 @@ make_pointers <- function(package, str) {
     eval(substitute(
       delayedAssign(
         x = paste0(OBJ, STR),
-        value = loadRData(fs::path(
-          fs::path_package(PKG), "data", paste0(OBJ, ".rda")
-        )),
+        value =
+          loadRData(fs::path(
+          fs::path_package(PKG), "data", paste0(OBJ, ".rda"))),
         eval.env = globalenv(),
         assign.env = as.environment("deconflicted.data")
       ),
@@ -240,6 +240,7 @@ make_pointers <- function(package, str) {
   }
 }
 
+#' @export
 loadRData <- function(fileName) {
   #loads an RData file, and returns it
   load(fileName)
