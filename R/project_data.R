@@ -224,7 +224,7 @@ make_pointers <- function(package, str) {
       delayedAssign(
         x = paste0(OBJ, STR),
         value =
-          loadRData(fs::path(
+          blaseRtemplates::loadRData(fs::path(
           fs::path_package(PKG), "data", paste0(OBJ, ".rda"))),
         eval.env = globalenv(),
         assign.env = as.environment("deconflicted.data")
