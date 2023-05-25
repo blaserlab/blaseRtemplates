@@ -1,5 +1,6 @@
 # blaseRtemplates
 
+This is a test.
 ## Installation
 
 blaseRtemplates is available on our R-Universe repository.
