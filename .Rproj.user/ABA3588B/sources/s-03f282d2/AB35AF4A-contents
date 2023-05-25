@@ -1,2 +1,0 @@
-usethis::use_pkgdown_github_pages()
-pkgdown::build_site()
