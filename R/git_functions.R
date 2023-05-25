@@ -80,9 +80,10 @@ git_update_branch <- function(branch = NULL, upstream = "main") {
   }
 
 
-  if (dirty)
+  if (dirty) {
     cli::cli_alert_info("Stashing changes.")
     gert::git_stash_save(include_untracked = TRUE)
+  }
 
   # send the command
   invisible(gert::git_branch_checkout(branch = upstream))
