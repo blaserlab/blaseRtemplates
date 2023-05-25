@@ -1,4 +1,8 @@
 ## blaseRtemplates 0.0.0.9197-8
+* made all git functions run through gert
+* still seems to be a problem with curl
+
+## blaseRtemplates 0.0.0.9197-8
 
 * improved project_data to handle multiple data packages
 * loads data into a deconflicted environment using unique user-defined suffix strings.

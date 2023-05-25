@@ -52,9 +52,6 @@ initialize_project <- function(path,
   usethis::use_template(template = "configs.R",
                         save_as = "R/configs.R",
                         package = "blaseRtemplates")
-  # usethis::use_template(template = "local_configs.R",
-  #                       save_as = "R/local_configs.R",
-  #                       package = "blaseRtemplates")
   usethis::use_template(template = "initialization.R",
                         save_as = "R/initialization.R",
                         package = "blaseRtemplates")
@@ -64,9 +61,6 @@ initialize_project <- function(path,
   usethis::use_template(template = "git_ignore",
                         save_as = ".gitignore",
                         package = "blaseRtemplates")
-  # usethis::use_template(template = "R_profile.R",
-  #                       save_as = ".Rprofile",
-  #                       package = "blaseRtemplates")
 
 
   usethis::use_rstudio()

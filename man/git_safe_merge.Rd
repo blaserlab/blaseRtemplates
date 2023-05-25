@@ -4,7 +4,7 @@
 \alias{git_safe_merge}
 \title{Safely Merge your Working Branch}
 \usage{
-git_safe_merge(branch = NULL, upstream = NULL)
+git_safe_merge(branch = NULL, upstream = "main")
 }
 \arguments{
 \item{branch}{The working branch you wish to merge, Default: NULL}

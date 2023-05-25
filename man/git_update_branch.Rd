@@ -4,7 +4,7 @@
 \alias{git_update_branch}
 \title{Update a Working Git Branch}
 \usage{
-git_update_branch(branch = NULL, upstream = NULL)
+git_update_branch(branch = NULL, upstream = "main")
 }
 \arguments{
 \item{branch}{The working branch you wish to update, Default: NULL}
@@ -15,7 +15,7 @@ git_update_branch(branch = NULL, upstream = NULL)
 nothing
 }
 \description{
-This function updates a git branch via rebase from a default upstream branch (usually "main").  You can explicitly provide the names of your working branch and the default upstream branch.  If not provided, the function will use the current branch as your working branch and will automatically identify the default upstream branch.  Internally this calls a system file that must be installed using blaseRtemplates::setup_git_collab().  The upstream branch also needs to be connected to a remote (e.g. github).
+This function updates a git branch via rebase from a default upstream branch (default is "main").  You can explicitly provide the names of your working branch and the default upstream branch.
 }
 \seealso{
 \code{\link[usethis]{git-default-branch}}
