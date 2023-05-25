@@ -65,11 +65,8 @@ git_easy_branch <- function(branch) {
 #' @importFrom gert git_branch git_stash_save git_stash_pop git_diff git_log git_config
 #' @importFrom stringr str_remove
 #' @importFrom dplyr pull filter
-git_update_branch <- function(branch = NULL, upstream = NULL) {
-  # identify the default branch if not provided
-  if (is.null(upstream)) {
-    upstream <- usethis::git_default_branch()
-  }
+git_update_branch <- function(branch = NULL, upstream = "main") {
+
   # identify the current branch if not provided
   if (is.null(branch)) {
     branch <- gert::git_branch()
@@ -82,20 +79,20 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
     dirty <- FALSE
   }
 
+
   if (dirty)
+    cli::cli_alert_info("Stashing changes.")
     gert::git_stash_save(include_untracked = TRUE)
 
   # send the command
-  cmd <- paste0("git updatebranch ", branch, " ", upstream)
-  message("Sending this command to the terminal:\n\n", cmd, "\n")
-  message("This will tell git to update ",
-          branch,
-          " from ",
-          upstream,
-          " via rebase.\n")
-  system(cmd, )
+  invisible(gert::git_branch_checkout(branch = upstream))
+  gert::git_pull()
+  invisible(gert::git_branch_checkout(branch = branch))
+  cli::cli_alert_info("Rebasing {branch} from {upstream}.")
+  suppressMessages(gert::git_rebase_commit(upstream = upstream))
 
   if (dirty)
+    cli::cli_alert_info("Reapplying changes to {branch}.")
     invisible(gert::git_stash_pop())
 
 
@@ -115,24 +112,18 @@ git_update_branch <- function(branch = NULL, upstream = NULL) {
 #' @importFrom usethis git_default_branch
 #' @importFrom gert git_branch git_status
 #' @importFrom prompt set_prompt
-git_safe_merge <- function(branch = NULL, upstream = NULL){
-  # identify the default branch if not provided
-  if (is.null(upstream)) {
-    upstream <- usethis::git_default_branch()
-  }
+git_safe_merge <- function(branch = NULL, upstream = "main"){
   # identify the current branch if not provided
   if (is.null(branch)) {
     branch <- gert::git_branch()
   }
   if (nrow(gert::git_status()) != 0) {
-    message("You must commit all of your work before merging.")
+    cli::cli_abort("You must commit all of your work before merging.")
 
   } else {
-    cmd <- paste0("git safemerge ", branch, " ", upstream)
-    message("Sending this command to the terminal:\n\n", cmd, "\n")
-    message("This will tell git to merge ", branch, " into ", upstream, ". \n")
-    system(cmd, invisible = FALSE)
-
+    gert::git_branch_checkout(upstream)
+    gert::git_pull()
+    gert::git_merge(branch)
   }
 
   prompt::set_prompt(paste0("[ ", gert::git_branch(), " ] > "))
