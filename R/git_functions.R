@@ -92,9 +92,10 @@ git_update_branch <- function(branch = NULL, upstream = "main") {
   cli::cli_alert_info("Rebasing {branch} from {upstream}.")
   suppressMessages(gert::git_rebase_commit(upstream = upstream))
 
-  if (dirty)
+  if (dirty) {
     cli::cli_alert_info("Reapplying changes to {branch}.")
     invisible(gert::git_stash_pop())
+  }
 
 
 
