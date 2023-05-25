@@ -3,4 +3,4 @@
 .Rdata
 .httr-oauth
 .DS_Store
-*git_commands.R
+data-raw/git_commands.R
