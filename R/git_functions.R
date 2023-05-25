@@ -82,7 +82,7 @@ git_update_branch <- function(branch = NULL, upstream = "main") {
 
   if (dirty) {
     cli::cli_alert_info("Stashing changes.")
-    gert::git_stash_save(include_untracked = TRUE)
+    gert::git_stash_save(include_untracked = TRUE, )
   }
 
   # send the command
