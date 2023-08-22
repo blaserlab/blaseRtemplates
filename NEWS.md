@@ -79,3 +79,7 @@
 
 * updated docs
 
+## blaseRtemplates 0.0.0.9200
+
+* added report template
+
