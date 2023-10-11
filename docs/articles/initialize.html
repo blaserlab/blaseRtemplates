@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">blaseRtemplates</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9200</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9201</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,8 @@
 <li><p>Choose the directory you want the project to live in.</p></li>
 <li><p>Run</p></li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>blaseRtemplates<span class="sc">::</span><span class="fu">initialize_project</span>(<span class="at">path =</span> <span class="sc">&lt;</span><span class="er">/</span>path<span class="sc">/</span>to<span class="sc">/</span>projects<span class="sc">/</span>project_name<span class="sc">&gt;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/initialize_project.html">initialize_project</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"/path/to/projects/project_name"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="initializing-a-project-from-github">Initializing a project from Github<a class="anchor" aria-label="anchor" href="#initializing-a-project-from-github"></a>
@@ -103,10 +104,7 @@
 Git”.</li>
 <li>The project must be a public repository or you must be a
 collaborator on it.</li>
-<li>You should run the following code once (see note):</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu">setup_git_collab</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Note:</p>
 <p>The workflow I recommend for users who wish to collaborate via Git
 and Github is different than the standard usage. See “Using Git” for
@@ -115,46 +113,42 @@ recommend setting up the collaboration in such a way that commits from
 everyone are pushed to everyone’s github simultaneously. We rely on the
 ability of Git to rewind to a prior commit to protect against unwanted
 changes. There are no pull requests involved.</p>
-<p>The command <code>setup_git_collab()</code> writes some simple
-wrapper scripts to your ~/.local/bin/ that are used by the
-blaseRtemplates git functions. These provide utilities for safe
-branching and merging; i.e. always pull before branching and merge via
-rebase.</p>
+<p>Also note:</p>
+<p>You don’t necessarily need to use the blaseRtemplates format for
+projects you are cloning from github, although it would be
+recommended.</p>
 <ol style="list-style-type: decimal">
 <li>Run this to fork a repository to your github site and then clone it
 to your destination of choice:</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/initialize_github.html">initialize_github</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"&lt;owner&gt;/&lt;repo&gt;"</span>, dest <span class="op">=</span> <span class="st">"/path/to/projects"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>* Note:  do not include the repo (project) name in the dest argument.  The project directory will be created and the contents cloned inside.</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>If this is a blaseRtemplates-formatted project, skip to the next
-step. If not, run this:</li>
+<li>Assuming you and the project originator are using the
+blaseRtemplates format for the project, when you start work on the
+project, you will have access to the newest versions of all packages in
+your cache library. However, you may wish to adopt the same package
+library as the person from whom you cloned the project. If this is the
+case, then run:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu">upgrade_bt</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"&lt;path/to/projects/project_name&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code>*  See the article on Upgrading projects for more information.</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>By default, when you start work no the project, you will have access
-to the newest versions of all packages in your cache library. However,
-you may wish to adopt the same package library as the person from whom
-you cloned the project. If this is the case, then run:</li>
-</ol>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/get_new_library.html">get_new_library</a></span><span class="op">(</span>newest_or_file <span class="op">=</span> <span class="st">"library_catalogs/&lt;filename.tsv&gt;"</span><span class="op">)</span></span></code></pre></div>
-<ol start="4" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>As configured, the repo originator will still only be pushing to
 their own github. Collaborator will have to pull changes to update their
 github. Therefore, the originator can (and should) run this to add the
-collaborator as an additional remote:</li>
+collaborator as an additional remote and keep all remote repos in
+sync:</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gert</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_remote.html" class="external-link">git_remote_add</a></span><span class="op">(</span><span class="st">"https://github.com/&lt;collaborator&gt;/&lt;repo&gt;.git"</span>, name <span class="op">=</span> <span class="st">"&lt;collaborator&gt;"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="for-more-information">For more information<a class="anchor" aria-label="anchor" href="#for-more-information"></a>
 </h2>
-<p>See linked articles.</p>
+<p>See <a href="https://blaserlab.github.io/blaseRtemplates/articles/using_git.html" class="external-link">Using
+Git</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

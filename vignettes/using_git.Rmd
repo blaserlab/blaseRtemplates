@@ -63,8 +63,6 @@ usethis::create_github_token()
 # run this and enter your token at the prompt
 blaseRtemplates::gitcreds_set()
 
-# Run the following once per user to collaborate smoothly
-blaseRtemplates::setup_git_collab()
 ```
 Connecting/authenticating to github is the most difficult part of all of this.  The keychain program used by ```gitcreds_set()``` may not be available or working on all systems.  As a workaround, you can replace the line in your .Renviron file, GITHUB_PAT=gitcreds::gitcreds_get(use_cache = FALSE)$password, with GITHUB_PAT=<your token>.  There is a small security risk to this if someone were to gain access to your .Renviron file. So proceed with caution.
 

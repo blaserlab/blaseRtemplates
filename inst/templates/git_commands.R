@@ -128,6 +128,4 @@ break                                                                     #
 # # run this and enter your token at the prompt
 # blaseRtemplates::gitcreds_set()
 
-# # Run the following once per user to collaborate smoothly
-# blaseRtemplates::setup_git_collab()
 
