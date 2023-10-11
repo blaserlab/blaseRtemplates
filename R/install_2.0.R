@@ -78,13 +78,13 @@ cache_fun <-
       fs::dir_copy(path = package,
                    new_path = to,
                    overwrite = FALSE)
+      fs::dir_delete(package)
+      fs::link_create(path = to, new_path = package)
+      # make sure the new entry has permissions 777
+      newfiles <- fs::dir_info(fs::path(cache_loc, name, version, hash, name), recurse = TRUE)
+      fs::file_chmod(newfiles$path, mode = permissions)
     }
-    fs::dir_delete(package)
-    fs::link_create(path = to, new_path = package)
 
-    # make sure the new entry has permissions 777
-    newfiles <- fs::dir_info(fs::path(cache_loc, name, version, hash, name), recurse = TRUE)
-    fs::file_chmod(newfiles$path, mode = permissions)
 
 
 

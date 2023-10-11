@@ -83,9 +83,10 @@
 
 * added report template
 
-## blaseRtemplates 0.0.0.9201
+## blaseRtemplates 0.0.0.9201-2
 
 * edited git_commands.R
 * updated vignettes
+* fixed bug in hash n cache where there was permission error
 
 
