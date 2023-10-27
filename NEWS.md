@@ -83,7 +83,7 @@
 
 * added report template
 
-## blaseRtemplates 0.0.0.9201-2
+## blaseRtemplates 0.0.0.9201-3
 
 * edited git_commands.R
 * updated vignettes

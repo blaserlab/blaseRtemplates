@@ -74,6 +74,9 @@ cache_fun <-
     to <- fs::path(cache_loc, name, version, hash, name)
     if (fs::dir_exists(to)) {
       cli::cli_alert_info("An identical version of {.emph {name}} is already cached.")
+      fs::dir_delete(package)
+      fs::link_create(path = to, new_path = package)
+
     } else {
       fs::dir_copy(path = package,
                    new_path = to,
