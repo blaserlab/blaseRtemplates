@@ -517,11 +517,18 @@ link_one_new_package <- function(package,
       dplyr::filter(hash == hash_to_link) |>
       dplyr::pull(binary_location)
 
+    version <- pkg_cat |>
+      dplyr::filter(hash == hash_to_link) |>
+      dplyr::pull(version)
+
     if (fs::link_exists(fs::path(.libPaths()[1], package)))
       fs::link_delete(fs::path(.libPaths()[1], package))
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
     link_deps(package = package)
+  cli::cli_alert_success(
+    "Successfully linked to {.emph {package}} version {.emph {version}} and its recursive dependencies in the binary cache."
+  )
 
   }
 }
@@ -556,9 +563,6 @@ link_deps <- function(package) {
                  fs::link_create(path = x,
                                  new_path = fs::path(.libPaths()[1], y))
                })
-  cli::cli_alert_success(
-    "Successfully linked to {.emph {package}} and its recursive dependencies in the binary cache."
-  )
 }
 
 #' @importFrom cli cli_alert_warning
@@ -587,22 +591,14 @@ pak_plus <- function(pkg, ver) {
     pak::pkg_install(pkg, ask = FALSE, upgrade = TRUE)
   }
 
-
-
-
-
-
-
-
 }
 
 #' @title Install One Package
-#' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository, get the latest version of the software, install into your cache and link to your project library.  Choosing "link_from_cache" will get you the latest version in the cache, for example if another user has added a new package you want, but you don't want to update the whole library.  Also, use this option with either "which_version" or "which_hash" to install specific versions.  When installing via "new_or_update" it is possible to specify the permissions for the cached package.  Default for this is 777.
+#' @description Use this to install a new package.  Choosing "new_or_update" will go to the package repository, get the latest version of the software, install into your cache and link to your project library.  Choosing "link_from_cache" will get you the latest version in the cache Also, use this option with either "which_version" or "which_hash" to install specific versions.
 #' @param package Package name or path to tarball.  Prefix with "repo\/" for github source packages and "bioc::" for bioconductor.
 #' @param which_version Package version to install, Default: NULL
 #' @param which_hash Package hash to install, Default: NULL
-#' @param how How to install the package, Default: c("ask", "new_or_update", "link_from_cache", "tarball")
-#' @param permissions Permissions for the package if installing a new version in the cahce.  Default:  777
+#' @param how How to install the package, Default: c("link_from_cache", "new_or_update", "tarball")
 #' @return nothing
 #' @rdname install_one_package
 #' @export
@@ -611,10 +607,10 @@ pak_plus <- function(pkg, ver) {
 #' @importFrom pak pkg_install
 install_one_package <-
   function(package,
-           how = c("ask", "new_or_update", "link_from_cache", "tarball"),
+           how = c("link_from_cache", "new_or_update", "tarball"),
            which_version = NULL,
-           which_hash = NULL,
-           permissions = "777") {
+           which_hash = NULL) {
+    permissions <- "777"
     cli::cli_div(theme = list(span.emph = list(color = "orange")))
     catch_blasertemplates_root()
     how <- match.arg(how)
@@ -626,23 +622,7 @@ install_one_package <-
       package_name <-
         stringr::str_replace(package, "bioc::|.*/", "")
 
-      if (how == "ask") {
-        cat("Do you want to update or install or update from a repository?\n")
-        cat("Or do you want to link to a different version in the package cache?\n")
-        cat("Linking is faster if the package is available in the cache.\n")
-        answer <-
-          menu(c("new_or_update", "link_from_cache"), title = "How do you wish to proceed?")
-
-        if (answer == 1) {
-          pak_plus(pkg = package, ver = which_version)
-          hash_n_cache(permissions = permissions)
-        } else {
-          link_one_new_package(package = package_name,
-                               version = which_version,
-                               hash = which_hash)
-          # link_deps(package = package_name)
-        }
-      } else if (how == "new_or_update") {
+      if (how == "new_or_update") {
         pak_plus(pkg = package, ver = which_version)
         hash_n_cache(permissions = permissions)
       } else if (how == "link_from_cache") {

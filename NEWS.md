@@ -90,3 +90,8 @@
 * fixed bug in hash n cache where there was permission error
 
 
+## blaseRtemplates 0.0.0.9204
+
+* removed dialog from install_one_package and made default "link_from_cache"
+* changed dialog on successful linking
+

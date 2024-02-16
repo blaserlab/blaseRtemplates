@@ -1,6 +1,6 @@
 Package: blaseRtemplates
 Title: Generates a structured R project with custom templates. 
-Version: 0.0.0.9203
+Version: 0.0.0.9204
 Authors@R: 
     person("Brad", "Blaser", , "bradley.blaser@osumc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3168-5423"))
@@ -8,7 +8,7 @@ Description: This package generates an R project with customized templates.  It 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/blaserlab/blaseRtemplates,
     https://blaserlab.github.io/blaseRtemplates/
 BugReports: https://github.com/blaserlab/blaseRtemplates/issues
