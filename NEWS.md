@@ -95,3 +95,6 @@
 * removed dialog from install_one_package and made default "link_from_cache"
 * changed dialog on successful linking
 
+## blaseRtemplates 0.0.0.9205
+
+* fixed bug where the wrong package version was being installed when using which_version

@@ -424,7 +424,7 @@ get_new_library <- function(newest_or_file = "newest") {
 
 
 #' @title link one new package
-#' @importFrom cli cli_div cli_alert_warning cli_alert_danger cli_alert_info
+#' @importFrom cli cli_div cli_alert_warning cli_alert_danger cli_alert_info cli_abort
 #' @importFrom readr read_tsv cols
 #' @importFrom fs path link_exists link_delete link_create
 #' @importFrom pak pkg_install
@@ -432,9 +432,11 @@ get_new_library <- function(newest_or_file = "newest") {
 link_one_new_package <- function(package,
                                  version = NULL,
                                  hash = NULL) {
+  ver <- version
   cli::cli_div(theme = list(span.emph = list(color = "orange")))
   catch_blasertemplates_root()
-  stopifnot("You can only install 1 package at a time with this function." = length(package) == 1)
+  if (length(package) != 1)
+    cli::cli_abort("You can only install 1 package at a time with this function.")
   stopifnot(
     "You can only supply version OR hash identifiers but not both." = is.null(version) |
       is.null(hash)
@@ -463,12 +465,12 @@ link_one_new_package <- function(package,
 
   } else {
     method <- "install.specific"
-    if (!is.null(version)) {
+    if (!is.null(ver)) {
       available_versions <- pkg_cat |>
         dplyr::filter(name == package) |>
         dplyr::pull(version)
 
-      ok <- version %in% available_versions
+      ok <- ver %in% available_versions
 
       if (!ok) {
         cli::cli_alert_warning("The requested version of {.emph {package}} is not available in the cache.")
@@ -476,9 +478,10 @@ link_one_new_package <- function(package,
 
       } else {
         cli::cli_alert_info("Linking to {.emph {package}} version: {.emph {version}}.")
+
         hash_to_link <- pkg_cat |>
-          dplyr::filter(name == package,
-                        version == version) |>
+          dplyr::filter(name == package) |>
+          dplyr::filter(version == ver) |>
           dplyr::arrange(desc(date_time)) |>
           dplyr::slice_head(n = 1) |>
           dplyr::pull(hash)
