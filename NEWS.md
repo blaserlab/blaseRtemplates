@@ -98,3 +98,7 @@
 ## blaseRtemplates 0.0.0.9205
 
 * fixed bug where the wrong package version was being installed when using which_version
+
+## blaseRtemplates 0.0.0.9206
+
+* fixed and simplified install_github
