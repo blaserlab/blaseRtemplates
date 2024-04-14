@@ -102,3 +102,7 @@
 ## blaseRtemplates 0.0.0.9206
 
 * fixed and simplified install_github
+
+## blaseRtemplates 0.0.0.9207
+
+* made a function to save the Rmd template without having to look up the name.
