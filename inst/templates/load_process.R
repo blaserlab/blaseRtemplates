@@ -61,11 +61,15 @@ cds_list
 ind_qc_res <- pmap(.l = list(
   cds = cds_list,
   cds_name = names(cds_list),
-  genome = rep("human", times = length(cds_list))
+  genome = rep("zfish", times = length(cds_list))
 ),
-.f = bb_qc) %>%
-  set_names(nm = names(cds_list))
-
+.f = \(cds, cds_name, genome) {
+  bb_qc(cds = cds,
+       cds_name = cds_name,
+       genome = genome,
+       nmad_mito = 2,
+       nmad_detected = 2)
+  })
 
 # gets the number of cells in each cds and divides it by 100000 ---------
 anticipated_doublet_rate <- unlist(map(cds_list, ncol)) / 100000

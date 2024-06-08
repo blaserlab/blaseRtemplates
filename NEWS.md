@@ -106,3 +106,8 @@
 ## blaseRtemplates 0.0.0.9207
 
 * made a function to save the Rmd template without having to look up the name.
+
+## blaseRtemplates 0.0.0.9208
+
+* edited Rmd template for graphics device usage
+* edited bb_qc portion of load_process
