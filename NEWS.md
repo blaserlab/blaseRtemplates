@@ -111,3 +111,7 @@
 
 * edited Rmd template for graphics device usage
 * edited bb_qc portion of load_process
+
+## blaseRtemplates 0.0.0.9209
+
+* improved error message for project_data
