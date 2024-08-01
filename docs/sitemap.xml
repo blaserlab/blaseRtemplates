@@ -1,162 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/establish.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/initialize.html</loc>
-  </url>
-  <url>
-    <loc>/articles/install.html</loc>
-  </url>
-  <url>
-    <loc>/articles/multiuser.html</loc>
-  </url>
-  <url>
-    <loc>/articles/project_data.html</loc>
-  </url>
-  <url>
-    <loc>/articles/upgrade_project.html</loc>
-  </url>
-  <url>
-    <loc>/articles/using_git.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bb_renv_datapkg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cache_fun.html</loc>
-  </url>
-  <url>
-    <loc>/reference/catch_blasertemplates_root.html</loc>
-  </url>
-  <url>
-    <loc>/reference/easy_init.html</loc>
-  </url>
-  <url>
-    <loc>/reference/easy_install.html</loc>
-  </url>
-  <url>
-    <loc>/reference/easy_restore.html</loc>
-  </url>
-  <url>
-    <loc>/reference/establish_new_bt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find_unlinked_packages.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_another_library.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_all_deps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_new_library.html</loc>
-  </url>
-  <url>
-    <loc>/reference/git_easy_branch.html</loc>
-  </url>
-  <url>
-    <loc>/reference/git_push_all.html</loc>
-  </url>
-  <url>
-    <loc>/reference/git_rewind_to.html</loc>
-  </url>
-  <url>
-    <loc>/reference/git_safe_merge.html</loc>
-  </url>
-  <url>
-    <loc>/reference/git_update_branch.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gitcreds_set.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hash_fun.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hash_n_cache.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/initialize_github.html</loc>
-  </url>
-  <url>
-    <loc>/reference/initialize_package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/initialize_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/install_datapackage_2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/install_one_package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/link_deps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/link_one_new_package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/project_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rec_get_deps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/regenerate_bt_configs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/regenerate_git_commands.html</loc>
-  </url>
-  <url>
-    <loc>/reference/report_template_rmd.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reset_prompt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setup_git_collab.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sync_cache.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_dependency_catalog.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_package_catalog.html</loc>
-  </url>
-  <url>
-    <loc>/reference/upgrade_bt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_project_library_catalog.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/establish.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/initialize.html</loc></url>
+<url><loc>/articles/install.html</loc></url>
+<url><loc>/articles/multiuser.html</loc></url>
+<url><loc>/articles/project_data.html</loc></url>
+<url><loc>/articles/upgrade_project.html</loc></url>
+<url><loc>/articles/using_git.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/bb_renv_datapkg.html</loc></url>
+<url><loc>/reference/cache_fun.html</loc></url>
+<url><loc>/reference/catch_blasertemplates_root.html</loc></url>
+<url><loc>/reference/easy_init.html</loc></url>
+<url><loc>/reference/easy_install.html</loc></url>
+<url><loc>/reference/easy_restore.html</loc></url>
+<url><loc>/reference/establish_new_bt.html</loc></url>
+<url><loc>/reference/find_unlinked_packages.html</loc></url>
+<url><loc>/reference/fix_another_library.html</loc></url>
+<url><loc>/reference/get_all_deps.html</loc></url>
+<url><loc>/reference/get_new_library.html</loc></url>
+<url><loc>/reference/git_easy_branch.html</loc></url>
+<url><loc>/reference/git_push_all.html</loc></url>
+<url><loc>/reference/git_rewind_to.html</loc></url>
+<url><loc>/reference/git_safe_merge.html</loc></url>
+<url><loc>/reference/git_update_branch.html</loc></url>
+<url><loc>/reference/gitcreds_set.html</loc></url>
+<url><loc>/reference/hash_fun.html</loc></url>
+<url><loc>/reference/hash_n_cache.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/initialize_github.html</loc></url>
+<url><loc>/reference/initialize_package.html</loc></url>
+<url><loc>/reference/initialize_project.html</loc></url>
+<url><loc>/reference/install_datapackage_2.html</loc></url>
+<url><loc>/reference/install_one_package.html</loc></url>
+<url><loc>/reference/link_deps.html</loc></url>
+<url><loc>/reference/link_one_new_package.html</loc></url>
+<url><loc>/reference/project_data.html</loc></url>
+<url><loc>/reference/rec_get_deps.html</loc></url>
+<url><loc>/reference/regenerate_bt_configs.html</loc></url>
+<url><loc>/reference/regenerate_git_commands.html</loc></url>
+<url><loc>/reference/report_template_rmd.html</loc></url>
+<url><loc>/reference/reset_prompt.html</loc></url>
+<url><loc>/reference/setup_git_collab.html</loc></url>
+<url><loc>/reference/sync_cache.html</loc></url>
+<url><loc>/reference/update_dependency_catalog.html</loc></url>
+<url><loc>/reference/update_package_catalog.html</loc></url>
+<url><loc>/reference/upgrade_bt.html</loc></url>
+<url><loc>/reference/write_project_library_catalog.html</loc></url>
 </urlset>
+
