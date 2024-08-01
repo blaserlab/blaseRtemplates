@@ -35,7 +35,6 @@
 #' @importFrom tibble as_tibble
 project_data <- function(path, deconflict_string = "") {
   catch_blasertemplates_root()
-  cli::cli_div(theme = list(span.emph = list(color = "orange")))
   if (length(deconflict_string) != length(unique(deconflict_string)))
     cli::cli_abort("All deconflict strings must be unique.")
   if (length(path) > 1) {
@@ -46,8 +45,6 @@ project_data <- function(path, deconflict_string = "") {
   }
   if (length(path) != length(deconflict_string))
     cli::cli_abort("Please provide one unique string to identify each data package.")
-  if (!fs::is_dir(path) | !fs::is_file(path))
-	  cli::cli_abort("The path does not exist.  Please check that you are connected to the file system where your project data is stored.  For OSU users, try running {.emph cccnetmount} in the terminal to reconnect to the network drive.")
   cat <-
     readr::read_tsv(fs::path(
       Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
