@@ -26,15 +26,17 @@
 #'  \code{\link[tibble]{as_tibble}}
 #' @rdname project_data
 #' @export
-#' @importFrom cli cli_abort cli_alert_warning cli_alert_success cli_alert_info
+#' @import cli
 #' @importFrom readr read_tsv cols
-#' @importFrom fs path path_file
+#' @import fs
 #' @importFrom purrr pmap_chr walk
 #' @importFrom stringr str_detect str_extract str_remove str_replace
 #' @importFrom dplyr filter pull arrange slice slice_head
 #' @importFrom tibble as_tibble
+#' @import monocle3
 project_data <- function(path, deconflict_string = "") {
   catch_blasertemplates_root()
+  cli::cli_div(theme = list(span.emph = list(color = "orange")))
   if (length(deconflict_string) != length(unique(deconflict_string)))
     cli::cli_abort("All deconflict strings must be unique.")
   if (length(path) > 1) {
@@ -171,137 +173,177 @@ project_data <- function(path, deconflict_string = "") {
   purrr::walk(.x = paste0("package:", package),
               .f = \(x) detach(name = x, character.only = TRUE))
 
-}
+  bpcells_dir <-
+    fs::dir_ls(fs::path_package(package),
+               recurse = 2,
+               regexp = "bpcells_matrix_dir")
 
-#' @importFrom stringr str_sub
-install_datapackage_2 <-
-  function(path, latest_version) {
-    if (stringr::str_sub(path, -1) == "/") {
-      install_one_package(paste0(path, latest_version))
-      hash_n_cache()
-    } else {
-      install_one_package(paste0(path, "/", latest_version))
-      hash_n_cache()
+  if (length(bpcells_dir) > 0) {
+    cli::cli_alert("One or more on-disk cds objects have been detected.")
+    cli::cli_inform(
+      "These will be loaded into the deconflicted.data environment using monocle3::load_monocle_objects()."
+    )
+    cli::cli_inform("If provided, a deconflict string will be appended to the object name.")
+    cli::cli_inform("For documentation of these objects, see the data package README file.")
+    cli::cli_warn("Note that this will overwrite any standard object from the datapackage with the same name.\n")
+    cli::cli_alert("Loading {.emph monocle3} and its dependencies.")
+    suppressPackageStartupMessages(library("monocle3"))
+    suppressPackageStartupMessages(library("BPCells"))
+
+    for (i in seq_along(bpcells_dir)) {
+      bp_path <- unlist(fs::path_split(bpcells_dir[i]))
+      obj_name <- bp_path[length(bp_path) - 1]
+      obj_name <- paste0(obj_name, deconflict_string)
+      cli::cli_alert("Assigning {.emph {obj_name}} to the deconflicted.data environment.")
+      assign(
+        x = obj_name,
+        value = monocle3::load_monocle_objects(
+          fs::path_dir(bpcells_dir[i]),
+          matrix_control = list(
+            matrix_class = "BPCells",
+            matrix_path = fs::path(tempdir(), "BPCells"))
+        ),
+        pos = "deconflicted.data"
+      )
+
+
     }
 
   }
+}
 
-#' @importFrom purrr possibly
-possibly_packageVersion <-
-  purrr::possibly(packageVersion, otherwise = "0.0.0.0000")
+  #' @importFrom stringr str_sub
+  install_datapackage_2 <-
+    function(path, latest_version) {
+      if (stringr::str_sub(path, -1) == "/") {
+        install_one_package(paste0(path, latest_version))
+        hash_n_cache()
+      } else {
+        install_one_package(paste0(path, "/", latest_version))
+        hash_n_cache()
+      }
 
-#' @export
-#' @importFrom utils data
-#' @importFrom fs path path_package
-make_pointers <- function(package, str) {
-  d <- utils::data(package = package)$results
-  if (nrow(d) == 0)
-    next
-  d <- d[, "Item"]
-  objName <- sub(" .*$", "", d)
-  datName <- sub("^.*\\(", "", sub("\\)$", "", d))
-  # get the dataset name in the environment list, datasets:<package>
-  searchDataName <- paste0("datasets:", package)
+    }
 
-  # if the dataset has been attached already, then detach it
-  while (searchDataName %in% search())
-    detach(searchDataName, character.only = TRUE)
+  #' @importFrom purrr possibly
+  possibly_packageVersion <-
+    purrr::possibly(packageVersion, otherwise = "0.0.0.0000")
 
-  # get the package name in the environment list, package:<package>
-  searchPkgName <- paste0("package:", package)
+  #' @export
+  #' @importFrom utils data
+  #' @importFrom fs path path_package
+  make_pointers <- function(package, str) {
+    d <- utils::data(package = package)$results
+    if (nrow(d) == 0)
+      next
+    d <- d[, "Item"]
+    objName <- sub(" .*$", "", d)
+    datName <- sub("^.*\\(", "", sub("\\)$", "", d))
+    # get the dataset name in the environment list, datasets:<package>
+    searchDataName <- paste0("datasets:", package)
 
-  # find where the package is attached
-  pkgIndex <- match(searchPkgName, search(), nomatch = 1)
+    # if the dataset has been attached already, then detach it
+    while (searchDataName %in% search())
+      detach(searchDataName, character.only = TRUE)
 
-  # reattach the datasets:<package> environment behind the package
-  pos <- pkgIndex + 1
-  env <- attach(NULL, pos = pos, name = searchDataName)
-  #?
-  attr(env, "path") <- attr(as.environment(pkgIndex), "path")
-  # for each data item in the data package
-  for (i in seq_along(d)) {
-    eval(substitute(
-      delayedAssign(
-        x = paste0(OBJ, STR),
-        value =
-          blaseRtemplates::loadRData(fs::path(
-          fs::path_package(PKG), "data", paste0(OBJ, ".rda"))),
-        eval.env = globalenv(),
-        assign.env = as.environment("deconflicted.data")
-      ),
-      list(
-        OBJ = objName[i],
-        SEARCHDATANAME = searchDataName,
-        PKG = package,
-        DAT = datName[i],
-        STR = str
+    # get the package name in the environment list, package:<package>
+    searchPkgName <- paste0("package:", package)
+
+    # find where the package is attached
+    pkgIndex <- match(searchPkgName, search(), nomatch = 1)
+
+    # reattach the datasets:<package> environment behind the package
+    pos <- pkgIndex + 1
+    env <- attach(NULL, pos = pos, name = searchDataName)
+    #?
+    attr(env, "path") <- attr(as.environment(pkgIndex), "path")
+    # for each data item in the data package
+    for (i in seq_along(d)) {
+      eval(substitute(
+        delayedAssign(
+          x = paste0(OBJ, STR),
+          value =
+            blaseRtemplates::loadRData(fs::path(
+              fs::path_package(PKG), "data", paste0(OBJ, ".rda")
+            )),
+          eval.env = globalenv(),
+          assign.env = as.environment("deconflicted.data")
+        ),
+        list(
+          OBJ = objName[i],
+          SEARCHDATANAME = searchDataName,
+          PKG = package,
+          DAT = datName[i],
+          STR = str
+        )
+      ))
+    }
+  }
+
+  #' @export
+  loadRData <- function(fileName) {
+    #loads an RData file, and returns it
+    load(fileName)
+    get(ls()[ls() != "fileName"])
+  }
+
+  #' @export
+  deconflict_datapkg <- function (package,
+                                  deconflict,
+                                  lib.loc = NULL,
+                                  quietly = TRUE,
+                                  character.only = TRUE,
+                                  warn.conflicts = TRUE,
+                                  reallyQuietly = TRUE,
+                                  ...) {
+    if (!character.only) {
+      pkg <- substitute(package)
+      if (!is.character(pkg))
+        pkg <- deparse(pkg)
+    }
+    else
+      pkg <- as.character(package)
+    if (length(pkg) != 1)
+      stop("only one package may be attached in any call")
+    s0 <- search()
+    oldWarn <- options(warn = -1)
+    on.exit(options(oldWarn))
+    OK <- if (reallyQuietly) {
+      suppressMessages(require(
+        package = pkg,
+        lib.loc = lib.loc,
+        quietly = TRUE,
+        warn.conflicts = FALSE,
+        character.only = TRUE
+      ))
+    }
+    else {
+      require(
+        package = pkg,
+        lib.loc = lib.loc,
+        quietly = quietly,
+        warn.conflicts = warn.conflicts,
+        character.only = TRUE
       )
-    ))
-  }
-}
+    }
+    options(oldWarn)
+    if (!OK) {
+      warning("no valid package called ", sQuote(pkg), " found")
+      return(invisible(FALSE))
+    }
+    if (!"deconflicted.data" %in% search()) {
+      env2 <- attach(NULL, pos = 2L, name = "deconflicted.data")
+      attr(env2, "path") <- attr(as.environment(2), "path")
+    }
+    package <- pkg
+    if (file.exists(f <- system.file("data",
+                                     package = package)) &&
+        file.info(f)$isdir && !file.exists(file.path(f,
+                                                     "Rdata.rds"))) {
+      make_pointers(package = package, str = deconflict)
+    }
 
-#' @export
-loadRData <- function(fileName) {
-  #loads an RData file, and returns it
-  load(fileName)
-  get(ls()[ls() != "fileName"])
-}
-
-#' @export
-deconflict_datapkg <- function (package,
-                                deconflict,
-                                lib.loc = NULL,
-                                quietly = TRUE,
-                                character.only = TRUE,
-                                warn.conflicts = TRUE,
-                                reallyQuietly = TRUE,
-                                ...) {
-  if (!character.only) {
-    pkg <- substitute(package)
-    if (!is.character(pkg))
-      pkg <- deparse(pkg)
-  }
-  else
-    pkg <- as.character(package)
-  if (length(pkg) != 1)
-    stop("only one package may be attached in any call")
-  s0 <- search()
-  oldWarn <- options(warn = -1)
-  on.exit(options(oldWarn))
-  OK <- if (reallyQuietly) {
-    suppressMessages(require(
-      package = pkg,
-      lib.loc = lib.loc,
-      quietly = TRUE,
-      warn.conflicts = FALSE,
-      character.only = TRUE
-    ))
-  }
-  else {
-    require(
-      package = pkg,
-      lib.loc = lib.loc,
-      quietly = quietly,
-      warn.conflicts = warn.conflicts,
-      character.only = TRUE
-    )
-  }
-  options(oldWarn)
-  if (!OK) {
-    warning("no valid package called ", sQuote(pkg), " found")
-    return(invisible(FALSE))
-  }
-  if (!"deconflicted.data" %in% search()) {
-    env2 <- attach(NULL, pos = 2L, name = "deconflicted.data")
-    attr(env2, "path") <- attr(as.environment(2), "path")
-  }
-  package <- pkg
-  if (file.exists(f <- system.file("data",
-                                   package = package)) &&
-      file.info(f)$isdir && !file.exists(file.path(f,
-                                                   "Rdata.rds"))) {
-    make_pointers(package = package, str = deconflict)
+    invisible(TRUE)
   }
 
-  invisible(TRUE)
-}
+  # search_for_

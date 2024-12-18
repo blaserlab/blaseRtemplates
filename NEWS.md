@@ -111,3 +111,8 @@
 
 * edited Rmd template for graphics device usage
 * edited bb_qc portion of load_process
+
+
+## blaseRtemplates 0.0.9211
+
+* updated package data to handle on-disk cds objects
