@@ -19,3 +19,6 @@ obj_name <- bp_paths[length(bp_paths) - 1]
 obj_name
 bpcells_dir
 fs::path_dir(bpcells_dir)
+
+disk_new <- cds_main_disk
+save_monocle_disk(cds_disk = disk_new, data_directory = "datadata", extdata_directory = "extdata")

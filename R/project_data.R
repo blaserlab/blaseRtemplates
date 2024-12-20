@@ -3,7 +3,7 @@
 #'
 #' If a specific version is requested, i.e. a specific .tar.gz file, and this version is already cached, it will be linked and not reinstalled.  If for some reason there are multiple hashes with the same version number (usually because a package was rebuilt without incrementing the version), then the latest hash of that version will be linked.
 #'
-#' This function now accepts multiple paths, i.e. multiple independent data packages, in the form of a character vector of length >= 1.  After deciding which version to install based on the inputs, the function will load all of the data objects into a single environment called deconflicted.data.  The problem with loading multiple data packages into the same environment is that there may be name conflicts and objects get overridden.  The problem with keeping them in separate environments is that they are difficult to specify and access.  Here is how this function deals with these problems:
+#' This function accepts multiple paths, i.e. multiple independent data packages, in the form of a character vector of length >= 1.  After deciding which version to install based on the inputs, the function will load all of the data objects into a single environment called deconflicted.data.  The problem with loading multiple data packages into the same environment is that there may be name conflicts and objects get overridden.  The problem with keeping them in separate environments is that they are difficult to specify and access.  Here is how this function deals with these problems:
 #'
 #' * If `length(path) > 1`, the function will require a vector for the argument deconflict_string of the same length.  The first element of deconflict_string will be added as a suffix to the data object from the first package in path, etc.  For example if the first value of the argument deconflict_string is ".my.project.data", then all objects in the package will be suffixed with .my.project.data.
 #' * Note that you will have to reference the object correctly in your code using the proper suffix.
@@ -12,6 +12,8 @@
 #' * If only a single package is loaded, there will be no conflicts and by default, deconflict_string is set to "".
 #'
 #' As before, all data elements are loaded as promises which means that they are loaded into memory only when called.
+#'
+#' Since version 9211, this function also handles on-disk storage for monocle3 cds objects.  If such an object is detected within extdata, it will be loaded into the same deconflicted.data environment using the functions provided by monocle.
 #'
 #' @param path Path or vector of paths to data directory/ies.
 #' @param deconflict_string Character vector used to disambiguate objects from packages in path, Default: ''
@@ -185,7 +187,6 @@ project_data <- function(path, deconflict_string = "") {
     )
     cli::cli_inform("If provided, a deconflict string will be appended to the object name.")
     cli::cli_inform("For documentation of these objects, see the data package README file.")
-    cli::cli_warn("Note that this will overwrite any standard object from the datapackage with the same name.\n")
     cli::cli_alert("Loading {.emph monocle3} and its dependencies.")
     suppressPackageStartupMessages(library("monocle3"))
     suppressPackageStartupMessages(library("BPCells"))

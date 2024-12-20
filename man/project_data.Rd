@@ -19,7 +19,7 @@ Use this to update, install and/or load project data.  Usual practice is to prov
 
 If a specific version is requested, i.e. a specific .tar.gz file, and this version is already cached, it will be linked and not reinstalled.  If for some reason there are multiple hashes with the same version number (usually because a package was rebuilt without incrementing the version), then the latest hash of that version will be linked.
 
-This function now accepts multiple paths, i.e. multiple independent data packages, in the form of a character vector of length >= 1.  After deciding which version to install based on the inputs, the function will load all of the data objects into a single environment called deconflicted.data.  The problem with loading multiple data packages into the same environment is that there may be name conflicts and objects get overridden.  The problem with keeping them in separate environments is that they are difficult to specify and access.  Here is how this function deals with these problems:
+This function accepts multiple paths, i.e. multiple independent data packages, in the form of a character vector of length >= 1.  After deciding which version to install based on the inputs, the function will load all of the data objects into a single environment called deconflicted.data.  The problem with loading multiple data packages into the same environment is that there may be name conflicts and objects get overridden.  The problem with keeping them in separate environments is that they are difficult to specify and access.  Here is how this function deals with these problems:
 \itemize{
 \item If \code{length(path) > 1}, the function will require a vector for the argument deconflict_string of the same length.  The first element of deconflict_string will be added as a suffix to the data object from the first package in path, etc.  For example if the first value of the argument deconflict_string is ".my.project.data", then all objects in the package will be suffixed with .my.project.data.
 \item Note that you will have to reference the object correctly in your code using the proper suffix.
@@ -29,6 +29,8 @@ This function now accepts multiple paths, i.e. multiple independent data package
 }
 
 As before, all data elements are loaded as promises which means that they are loaded into memory only when called.
+
+Since version 9211, this function also handles on-disk storage for monocle3 cds objects.  If such an object is detected within extdata, it will be loaded into the same deconflicted.data environment using the functions provided by monocle.
 }
 \seealso{
 \code{\link[cli]{cli_abort}}, \code{\link[cli]{cli_alert}}
