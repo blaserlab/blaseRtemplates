@@ -120,11 +120,3 @@
 ## blaseRtemplates 0.0.9212
 
 * added function to save monocle objects
-
-## blaseRtemplates 0.0.9213
-
-* moved function to save monocle objects to blaseRtools
-
-## blaseRtemplates 0.0.9214
-
-* moved function to save monocle back into templates
