@@ -633,6 +633,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.4.0	bitops	1.0.9	2024-10-29T19:01:10Z	f276cf61b1291da57fe632b23a5cdcb9	/workspace/rst/cache_R-4.4.0/library/bitops/1.0-9/f276cf61b1291da57fe632b23a5cdcb9/bitops	available
 4.4.0	blaseRdata	0.0.0.9013	2024-06-08T14:30:18Z	9cc539e0cde0dedcf3b5a1ccbd807d48	/workspace/rst/cache_R-4.4.0/library/blaseRdata/0.0.0.9013/9cc539e0cde0dedcf3b5a1ccbd807d48/blaseRdata	active
 4.4.0	blaseRextras	0.0.0.9007	2024-05-06T12:45:09Z	7e4d1b9cce7d9e8a24e0f03154f60826	/workspace/rst/cache_R-4.4.0/library/blaseRextras/0.0.0.9007/7e4d1b9cce7d9e8a24e0f03154f60826/blaseRextras	available
+4.4.0	blaseRtemplates	0.0.0.9214	2024-12-26T12:40:27Z	5f74482c5c36431b982c37eee5ec2daa	/workspace/rst/cache_R-4.4.0/library/blaseRtemplates/0.0.0.9214/5f74482c5c36431b982c37eee5ec2daa/blaseRtemplates	active
 4.4.0	blaseRtools	0.0.0.9168	2024-12-18T15:07:09Z	2b4bee5425901f51f3ed27df1568d2c8	/workspace/rst/cache_R-4.4.0/library/blaseRtools/0.0.0.9168/2b4bee5425901f51f3ed27df1568d2c8/blaseRtools	active
 4.4.0	blaser.park.datapkg	0.0.0.9002	2024-10-02T12:57:32Z	d3506d6507da1e5ae04c29919893cd3e	/workspace/rst/cache_R-4.4.0/library/blaser.park.datapkg/0.0.0.9002/d3506d6507da1e5ae04c29919893cd3e/blaser.park.datapkg	available
 4.4.0	blavaan	0.5.6	2024-10-29T19:01:11Z	c063ce0f22eaf47532588b6bdb90aa6a	/workspace/rst/cache_R-4.4.0/library/blavaan/0.5-6/c063ce0f22eaf47532588b6bdb90aa6a/blavaan	available
@@ -1609,7 +1610,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.4.0	paradox	1.0.1	2024-08-27T15:53:11Z	d641a1cddc327c87b72280a6ad8f11cb	/workspace/rst/cache_R-4.4.0/library/paradox/1.0.1/d641a1cddc327c87b72280a6ad8f11cb/paradox	available
 4.4.0	parallel	4.4.0	2024-05-05T18:36:33Z	7013c4cfd9388d6769f57fd8920e12c6	/workspace/rst/cache_R-4.4.0/library/parallel/4.4.0/7013c4cfd9388d6769f57fd8920e12c6/parallel	base
 4.4.0	parallelMap	1.5.1	2024-05-06T00:08:21Z	94413dd49d007c2133eba230f1c89e24	/workspace/rst/cache_R-4.4.0/library/parallelMap/1.5.1/94413dd49d007c2133eba230f1c89e24/parallelMap	available
-4.4.0	parallelly	1.40.1	2024-12-06T06:32:23Z	1b9e80bc01b74654a63b9f67213a254f	/workspace/rst/cache_R-4.4.0/library/parallelly/1.40.1/1b9e80bc01b74654a63b9f67213a254f/parallelly	available
+4.4.0	parallelly	1.41.0	2024-12-20T06:34:14Z	0da4018b51e6eeeead8095b014564758	/workspace/rst/cache_R-4.4.0/library/parallelly/1.41.0/0da4018b51e6eeeead8095b014564758/parallelly	available
 4.4.0	parameters	0.24.0	2024-11-29T06:27:48Z	b3205ca2bc1d6f1dcb558f6fbd862e57	/workspace/rst/cache_R-4.4.0/library/parameters/0.24.0/b3205ca2bc1d6f1dcb558f6fbd862e57/parameters	available
 4.4.0	paran	1.5.3	2024-06-06T05:11:49Z	685d56b2c33b83bab2545b397bc7df63	/workspace/rst/cache_R-4.4.0/library/paran/1.5.3/685d56b2c33b83bab2545b397bc7df63/paran	available
 4.4.0	parathyroidSE	1.43.0	2024-10-31T08:59:17Z	b45944a207c4f6f5fad8df894fe3cc08	/workspace/rst/cache_R-4.4.0/library/parathyroidSE/1.43.0/b45944a207c4f6f5fad8df894fe3cc08/parathyroidSE	available
@@ -1655,7 +1656,7 @@ R_version	name	version	date_time	hash	binary_location	status
 4.4.0	pheatmap	1.0.12	2024-05-05T22:14:45Z	5c453db644a904f26b0ea78d6e1a4d2a	/workspace/rst/cache_R-4.4.0/library/pheatmap/1.0.12/5c453db644a904f26b0ea78d6e1a4d2a/pheatmap	available
 4.4.0	phylolm	2.6.5	2024-10-29T19:02:19Z	8b11406729cf43e27c7511b251cb5b72	/workspace/rst/cache_R-4.4.0/library/phylolm/2.6.5/8b11406729cf43e27c7511b251cb5b72/phylolm	available
 4.4.0	phyr	1.1.0	2024-05-06T00:59:34Z	fc89593f34b0f1e362926e8c373e1e8b	/workspace/rst/cache_R-4.4.0/library/phyr/1.1.0/fc89593f34b0f1e362926e8c373e1e8b/phyr	available
-4.4.0	pillar	1.9.0	2024-05-06T05:04:06Z	ccd8870d3f178e4a5791c773f70213b5	/workspace/rst/cache_R-4.4.0/library/pillar/1.9.0/ccd8870d3f178e4a5791c773f70213b5/pillar	available
+4.4.0	pillar	1.10.0	2024-12-20T04:28:33Z	e23b1388865f5ba64139fdb176606275	/workspace/rst/cache_R-4.4.0/library/pillar/1.10.0/e23b1388865f5ba64139fdb176606275/pillar	available
 4.4.0	pimeta	1.1.3	2024-11-02T07:46:46Z	00deae291d1046f36aba799818af43ed	/workspace/rst/cache_R-4.4.0/library/pimeta/1.1.3/00deae291d1046f36aba799818af43ed/pimeta	available
 4.4.0	pingr	2.0.5	2024-12-14T06:38:51Z	ea64c37587314d075eaeab1a2ad2ab58	/workspace/rst/cache_R-4.4.0/library/pingr/2.0.5/ea64c37587314d075eaeab1a2ad2ab58/pingr	available
 4.4.0	pixarfilms	0.2.1	2024-07-04T05:16:25Z	f784c1262c24ddc4e45702a02c2a018e	/workspace/rst/cache_R-4.4.0/library/pixarfilms/0.2.1/f784c1262c24ddc4e45702a02c2a018e/pixarfilms	available
