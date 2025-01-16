@@ -37,181 +37,190 @@
 #' @importFrom tibble as_tibble
 #' @import monocle3
 project_data <- function(path, deconflict_string = "") {
-  catch_blasertemplates_root()
+  # catch_blasertemplates_root()
   cli::cli_div(theme = list(span.emph = list(color = "orange")))
-  if (length(deconflict_string) != length(unique(deconflict_string)))
+  if (length(deconflict_string) != length(unique(deconflict_string))) {
     cli::cli_abort("All deconflict strings must be unique.")
+  }
   if (length(path) > 1) {
     cli::cli_alert_warning("You are attempting to attach more than one data package.")
     cli::cli_alert_warning(
       "To prevent conflicts between items with the same name, each item\nwill be loaded with a unique suffix provided to the deconflict_string argument."
     )
   }
-  if (length(path) != length(deconflict_string))
+  if (length(path) != length(deconflict_string)) {
     cli::cli_abort("Please provide one unique string to identify each data package.")
+  }
   cat <-
-    readr::read_tsv(fs::path(
-      Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-      "package_catalog.tsv"
-    ),
-    col_types = readr::cols())
+    readr::read_tsv(
+      fs::path(
+        Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+        "package_catalog.tsv"
+      ),
+      col_types = readr::cols()
+    )
 
   package <-
-    purrr::pmap_chr(.l = list(path = path, ds = deconflict_string),
-                    .f = \(path, ds) {
-                      if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
-                        # check if the requested version is available
-                        requested_version <-
-                          fs::path_file(path) |>
-                          stringr::str_extract("_.*") |>
-                          stringr::str_remove(".tar.gz") |>
-                          stringr::str_remove("_")
-                        datapackage_stem <- fs::path_file(path) |>
-                          stringr::str_remove("_.*")
-                        in_cache <- cat |>
-                          dplyr::filter(name == datapackage_stem) |>
-                          dplyr::pull(version) |>
-                          stringr::str_detect(requested_version) |>
-                          any()
+    purrr::pmap_chr(
+      .l = list(path = path, ds = deconflict_string),
+      .f = \(path, ds) {
+        if (stringr::str_detect(string = path, pattern = ".tar.gz")) {
+          # check if the requested version is available
+          requested_version <-
+            fs::path_file(path) |>
+            stringr::str_extract("_.*") |>
+            stringr::str_remove(".tar.gz") |>
+            stringr::str_remove("_")
+          datapackage_stem <- fs::path_file(path) |>
+            stringr::str_remove("_.*")
+          in_cache <- cat |>
+            dplyr::filter(name == datapackage_stem) |>
+            dplyr::pull(version) |>
+            stringr::str_detect(requested_version) |>
+            any()
 
 
-                        if (in_cache) {
-                          cli::cli_alert_warning(
-                            "{.emph {datapackage_stem}}, version {.emph {requested_version}} was found in the cache."
-                          )
-                          cli::cli_alert_warning("Newer versions may be available.")
-                          install_one_package(package = datapackage_stem,
-                                              how = "link_from_cache",
-                                              which_version = requested_version)
-                          deconflict_datapkg(
-                            package = datapackage_stem,
-                            deconflict = ds,
-                            character.only = TRUE
-                          )
-                        } else {
-                          cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
-                          install_one_package(package = path)
-                          hash_n_cache()
-                          deconflict_datapkg(
-                            package = datapackage_stem,
-                            deconflict = ds,
-                            character.only = TRUE
-                          )
-                        }
+          if (in_cache) {
+            cli::cli_alert_warning(
+              "{.emph {datapackage_stem}}, version {.emph {requested_version}} was found in the cache."
+            )
+            cli::cli_alert_warning("Newer versions may be available.")
+            install_one_package(
+              package = datapackage_stem,
+              how = "link_from_cache",
+              which_version = requested_version
+            )
+            deconflict_datapkg(
+              package = datapackage_stem,
+              deconflict = ds,
+              character.only = TRUE
+            )
+          } else {
+            cli::cli_alert_warning("Installing {path}.  There may be newer versions available.")
+            install_one_package(package = path)
+            hash_n_cache()
+            deconflict_datapkg(
+              package = datapackage_stem,
+              deconflict = ds,
+              character.only = TRUE
+            )
+          }
+        } else {
+          latest_version <- file.info(list.files(path, full.names = T)) |>
+            tibble::as_tibble(rownames = "file") |>
+            dplyr::filter(stringr::str_detect(file, pattern = ".tar.gz")) |>
+            dplyr::arrange(desc(mtime)) |>
+            dplyr::slice(1) |>
+            dplyr::pull(file) |>
+            basename()
+          datapackage_stem <-
+            stringr::str_replace(latest_version, "_.*", "")
+          latest_version_number <-
+            stringr::str_replace(latest_version, "^.*_", "")
+          latest_version_number <-
+            stringr::str_replace(latest_version_number, ".tar.gz", "") |>
+            as.package_version()
 
+          # check if the newest version is available in blaseRtemplates cache
 
+          latest_cached <- cat |>
+            dplyr::filter(name == datapackage_stem) |>
+            dplyr::arrange(desc(version), desc(date_time)) |>
+            dplyr::slice_head(n = 1) |>
+            dplyr::pull(version)
 
-                      } else {
-                        latest_version <- file.info(list.files(path, full.names = T)) |>
-                          tibble::as_tibble(rownames = "file") |>
-                          dplyr::filter(stringr::str_detect(file, pattern = ".tar.gz")) |>
-                          dplyr::arrange(desc(mtime)) |>
-                          dplyr::slice(1) |>
-                          dplyr::pull(file) |>
-                          basename()
-                        datapackage_stem <-
-                          stringr::str_replace(latest_version, "_.*", "")
-                        latest_version_number <-
-                          stringr::str_replace(latest_version, "^.*_", "")
-                        latest_version_number <-
-                          stringr::str_replace(latest_version_number, ".tar.gz", "") |>
-                          as.package_version()
+          in_cache <- FALSE
+          cache_up_to_date <- FALSE
+          project_up_to_date <- FALSE
 
-                        # check if the newest version is available in blaseRtemplates cache
+          if (length(latest_cached) > 0) {
+            in_cache <- TRUE
+          }
+          if (in_cache) {
+            if (latest_cached >= latest_version_number) {
+              cache_up_to_date <- TRUE
+            }
+          }
+          if (possibly_packageVersion(datapackage_stem) == latest_version_number) {
+            project_up_to_date <- TRUE
+          }
 
-                        latest_cached <- cat |>
-                          dplyr::filter(name == datapackage_stem) |>
-                          dplyr::arrange(desc(version), desc(date_time)) |>
-                          dplyr::slice_head(n = 1) |>
-                          dplyr::pull(version)
+          if (project_up_to_date) {
+            cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
+            deconflict_datapkg(
+              package = datapackage_stem,
+              deconflict = ds,
+              character.only = TRUE
+            )
+          } else {
+            # check to see if cache is up to date and install from there if so
+            if (cache_up_to_date) {
+              install_one_package(datapackage_stem, "link_from_cache")
+              deconflict_datapkg(
+                package = datapackage_stem,
+                deconflict = ds,
+                character.only = TRUE
+              )
+            } else {
+              cli::cli_alert_info("Installing the latest version of {datapackage_stem}.")
+              install_datapackage_2(path, latest_version)
+              deconflict_datapkg(
+                package = datapackage_stem,
+                deconflict = ds,
+                character.only = TRUE
+              )
+            }
+          }
+        }
+        bpcells_dir <-
+          fs::dir_ls(fs::path_package(datapackage_stem),
+            recurse = 2,
+            regexp = "bpcells_matrix_dir"
+          )
 
-                        in_cache <- FALSE
-                        cache_up_to_date <- FALSE
-                        project_up_to_date <- FALSE
+        if (length(bpcells_dir) > 0) {
+          cli::cli_alert("One or more on-disk cds objects have been detected.")
+          cli::cli_inform(
+            "These will be loaded into the deconflicted.data environment using monocle3::load_monocle_objects()."
+          )
+          cli::cli_inform("If provided, a deconflict string will be appended to the object name.")
+          cli::cli_inform("For documentation of these objects, see the data package README file.")
+          cli::cli_alert("Loading {.emph monocle3} and its dependencies.")
+          suppressPackageStartupMessages(library("monocle3"))
+          suppressPackageStartupMessages(library("BPCells"))
 
-                        if (length(latest_cached) > 0)
-                          in_cache <- TRUE
-                        if (in_cache) {
-                          if (latest_cached >= latest_version_number)
-                            cache_up_to_date <- TRUE
-                        }
-                        if (possibly_packageVersion(datapackage_stem) == latest_version_number)
-                          project_up_to_date <- TRUE
-
-                        if (project_up_to_date) {
-                          cli::cli_alert_success("Your current version of {datapackage_stem} is up to date.")
-                          deconflict_datapkg(
-                            package = datapackage_stem,
-                            deconflict = ds,
-                            character.only = TRUE
-                          )
-                        } else {
-                          # check to see if cache is up to date and install from there if so
-                          if (cache_up_to_date) {
-                            install_one_package(datapackage_stem, "link_from_cache")
-                            deconflict_datapkg(
-                              package = datapackage_stem,
-                              deconflict = ds,
-                              character.only = TRUE
-                            )
-
-                          } else {
-                            cli::cli_alert_info("Installing the latest version of {datapackage_stem}.")
-                            install_datapackage_2(path, latest_version)
-                            deconflict_datapkg(
-                              package = datapackage_stem,
-                              deconflict = ds,
-                              character.only = TRUE
-                            )
-                          }
-                        }
-
-
-                      }
-                      datapackage_stem
-                    })
-  purrr::walk(.x = paste0("datasets:", package),
-              .f = \(x) detach(name = x, character.only = TRUE))
-  purrr::walk(.x = paste0("package:", package),
-              .f = \(x) detach(name = x, character.only = TRUE))
-
-  bpcells_dir <-
-    fs::dir_ls(fs::path_package(package),
-               recurse = 2,
-               regexp = "bpcells_matrix_dir")
-
-  if (length(bpcells_dir) > 0) {
-    cli::cli_alert("One or more on-disk cds objects have been detected.")
-    cli::cli_inform(
-      "These will be loaded into the deconflicted.data environment using monocle3::load_monocle_objects()."
+          for (i in seq_along(bpcells_dir)) {
+            bp_path <- unlist(fs::path_split(bpcells_dir[i]))
+            obj_name <- bp_path[length(bp_path) - 1]
+            obj_name <- paste0(obj_name, ds)
+            cli::cli_alert("Assigning {.emph {obj_name}} to the deconflicted.data environment.")
+            assign(
+              x = obj_name,
+              value = monocle3::load_monocle_objects(
+                fs::path_dir(bpcells_dir[i]),
+                matrix_control = list(
+                  matrix_class = "BPCells",
+                  matrix_path = fs::path(tempdir(), "BPCells")
+                )
+              ),
+              pos = "deconflicted.data"
+            )
+          }
+        }
+        datapackage_stem
+      }
     )
-    cli::cli_inform("If provided, a deconflict string will be appended to the object name.")
-    cli::cli_inform("For documentation of these objects, see the data package README file.")
-    cli::cli_alert("Loading {.emph monocle3} and its dependencies.")
-    suppressPackageStartupMessages(library("monocle3"))
-    suppressPackageStartupMessages(library("BPCells"))
-
-    for (i in seq_along(bpcells_dir)) {
-      bp_path <- unlist(fs::path_split(bpcells_dir[i]))
-      obj_name <- bp_path[length(bp_path) - 1]
-      obj_name <- paste0(obj_name, deconflict_string)
-      cli::cli_alert("Assigning {.emph {obj_name}} to the deconflicted.data environment.")
-      assign(
-        x = obj_name,
-        value = monocle3::load_monocle_objects(
-          fs::path_dir(bpcells_dir[i]),
-          matrix_control = list(
-            matrix_class = "BPCells",
-            matrix_path = fs::path(tempdir(), "BPCells"))
-        ),
-        pos = "deconflicted.data"
-      )
-
-
-    }
-
-  }
+  
+  purrr::walk(
+    .x = paste0("datasets:", package),
+    .f = \(x) detach(name = x, character.only = TRUE)
+  )
+  purrr::walk(
+    .x = paste0("package:", package),
+    .f = \(x) detach(name = x, character.only = TRUE)
+  )
 }
+
 
   #' @importFrom stringr str_sub
   install_datapackage_2 <-
