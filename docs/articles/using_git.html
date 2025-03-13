@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">blaseRtemplates</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9216</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9217</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,8 @@
 
 
 
-<script src="using_git_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Using Git</h1>
@@ -78,15 +79,25 @@
 <li>Give you a safety net to fall back on if you break something.</li>
 <li>Help you collaborate with others more effectively.</li>
 </ol>
-<p>There is a learning curve, but if you stay within a simple workflow and use a script, it is very easy 99% of the time. There are many resources to learn about Git, including my course website: insert link. These will not be repeated in depth here. What follows is an explanation of the git scripts in blaseRtemplates for someone who has a basic understanding of the terms.</p>
+<p>There is a learning curve, but if you stay within a simple workflow
+and use a script, it is very easy 99% of the time. There are many
+resources to learn about Git, including my course website: insert link.
+These will not be repeated in depth here. What follows is an explanation
+of the git scripts in blaseRtemplates for someone who has a basic
+understanding of the terms.</p>
 </div>
 <div class="section level2">
 <h2 id="git-in-blasertemplates">Git in blaseRtemplates<a class="anchor" aria-label="anchor" href="#git-in-blasertemplates"></a>
 </h2>
-<p>When each blaseRtemplates project is initialized, it comes with a script called R/git_commands.R. This file is not tracked by git by default, so if you are cloning a repo from github, then use this command to regenerate the git commands file:</p>
+<p>When each blaseRtemplates project is initialized, it comes with a
+script called R/git_commands.R. This file is not tracked by git by
+default, so if you are cloning a repo from github, then use this command
+to regenerate the git commands file:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/regenerate_git_commands.html">regenerate_git_commands</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The script is broken up into sections, with the stuff you will need most at the top. But for the first time using git, you should start at the bottom.</p>
+<p>The script is broken up into sections, with the stuff you will need
+most at the top. But for the first time using git, you should start at
+the bottom.</p>
 <div class="section level3">
 <h3 id="commands-to-configure-git">Commands to configure git<a class="anchor" aria-label="anchor" href="#commands-to-configure-git"></a>
 </h3>
@@ -111,15 +122,28 @@
 <span></span>
 <span><span class="co"># run this and enter your token at the prompt</span></span>
 <span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/gitcreds_set.html">gitcreds_set</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Connecting/authenticating to github is the most difficult part of all of this. The keychain program used by <code><a href="../reference/gitcreds_set.html">gitcreds_set()</a></code> may not be available or working on all systems. As a workaround, you can replace the line in your .Renviron file, GITHUB_PAT=gitcreds::gitcreds_get(use_cache = FALSE)$password, with GITHUB_PAT=<your token>. There is a small security risk to this if someone were to gain access to your .Renviron file. So proceed with caution.</your></p>
+<p>Connecting/authenticating to github is the most difficult part of all
+of this. The keychain program used by <code><a href="../reference/gitcreds_set.html">gitcreds_set()</a></code> may
+not be available or working on all systems. As a workaround, you can
+replace the line in your .Renviron file,
+GITHUB_PAT=gitcreds::gitcreds_get(use_cache = FALSE)$password, with
+GITHUB_PAT=<your token>. There is a small security risk to this if
+someone were to gain access to your .Renviron file. So proceed with
+caution.</your></p>
 </div>
 <div class="section level3">
 <h3 id="commands-for-collaborating-via-git">Commands for collaborating via Git<a class="anchor" aria-label="anchor" href="#commands-for-collaborating-via-git"></a>
 </h3>
-<p>In this workflow, branches are meant to be small and short-lived. This reduces the frequency and magnitude of conflicts which have to be manually de-conflicted.</p>
-<p>We use a rebase strategy to maintain a linear history as much as possible.</p>
-<p>Branches should be created, commits made incrementally and then branches should be merged and deleted when work for that session/day is done. Branches should not be pushed.</p>
-<p>Branching and merging are all done safely, meaning that a pull is performed before branching.</p>
+<p>In this workflow, branches are meant to be small and short-lived.
+This reduces the frequency and magnitude of conflicts which have to be
+manually de-conflicted.</p>
+<p>We use a rebase strategy to maintain a linear history as much as
+possible.</p>
+<p>Branches should be created, commits made incrementally and then
+branches should be merged and deleted when work for that session/day is
+done. Branches should not be pushed.</p>
+<p>Branching and merging are all done safely, meaning that a pull is
+performed before branching.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a working branch for your day's work</span></span>
 <span><span class="fu">blaseRtemplates</span><span class="fu">::</span><span class="fu"><a href="../reference/git_easy_branch.html">git_easy_branch</a></span><span class="op">(</span>branch <span class="op">=</span> <span class="st">"user_working"</span><span class="op">)</span></span>
@@ -145,7 +169,8 @@
 <div class="section level3">
 <h3 id="other-git-functions">Other Git functions<a class="anchor" aria-label="anchor" href="#other-git-functions"></a>
 </h3>
-<p>The git_commands.R file also contains helpful commands for rewinding history and de-conflicting.</p>
+<p>The git_commands.R file also contains helpful commands for rewinding
+history and de-conflicting.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

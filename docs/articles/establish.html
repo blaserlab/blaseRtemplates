@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">blaseRtemplates</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9216</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9217</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,8 @@
 
 
 
-<script src="establish_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Establish a blaseRtemplates Installation</h1>
@@ -74,33 +75,61 @@
 </h2>
 <p>The goals of blaseRtemplates are:</p>
 <ol style="list-style-type: decimal">
-<li><p>To establish an encapsulated computing environment for data analysis in R.</p></li>
-<li><p>To improve upon existing methods for installing software packages and maintaining version control</p></li>
-<li><p>To provide useful template scripts for setting up projects, working with git, and doing other common, repetitive tasks.</p></li>
+<li><p>To establish an encapsulated computing environment for data
+analysis in R.</p></li>
+<li><p>To improve upon existing methods for installing software packages
+and maintaining version control</p></li>
+<li><p>To provide useful template scripts for setting up projects,
+working with git, and doing other common, repetitive tasks.</p></li>
 </ol>
-<p>The result, I hope, will be reduced system footprint (storage), faster package installation times, better reproducibility and an overall improved user experience.</p>
+<p>The result, I hope, will be reduced system footprint (storage),
+faster package installation times, better reproducibility and an overall
+improved user experience.</p>
 </div>
 <div class="section level2">
 <h2 id="establishing-an-installation">Establishing an Installation<a class="anchor" aria-label="anchor" href="#establishing-an-installation"></a>
 </h2>
-<p>Unfortunately, the terms we use for setting up programs, files and directories are overloaded. To distinguish the initial installation of the directory structure for blaseRtemplates from other uses of the verb “install”, I use the term “establish”. Sorry if that seems awkward.</p>
-<p>First you must install the blaseRtemplates package using whatever package installer you currently use. Assuming the base install function, run:</p>
+<p>Unfortunately, the terms we use for setting up programs, files and
+directories are overloaded. To distinguish the initial installation of
+the directory structure for blaseRtemplates from other uses of the verb
+“install”, I use the term “establish”. Sorry if that seems awkward.</p>
+<p>First you must install the blaseRtemplates package using whatever
+package installer you currently use. Assuming the base install function,
+run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'blaseRtemplates'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://blaserlab.r-universe.dev'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>What is r-universe? Basically it is CRAN without rules. In this case, it hosts blaseRtemplates linux source code and pre-compiled binaries for Windows and Mac.</p>
+<p>What is r-universe? Basically it is CRAN without rules. In this case,
+it hosts blaseRtemplates linux source code and pre-compiled binaries for
+Windows and Mac.</p>
 <p>Next, simply run the following command:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/blaserlab/blaseRtemplates" class="external-link">"blaseRtemplates"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/establish_new_bt.html">establish_new_bt</a></span><span class="op">(</span>cache_path <span class="op">=</span> <span class="st">"&lt;some_directory&gt;/r_4_2_cache"</span>, project_path <span class="op">=</span> <span class="st">"&lt;some_directory&gt;/projects"</span><span class="op">)</span></span></code></pre></div>
 <p>What will this do?</p>
 <ul>
-<li>It will create directories where indicated, write a standard .Rprofile document, and modify the user .Renviron file to configure R properly.<br>
+<li>It will create directories where indicated, write a standard
+.Rprofile document, and modify the user .Renviron file to configure R
+properly.<br>
 </li>
-<li>It will not overwrite existing directories and will fail when an existing installation is already present in the same location.<br>
+<li>It will not overwrite existing directories and will fail when an
+existing installation is already present in the same location.<br>
 </li>
-<li>The only modification outside of the provided directory is to the .Renviron file. If you have existing configurations in your .Renviron file, they will only be changed if they are conflicting. If this is problematic, then you should archive your .Renviron file before running. The new .Renviron file will cause R to use the new .Rprofile in the cache directory and skip existing user- and project-level .Rprofiles.</li>
+<li>The only modification outside of the provided directory is to the
+.Renviron file. If you have existing configurations in your .Renviron
+file, they will only be changed if they are conflicting. If this is
+problematic, then you should archive your .Renviron file before running.
+The new .Renviron file will cause R to use the new .Rprofile in the
+cache directory and skip existing user- and project-level
+.Rprofiles.</li>
 </ul>
-<p>Briefly, when R starts a new session, it looks for a series of files to configure itself. This configuration includes environment variables (in the .Renviron file) and any desired R code (in the .Rprofile file). As included in this function, these configurations only affect user experience i.e. they should not affect the results produced by your code. By user experience I mean connection to the proper package libraries and repositories and some safeguards to prevent working outside of projects.</p>
+<p>Briefly, when R starts a new session, it looks for a series of files
+to configure itself. This configuration includes environment variables
+(in the .Renviron file) and any desired R code (in the .Rprofile file).
+As included in this function, these configurations only affect user
+experience i.e. they should not affect the results produced by your
+code. By user experience I mean connection to the proper package
+libraries and repositories and some safeguards to prevent working
+outside of projects.</p>
 <p>For more information on how R starts, see <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html" title="R startup" class="external-link">this link.</a>.</p>
 </div>
 <div class="section level2">
@@ -117,28 +146,63 @@
     |-- dependency_catalog.tsv
     |-- package_catalog.tsv
     `-- .Rprofile</code></pre>
-<p>First, note that two main subdirectories have been created in one parent directory. This optional and can be specified by the function inputs, but for a single user system it is recommended to keep them together for the sake of organization.</p>
+<p>First, note that two main subdirectories have been created in one
+parent directory. This optional and can be specified by the function
+inputs, but for a single user system it is recommended to keep them
+together for the sake of organization.</p>
 <ul>
-<li><p>projects: where your projects should be initialized. They can go anywhere but you should keep them here. The baseproject is created by the establish_new_bt function. If you close a project without moving to a new one or try to start a session outside of a project, it will bounce you here. This prevents undesired operations in e.g. the home directory or elsewhere.</p></li>
+<li><p>projects: where your projects should be initialized. They can go
+anywhere but you should keep them here. The baseproject is created by
+the establish_new_bt function. If you close a project without moving to
+a new one or try to start a session outside of a project, it will bounce
+you here. This prevents undesired operations in e.g. the home directory
+or elsewhere.</p></li>
 <li>
-<p>r_4_2_cache: This holds all of the inner workings of the blaseRtemplates system.</p>
+<p>r_4_2_cache: This holds all of the inner workings of the
+blaseRtemplates system.</p>
 <ul>
-<li><p>library: The versioned/hashed package binary cache. Each package is stored under the following rubric: name &gt; version &gt; hash &gt; name &gt; contents. This structure is generated whenever blaseRtemplates installs a new package in any project.</p></li>
-<li><p>logs: collection of .Rhistory files. Rather than 1 endless file (default), blaseRtemplates will store history files for each session by user and date/time</p></li>
-<li><p>source: Package source files. Used by the installer, pak.</p></li>
-<li><p>user_project: A collection of symlinks to versioned/hashed packages in the library. This is identified as the first entry in .libPaths() so it is where R looks first for packages. Why do this? 1. It allows reproducibility. If I update a package for one project, it may break something in an older project. This allows each project to have its own set of packages. (The list of what versions are used is kept as a tsv file within the project, so it is completely portable. Anyone who wants to replicate your code just has to install that list of packages.) 2. It makes the system lightweight. Package code and more significantly, data, is stored in one location and accessible to many projects, according to version. Unlike renv, all of this except the tsv file is done outside the project, so there are no broken links or large binaries to transfer if someone else wants to work with your code.</p></li>
-<li><p>dependency_catalog.tsv: a list of package dependencies by package hash. Speeds up installation when linking packages from the cache to a project.</p></li>
-<li><p>package_catalog.tsv: the master catalog of packages available in the cache.</p></li>
-<li><p>.Rprofile: the Rprofile used on startup, as specified by the new .Renviron file</p></li>
+<li><p>library: The versioned/hashed package binary cache. Each package
+is stored under the following rubric: name &gt; version &gt; hash &gt;
+name &gt; contents. This structure is generated whenever blaseRtemplates
+installs a new package in any project.</p></li>
+<li><p>logs: collection of .Rhistory files. Rather than 1 endless file
+(default), blaseRtemplates will store history files for each session by
+user and date/time</p></li>
+<li><p>source: Package source files. Used by the installer,
+pak.</p></li>
+<li><p>user_project: A collection of symlinks to versioned/hashed
+packages in the library. This is identified as the first entry in
+.libPaths() so it is where R looks first for packages. Why do this? 1.
+It allows reproducibility. If I update a package for one project, it may
+break something in an older project. This allows each project to have
+its own set of packages. (The list of what versions are used is kept as
+a tsv file within the project, so it is completely portable. Anyone who
+wants to replicate your code just has to install that list of packages.)
+2. It makes the system lightweight. Package code and more significantly,
+data, is stored in one location and accessible to many projects,
+according to version. Unlike renv, all of this except the tsv file is
+done outside the project, so there are no broken links or large binaries
+to transfer if someone else wants to work with your code.</p></li>
+<li><p>dependency_catalog.tsv: a list of package dependencies by package
+hash. Speeds up installation when linking packages from the cache to a
+project.</p></li>
+<li><p>package_catalog.tsv: the master catalog of packages available in
+the cache.</p></li>
+<li><p>.Rprofile: the Rprofile used on startup, as specified by the new
+.Renviron file</p></li>
 </ul>
 </li>
 </ul>
-<p>The library directory is initially populated using all packages available to R the local libraries. Depending on what is in those libraries, and processing/network speeds, this may take some time.</p>
+<p>The library directory is initially populated using all packages
+available to R the local libraries. Depending on what is in those
+libraries, and processing/network speeds, this may take some time.</p>
 </div>
 <div class="section level2">
 <h2 id="upgrading-r-versions">Upgrading R versions<a class="anchor" aria-label="anchor" href="#upgrading-r-versions"></a>
 </h2>
-<p>Since package binaries don’t work across minor version changes in R, e.g. 4.2 -&gt; 4.3, you will have to create a new cache directory each time this changes.</p>
+<p>Since package binaries don’t work across minor version changes in R,
+e.g. 4.2 -&gt; 4.3, you will have to create a new cache directory each
+time this changes.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

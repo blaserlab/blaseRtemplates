@@ -4,7 +4,7 @@
 \alias{save_monocle_disk}
 \title{Save a monocle3 cds object on disk}
 \usage{
-save_monocle_disk(cds_disk, data_directory, extdata_directory)
+save_monocle_disk(cds_disk, data_directory, extdata_directory, alt_name = NULL)
 }
 \arguments{
 \item{cds_disk}{The cds object to save to disk.}
@@ -12,6 +12,8 @@ save_monocle_disk(cds_disk, data_directory, extdata_directory)
 \item{data_directory}{The package data directory to save to.}
 
 \item{extdata_directory}{The package extdata directory to save to.}
+
+\item{alt_name}{An alternative name to save the cds under.  Useful if the function is used programmatically.}
 }
 \value{
 nothing

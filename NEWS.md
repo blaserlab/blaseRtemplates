@@ -117,6 +117,6 @@
 
 * updated package data to handle on-disk cds objects
 
-## blaseRtemplates 0.0.9212-6
+## blaseRtemplates 0.0.9212-7
 
 * added function to save monocle objects

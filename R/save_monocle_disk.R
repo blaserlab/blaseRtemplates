@@ -3,6 +3,7 @@
 #' @param cds_disk The cds object to save to disk.
 #' @param data_directory The package data directory to save to.
 #' @param extdata_directory The package extdata directory to save to.
+#' @param alt_name An alternative name to save the cds under.  Useful if the function is used programmatically.
 #' @return nothing
 #' @seealso
 #'  \code{\link[fs]{file_access}}, \code{\link[fs]{path}}, \code{\link[fs]{path_file}}
@@ -17,7 +18,8 @@
 #' @importFrom DescTools SaveAs
 save_monocle_disk <- function(cds_disk,
                               data_directory,
-                              extdata_directory) {
+                              extdata_directory,
+                              alt_name = NULL) {
   # check the directories
   if (!fs::dir_exists(fs::path(data_directory)))
     cli::cli_abort("{.emph {data_directory}} does not exist.")
@@ -51,7 +53,12 @@ save_monocle_disk <- function(cds_disk,
 
 
   # get the name of the object
-  cds_name <- deparse(substitute(cds_disk))
+  if (is.null(alt_name)) {
+    cds_name <- deparse(substitute(cds_disk))
+  } else {
+    cds_name <- alt_name
+  }
+
   new_rda <- "This is a placeholder object."
 
   # convert the counts matrix

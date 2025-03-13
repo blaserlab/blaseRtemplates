@@ -1,4 +1,4 @@
-pandoc: 2.9.2.1
+pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
@@ -8,4 +8,4 @@ articles:
   multiuser: multiuser.html
   project_data: project_data.html
   using_git: using_git.html
-last_built: 2025-01-16T14:36Z
+last_built: 2025-03-13T12:41Z
