@@ -120,3 +120,8 @@
 ## blaseRtemplates 0.0.9212-7
 
 * added function to save monocle objects
+
+## blaseRtemplates 0.0.9218-20
+
+* fixed missing dependecies
+* updated vignette

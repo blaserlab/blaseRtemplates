@@ -37,7 +37,7 @@ Unfortunately, the terms we use for setting up programs, files and directories a
 First you must install the blaseRtemplates package using whatever package installer you currently use. Assuming the base install function, run:
 
 ```{r}
-install.packages('blaseRtemplates', repos = c('https://blaserlab.r-universe.dev'))
+install.packages('blaseRtemplates', repos = c('https://blaserlab.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 What is r-universe? Basically it is CRAN without rules. In this case, it hosts blaseRtemplates linux source code and pre-compiled binaries for Windows and Mac.
