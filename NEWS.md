@@ -125,3 +125,8 @@
 
 * fixed missing dependecies
 * updated vignette
+
+## blaseRtemplates 0.0.9221
+
+* removed monocle disk and project_data functions, will put in blaseRtools
+* updated rec_get_deps

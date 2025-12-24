@@ -189,7 +189,7 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
               })
   update_package_catalog()
   update_dependency_catalog()
-  cli::cli_alert_success("Done.")
+  if (verbose) cli::cli_alert_success("Done.")
 }
 
 
@@ -212,7 +212,7 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
 write_project_library_catalog <-
   function() {
     catch_blasertemplates_root()
-    hash_n_cache()
+    hash_n_cache(verbose = FALSE)
     lib_loc <- .libPaths()[1]
     cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
     user <- Sys.info()[["user"]]
@@ -227,7 +227,6 @@ write_project_library_catalog <-
 
     active_pkgs <- renv::dependencies() |>
       dplyr::pull(Package)
-
     fs::dir_create("library_catalogs")
 
     readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"),
@@ -249,43 +248,44 @@ write_project_library_catalog <-
 #' @importFrom fs path
 #' @importFrom readr read_tsv cols
 #' @importFrom dplyr filter pull
-rec_get_deps <-
-  function(needed,
-           checked = character(0),
-           deps = character(0),
-           catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-                              "dependency_catalog.tsv")) {
-    # base case
-    catalog <- readr::read_tsv(catalog, col_types = readr::cols())
-    if (length(deps) == 0) {
-      deps <- dplyr::filter(catalog, name == needed) |>
-        dplyr::pull(dependencies)
-      needed <- deps
-    }
-
-    # exit case
-    if (length(needed) == 0) {
-      deps <- unique(deps)
-      return(deps)
-    }
-
-    # recursive case
-    new_deps <- dplyr::filter(catalog, name %in% needed) |>
-      dplyr::pull(dependencies)
-    deps <- c(deps, new_deps)
-    checked <- needed
-    needed <- new_deps[new_deps %notin% checked]
-    rec_get_deps(
-      needed = needed,
-      checked = checked,
-      deps = deps,
-      catalog = fs::path(
-        Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-        "dependency_catalog.tsv"
-      )
-    )
-
+rec_get_deps <- function(
+    needed,
+    checked = character(0),
+    deps = character(0),
+    catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"), "dependency_catalog.tsv"),
+    .catalog_df = NULL
+) {
+  if (is.null(.catalog_df)) {
+    .catalog_df <- readr::read_tsv(catalog, col_types = readr::cols())
   }
+
+  # Normalize inputs
+  needed  <- unique(as.character(needed))
+  checked <- unique(as.character(checked))
+  deps    <- unique(as.character(deps))
+
+  # BFS over dependency graph: name -> dependencies
+  queue <- needed
+  seen  <- checked
+
+  while (length(queue) > 0) {
+    cur <- unique(queue)
+    seen <- unique(c(seen, cur))
+
+    new_deps <- .catalog_df |>
+      dplyr::filter(.data$name %in% cur) |>
+      dplyr::pull(.data$dependencies) |>
+      unique()
+
+    new_deps <- new_deps[!is.na(new_deps) & nzchar(new_deps)]
+    deps <- unique(c(deps, new_deps))
+
+    queue <- setdiff(new_deps, seen)
+  }
+
+  deps
+}
+
 
 
 #' @title Get A New Project Library
@@ -529,6 +529,7 @@ link_one_new_package <- function(package,
     fs::link_create(path = path_to_link,
                     new_path = fs::path(.libPaths()[1], package))
     link_deps(package = package)
+    # link_deps_pak(package, upgrade = FALSE, strict = FALSE)
   cli::cli_alert_success(
     "Successfully linked to {.emph {package}} version {.emph {version}} and its recursive dependencies in the binary cache."
   )

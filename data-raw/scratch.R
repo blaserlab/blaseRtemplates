@@ -1,24 +1,13 @@
-# a change
-# another change
-devtools::load_all()
-project_data("~/network/X/Labs/Blaser/share/collaborators/lapalombella_pu_network/datapkg")
-test <- c(1, 2, 3, 4)
-tail(test, )
-test_name <- "test_value"
-eval(test_name)
-blaseRtemplates::get_new_library()
+source("install_2.0.R")
 
-bpcells_dir <-
-  fs::dir_ls(fs::path_package("lapalombella.pu.datapkg"),
-             recurse = 2,
-             regexp = "bpcells_matrix_dir")
-bpcells_dir
-bp_paths <- fs::path_split(bpcells_dir[1]) |> unlist()
-bp_paths
-obj_name <- bp_paths[length(bp_paths) - 1]
-obj_name
-bpcells_dir
-fs::path_dir(bpcells_dir)
+# make sure this is set
+Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
 
-disk_new <- cds_main_disk
-save_monocle_disk(cds_disk = disk_new, data_directory = "datadata", extdata_directory = "extdata")
+# refresh catalogs (including v2)
+hash_n_cache()
+
+# try linking a bioc package + exact deps via pak
+install_one_package("bioc::GenomicRanges", how="link_from_cache")
+
+# generate/apply a lockstep infra set for your Bioc version
+bioc_syncgroup_apply(bioc_version = BiocManager::version())
