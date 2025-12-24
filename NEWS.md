@@ -130,3 +130,7 @@
 
 * removed monocle disk and project_data functions, will put in blaseRtools
 * updated rec_get_deps
+
+## blaseRtemplates 0.0.9222
+
+* reverts rec_get_deps to 9220 version
