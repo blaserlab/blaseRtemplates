@@ -1,0 +1,110 @@
+# Using Git
+
+## Why use git at all
+
+Version control with Git will:
+
+1.  Clean up your projects.
+2.  Give you a safety net to fall back on if you break something.
+3.  Help you collaborate with others more effectively.
+
+There is a learning curve, but if you stay within a simple workflow and
+use a script, it is very easy 99% of the time. There are many resources
+to learn about Git, including my course website: insert link. These will
+not be repeated in depth here. What follows is an explanation of the git
+scripts in blaseRtemplates for someone who has a basic understanding of
+the terms.
+
+## Git in blaseRtemplates
+
+When each blaseRtemplates project is initialized, it comes with a script
+called R/git_commands.R. This file is not tracked by git by default, so
+if you are cloning a repo from github, then use this command to
+regenerate the git commands file:
+
+``` r
+blaseRtemplates::regenerate_git_commands()
+```
+
+The script is broken up into sections, with the stuff you will need most
+at the top. But for the first time using git, you should start at the
+bottom.
+
+### Commands to configure git
+
+You should only need to run these a maximum of one time.
+
+``` r
+# make sure you have a github account
+# https://github.com/join
+
+# install git
+## Windows ->  https://git-scm.com/download/win
+## Mac     ->  https://git-scm.com/download/mac
+## Linux   ->  https://git-scm.com/download/linux
+
+# configure git in Rstudio
+usethis::use_git_config(user.name = "YourName",
+                        user.email = "your@mail.com")
+
+# create a personal access token at the github website
+# set the expiration date as desired (no expiration date)
+# permissions should be set automatically.  Then run:
+usethis::create_github_token()
+
+# run this and enter your token at the prompt
+blaseRtemplates::gitcreds_set()
+```
+
+Connecting/authenticating to github is the most difficult part of all of
+this. The keychain program used by
+[`gitcreds_set()`](../reference/gitcreds_set.md) may not be available or
+working on all systems. As a workaround, you can replace the line in
+your .Renviron file, GITHUB_PAT=gitcreds::gitcreds_get(use_cache =
+FALSE)\$password, with GITHUB_PAT=. There is a small security risk to
+this if someone were to gain access to your .Renviron file. So proceed
+with caution.
+
+### Commands for collaborating via Git
+
+In this workflow, branches are meant to be small and short-lived. This
+reduces the frequency and magnitude of conflicts which have to be
+manually de-conflicted.
+
+We use a rebase strategy to maintain a linear history as much as
+possible.
+
+Branches should be created, commits made incrementally and then branches
+should be merged and deleted when work for that session/day is done.
+Branches should not be pushed.
+
+Branching and merging are all done safely, meaning that a pull is
+performed before branching.
+
+``` r
+# create a working branch for your day's work
+blaseRtemplates::git_easy_branch(branch = "user_working")
+
+# save, add and commit your work but don't push
+blaseRtemplates::write_project_library_catalog()
+gert::git_add("*")
+gert::git_commit("<commit message>")
+
+# frequently update your working branch from main or master branch
+# this will first update main or master from remote
+blaseRtemplates::git_update_branch()
+
+# once you are done with your day's work, merge back into main
+blaseRtemplates::git_safe_merge()
+
+# remember to delete your branch when you are done merging:
+gert::git_branch_delete(branch = "user_working")
+
+# remember to push your changes to github so we can all get them:
+blaseRtemplates::git_push_all()
+```
+
+### Other Git functions
+
+The git_commands.R file also contains helpful commands for rewinding
+history and de-conflicting.

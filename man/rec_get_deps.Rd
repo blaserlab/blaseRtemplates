@@ -2,7 +2,7 @@
 % Please edit documentation in R/install_2.0.R
 \name{rec_get_deps}
 \alias{rec_get_deps}
-\title{recursively get package dependencies}
+\title{Calling function to get recursive dependencies}
 \usage{
 rec_get_deps(
   needed,
@@ -12,5 +12,5 @@ rec_get_deps(
 )
 }
 \description{
-recursively get package dependencies
+Calling function to get recursive dependencies
 }

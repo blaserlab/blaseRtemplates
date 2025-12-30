@@ -1,5 +1,5 @@
 pandoc: '3.4'
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   establish: establish.html
@@ -8,4 +8,4 @@ articles:
   multiuser: multiuser.html
   project_data: project_data.html
   using_git: using_git.html
-last_built: 2025-12-24T12:41Z
+last_built: 2025-12-30T10:56Z

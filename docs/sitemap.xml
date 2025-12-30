@@ -43,6 +43,7 @@
 <url><loc>/reference/link_one_new_package.html</loc></url>
 <url><loc>/reference/project_data.html</loc></url>
 <url><loc>/reference/rec_get_deps.html</loc></url>
+<url><loc>/reference/rec_get_deps_internal.html</loc></url>
 <url><loc>/reference/regenerate_bt_configs.html</loc></url>
 <url><loc>/reference/regenerate_git_commands.html</loc></url>
 <url><loc>/reference/report_template_rmd.html</loc></url>

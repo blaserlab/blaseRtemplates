@@ -243,14 +243,9 @@ write_project_library_catalog <-
     hash_n_cache()
     lib_loc <- .libPaths()[1]
     cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
-    # bioc_db <- readr::read_tsv(fs::path(cache_loc, "bioc_db.tsv"), col_names = TRUE, col_types = "cccc") |>
-    #   mutate(version = as.package_version(version))
     user <- Sys.info()[["user"]]
     project <- fs::path_file(usethis::proj_get())
     lib_pkg_hashes <- get_lib_pkg_hashes()
-
-    # active_pkgs <- renv::dependencies("./R") |>
-    #   dplyr::pull(Package)
 
     cli::cli_alert("Scanning for dependencies in .R files.")
     active_pkgs <- pak::scan_deps("./R") |>
@@ -265,39 +260,11 @@ write_project_library_catalog <-
     readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
     cli::cli_alert_success("Done.")
 
-    # check <- find_bioc_release(lib_cat = lib_cat, bioc_db = bioc_db)
-    #
-    # if (all(check$ok)) {
-    #   cli::cli_alert("Writing project library catalog.")
-    #   readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
-    # } else {
-    #   cli::cli_alert_warning("You have mismatched Bioconductor releases in your library catalog.")
-    #   print(check |> dplyr::select(release = bioc_version, number_of_packages = n))
-    #   cli::cli_alert("Enter a single release number to synchronize your project library or N to abort synchronization and continue writng the project library catalog:")
-    #   answer <- readline()
-    #   if (answer == "N") {
-    #     cli::cli_alert("Aborting synchronization...writing project library catalog.")
-    #     readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
-    #   } else if (answer %in% check$bioc_version){
-    #     needed <- get_new_biocs(release = answer, lib = lib_cat, db = bioc_db, cache = readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"), col_types = readr::cols()))
-    #     needed
-    #     # walk2(.x = needed$name,
-    #     #       .y = needed$hash,
-    #     #       .f = \(x, y) {
-    #     #   install_one_package(package = x, which_hash = y)
-    #     #       }
-    #     # )
-    #     # lib_pkg_hashes <- get_lib_pkg_hashes()
-    #     # lib_cat <- get_lib_cat(cache_loc = cache_loc, lib_pkg_hashes = lib_pkg_hashes, active_pkgs = active_pkgs)
-    #     # readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
-    #
-    #    } else {
-    #     cli::cli_abort("You selected an invalid option.")
-    #   }
-#
-#     }
+
   }
 
+#' @title Calling function to get recursive dependencies
+#' @importFrom readr read_tsv cols
 rec_get_deps <- function(
   needed,
   checked = character(0),
@@ -698,7 +665,6 @@ install_one_package <-
         link_one_new_package(package = package_name,
                              version = which_version,
                              hash = which_hash)
-        # link_deps(package = package_name)
       } else if (how == "tarball") {
         stop("You must supply a valid path to the tarball file.")
 

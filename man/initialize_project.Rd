@@ -16,10 +16,10 @@ initialize_project(
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
-\item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
+\item{rstudio}{If \code{TRUE}, calls \code{\link[usethis:use_rstudio]{usethis::use_rstudio()}} to make the new package or
 project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.}
 
-\item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
+\item{open}{If \code{TRUE}, \link[usethis:proj_activate]{activates} the new project:
 \itemize{
 \item If RStudio desktop, the package is opened in a new session.
 \item If on RStudio server, the current RStudio project is activated.
