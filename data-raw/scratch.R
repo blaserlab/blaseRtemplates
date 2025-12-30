@@ -1,13 +1,34 @@
-source("install_2.0.R")
+devtools::load_all()
+write_project_library_catalog()
 
-# make sure this is set
-Sys.getenv("BLASERTEMPLATES_CACHE_ROOT")
+install_one_package("blaseRtools")
 
-# refresh catalogs (including v2)
-hash_n_cache()
 
-# try linking a bioc package + exact deps via pak
-install_one_package("bioc::GenomicRanges", how="link_from_cache")
 
-# generate/apply a lockstep infra set for your Bioc version
-bioc_syncgroup_apply(bioc_version = BiocManager::version())
+
+renv::dependencies("./R") |>
+  dplyr::pull(Package) |>
+  unique()
+
+pak::scan_deps("./R") |> as_tibble() |> pull(package) |> unique()
+get_lib_pkg_hashes1 <- function() {
+  tibble::tibble(path = fs::dir_ls(.libPaths()[1])) |>
+    dplyr::filter(fs::is_link(path)) |>
+    dplyr::mutate(path = fs::link_path(path)) |>
+    dplyr::mutate(path1 = fs::path_dir(path)) |>
+    dplyr::transmute(hash = fs::path_file(path1))
+
+
+
+}
+get_lib_pkg_hashes1()
+
+get_lib_pkg_hashes <- function() {
+  fs::dir_info(.libPaths()[1]) |>
+    dplyr::filter(type == "symlink") |>
+    dplyr::select(path) |>
+    dplyr::mutate(path = fs::link_path(path)) |>
+    dplyr::mutate(path1 = fs::path_dir(path)) |>
+    dplyr::transmute(hash = fs::path_file(path1))
+}
+get_lib_pkg_hashes()

@@ -179,20 +179,46 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
 
   if (length(packages) > 0) {
     cli::cli_alert_info("Cacheing {length(packages)} package(s).")
+    purrr::walk(.x = packages,
+                .f = \(x, loc = cache_loc, perm = permissions) {
+                  cache_fun(package = x, cache_loc = loc, permissions = perm)
+                })
+    update_package_catalog()
+    update_dependency_catalog()
 
-  } else {
-    if (verbose) cli::cli_alert_info("The library is cached.")
   }
-  purrr::walk(.x = packages,
-              .f = \(x, loc = cache_loc, perm = permissions) {
-                cache_fun(package = x, cache_loc = loc, permissions = perm)
-              })
-  update_package_catalog()
-  update_dependency_catalog()
-  cli::cli_alert_success("Done.")
+
+  if (verbose) cli::cli_alert_success("The library is cached.")
 }
 
+#' @importFrom fs dir_info
+#' @importFrom dplyr filter select mutate transmute
+get_lib_pkg_hashes <- function() {
+  fs::dir_info(.libPaths()[1]) |>
+    dplyr::filter(type == "symlink") |>
+    dplyr::select(path) |>
+    dplyr::mutate(path = fs::link_path(path)) |>
+    dplyr::mutate(path1 = fs::path_dir(path)) |>
+    dplyr::transmute(hash = fs::path_file(path1))
+}
 
+#' @importFrom fs path
+#' @importFrom dplyr mutate filter case_when
+#' @importFrom readr read_tsv cols
+get_lib_cat <- function(cache_loc, lib_pkg_hashes, active_pkgs) {
+  readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"),
+                  col_types = readr::cols()) |>
+    dplyr::mutate(version = as.package_version(version)) |>
+    dplyr::filter(hash %in% lib_pkg_hashes$hash) |>
+    dplyr::mutate(
+      status = dplyr::case_when(
+        name %in% active_pkgs ~ "active",
+        name %in% rownames(installed.packages(priority =
+                                                "base")) ~ "base",
+        TRUE ~ "available"
+      )
+    )
+}
 
 #' @title Write A New Project Library Catalog
 #' @description In the current version of blaseRtemplates, the package library is cached at the location designated by the environment variable "BLASERTEMPLATES_CACHE_ROOT".  There is a single cache for all users and projects.  The cache holds the binary software used by each package.  The packages for each project are connected to the cache by symlinks. The cache is versioned so that different projects can use different versions if desired.  Use this function to write a tab-delimited file listing the packages used by each project.
@@ -207,56 +233,99 @@ hash_n_cache <- function(lib_loc = .libPaths()[1],
 #' @importFrom purrr map_dfr
 #' @importFrom tibble tibble
 #' @importFrom dplyr mutate transmute pull filter case_when
-#' @importFrom renv dependencies
+#' @importFrom pak scan_deps
 #' @importFrom readr read_tsv cols write_tsv
+#' @importFrom cli cli_alert cli_alert_success
 write_project_library_catalog <-
   function() {
     catch_blasertemplates_root()
+    cli::cli_alert("Checking for un-cached packages in the user project library.")
     hash_n_cache()
     lib_loc <- .libPaths()[1]
     cache_loc <- fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"))
+    # bioc_db <- readr::read_tsv(fs::path(cache_loc, "bioc_db.tsv"), col_names = TRUE, col_types = "cccc") |>
+    #   mutate(version = as.package_version(version))
     user <- Sys.info()[["user"]]
     project <- fs::path_file(usethis::proj_get())
-    lib_pkg_hashes <- purrr::map_dfr(.x = fs::dir_ls(lib_loc),
-                                     .f = \(x) {
-                                       x <- x[fs::is_link(x)]
-                                       tibble::tibble(path = fs::link_path(x))
-                                     }) |>
-      dplyr::mutate(path1 = fs::path_dir(path)) |>
-      dplyr::transmute(hash = fs::path_file(path1))
+    lib_pkg_hashes <- get_lib_pkg_hashes()
 
-    active_pkgs <- renv::dependencies() |>
-      dplyr::pull(Package)
+    # active_pkgs <- renv::dependencies("./R") |>
+    #   dplyr::pull(Package)
+
+    cli::cli_alert("Scanning for dependencies in .R files.")
+    active_pkgs <- pak::scan_deps("./R") |>
+      tibble::as_tibble() |>
+      dplyr::pull(package) |>
+      unique()
 
     fs::dir_create("library_catalogs")
 
-    readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"),
-                    col_types = readr::cols()) |>
-      dplyr::mutate(version = as.package_version(version)) |>
-      dplyr::filter(hash %in% lib_pkg_hashes$hash) |>
-      dplyr::mutate(
-        status = dplyr::case_when(
-          name %in% active_pkgs ~ "active",
-          name %in% rownames(installed.packages(priority =
-                                                  "base")) ~ "base",
-          TRUE ~ "available"
-        )
-      ) |>
-      readr::write_tsv(fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
+    lib_cat <- get_lib_cat(cache_loc = cache_loc, lib_pkg_hashes = lib_pkg_hashes, active_pkgs = active_pkgs)
+    cli::cli_alert("Writing project library catalog.")
+    readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
+    cli::cli_alert_success("Done.")
+
+    # check <- find_bioc_release(lib_cat = lib_cat, bioc_db = bioc_db)
+    #
+    # if (all(check$ok)) {
+    #   cli::cli_alert("Writing project library catalog.")
+    #   readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
+    # } else {
+    #   cli::cli_alert_warning("You have mismatched Bioconductor releases in your library catalog.")
+    #   print(check |> dplyr::select(release = bioc_version, number_of_packages = n))
+    #   cli::cli_alert("Enter a single release number to synchronize your project library or N to abort synchronization and continue writng the project library catalog:")
+    #   answer <- readline()
+    #   if (answer == "N") {
+    #     cli::cli_alert("Aborting synchronization...writing project library catalog.")
+    #     readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
+    #   } else if (answer %in% check$bioc_version){
+    #     needed <- get_new_biocs(release = answer, lib = lib_cat, db = bioc_db, cache = readr::read_tsv(fs::path(cache_loc, "package_catalog.tsv"), col_types = readr::cols()))
+    #     needed
+    #     # walk2(.x = needed$name,
+    #     #       .y = needed$hash,
+    #     #       .f = \(x, y) {
+    #     #   install_one_package(package = x, which_hash = y)
+    #     #       }
+    #     # )
+    #     # lib_pkg_hashes <- get_lib_pkg_hashes()
+    #     # lib_cat <- get_lib_cat(cache_loc = cache_loc, lib_pkg_hashes = lib_pkg_hashes, active_pkgs = active_pkgs)
+    #     # readr::write_tsv(x = lib_cat, fs::path("library_catalogs", paste0(user, "_", project), ext = "tsv"))
+    #
+    #    } else {
+    #     cli::cli_abort("You selected an invalid option.")
+    #   }
+#
+#     }
   }
+
+rec_get_deps <- function(
+  needed,
+  checked = character(0),
+  deps = character(0),
+  catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
+                     "dependency_catalog.tsv")
+) {
+  catalog <- readr::read_tsv(catalog, col_types = readr::cols())
+  rec_get_deps_internal(
+    needed = needed,
+    checked = checked,
+    deps = deps,
+    catalog = catalog
+  )
+}
+
 
 #' @title recursively get package dependencies
 #' @importFrom fs path
 #' @importFrom readr read_tsv cols
 #' @importFrom dplyr filter pull
-rec_get_deps <-
+rec_get_deps_internal <-
   function(needed,
-           checked = character(0),
-           deps = character(0),
-           catalog = fs::path(Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-                              "dependency_catalog.tsv")) {
+           checked,
+           deps,
+           catalog) {
     # base case
-    catalog <- readr::read_tsv(catalog, col_types = readr::cols())
+
     if (length(deps) == 0) {
       deps <- dplyr::filter(catalog, name == needed) |>
         dplyr::pull(dependencies)
@@ -275,14 +344,11 @@ rec_get_deps <-
     deps <- c(deps, new_deps)
     checked <- needed
     needed <- new_deps[new_deps %notin% checked]
-    rec_get_deps(
+    rec_get_deps_internal(
       needed = needed,
       checked = checked,
       deps = deps,
-      catalog = fs::path(
-        Sys.getenv("BLASERTEMPLATES_CACHE_ROOT"),
-        "dependency_catalog.tsv"
-      )
+      catalog = catalog
     )
 
   }

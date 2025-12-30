@@ -134,3 +134,8 @@
 ## blaseRtemplates 0.0.9222
 
 * reverts rec_get_deps to 9220 version
+
+## blaseRtemplates 0.0.9223
+
+* revised hash_n_cache to rewrite the package and dependency catalogs only when cacheing new packages.  
+* updated write library catalog to use vectorization rather than map when getting hashes
